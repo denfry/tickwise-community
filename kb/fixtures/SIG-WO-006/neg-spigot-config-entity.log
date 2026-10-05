@@ -1,0 +1,4 @@
+# platform: paper 1.21.11
+# source: synthetic (строки конфигурации мира при старте)
+[08:00:02 INFO]: Entity Activation Range: An 32 / Mo 32 / Ra 48 / Mi 16 / Tiv true / Isa false
+[08:00:02 INFO]: Entity Tracking Range: Pl 48 / An 48 / Mo 48 / Ot 64 / Default 64

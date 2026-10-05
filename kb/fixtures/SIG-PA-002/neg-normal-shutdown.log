@@ -1,0 +1,8 @@
+# platform: paper 1.21.11
+# source: synthetic (штатная остановка)
+[23:59:00 INFO]: Stopping the server
+[23:59:00 INFO]: Stopping server
+[23:59:02 INFO]: Saving players
+[23:59:03 INFO]: Saving worlds
+[23:59:05 INFO]: [ChunkHolderManager] Saved 1840 block chunks, 1840 entity chunks, 0 poi chunks in world 'world' in 1.20s
+[23:59:06 INFO]: Flushing Chunk IO

@@ -1,0 +1,4 @@
+# platform: paper 1.21.11
+# expect: SIG-DB-003
+# source: synthetic (отказ по паролю — DB-03)
+[14:02:11 WARN]: java.sql.SQLException: Access denied for user 'coreprotect'@'10.0.0.5' (using password: YES)

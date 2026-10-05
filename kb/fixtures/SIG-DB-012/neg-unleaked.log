@@ -1,0 +1,3 @@
+# platform: paper 1.21.8
+# source: synthetic (HikariCP ProxyLeakTask: соединение вернулось — INFO)
+[12:00:09] [Craft Scheduler Thread - 12 - Plan/INFO]: [com.zaxxer.hikari.pool.ProxyLeakTask] Previously reported leaked connection org.mariadb.jdbc.Connection@6e3f5a1b on thread Craft Scheduler Thread - 12 - Plan was returned to the pool (unleaked)

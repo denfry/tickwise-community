@@ -1,0 +1,47 @@
+id: SIG-DB-005
+version: 1
+title: "Протухшие соединения с MySQL (The last packet successfully received … milliseconds ago)"
+category: database
+severity: error
+scope: server
+platforms: [paper, purpur, velocity]
+rule_ref: DB-05
+symptoms:
+  - "Запросы плагина периодически падают после простоя: CommunicationsException с «The last packet successfully received from the server was N milliseconds ago»"
+match:
+  log:
+    # Connector/J CommunicationsException.ServerPacketTimingInfo — соединение уже работало и было закрыто
+    # сервером/сетью. N форматируется MessageFormat с разделителями разрядов (28,800,512 / 28 800 512).
+    regex: 'The last packet successfully received from the server was [0-9][0-9,. \x{00A0}\x{202F}]* milliseconds ago'
+    literal: "The last packet successfully received from the server was"
+    level: WARN
+    target: text
+cause: "Драйвер MySQL использовал соединение, которое сервер БД или промежуточная сеть уже закрыли по простою: время жизни соединения в пуле больше wait_timeout БД или idle-таймаута NAT/файрвола."
+possible_causes:
+  - { text: "maxLifetime пула (HikariCP, по умолчанию 30 мин) больше wait_timeout БД — сервер закрывает простаивающие соединения раньше пула", weight: 0.6 }
+  - { text: "Соединения рвёт NAT/файрвол/прокси БД по idle-таймауту (N заметно меньше wait_timeout)", weight: 0.25 }
+  - { text: "Перезапуск БД или ручное завершение соединений (KILL) во время работы сервера", weight: 0.15 }
+fix:
+  instructions_md: |
+    1. Узнайте таймаут БД: `SHOW VARIABLES LIKE 'wait_timeout';` (секунды).
+    2. В конфиге плагина задайте `maxLifetime` пула меньше `wait_timeout` минимум на 30 секунд (для LuckPerms — `pool-settings.maximum-lifetime` в миллисекундах).
+    3. Если между сервером и БД есть NAT/файрвол с коротким idle-таймаутом — включите `keepaliveTime` пула (например, 60000 мс) и держите `maxLifetime` ниже этого таймаута.
+    4. Не используйте `autoReconnect=true` как основное решение — пул должен сам заменять старые соединения.
+  action: null
+  risk: low
+confidence: 0.8
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/mysql/mysql-connector-j/blob/release/9.x/src/main/resources/com/mysql/cj/LocalizedErrorMessages.properties
+  - https://github.com/mysql/mysql-connector-j/blob/release/9.x/src/main/core-api/java/com/mysql/cj/exceptions/ExceptionFactory.java
+  - https://github.com/brettwooldridge/HikariCP
+tests:
+  positive:
+    - fixtures/SIG-DB-005/pos-wait-timeout-heuristic-paper.log
+    - fixtures/SIG-DB-005/pos-link-failure-after-idle-velocity.log
+    - fixtures/SIG-DB-005/pos-ru-locale-console.log
+  negative:
+    - fixtures/SIG-DB-005/neg-never-connected.log
+    - fixtures/SIG-DB-005/neg-mariadb-closed-connection.log
+    - fixtures/SIG-DB-005/neg-info-mention.log

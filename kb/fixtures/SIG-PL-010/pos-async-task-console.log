@@ -1,0 +1,8 @@
+# platform: paper 26.2
+# source: synthetic (текст CraftAsyncTask)
+[12:00:00 WARN]: [DiscordLink] Plugin DiscordLink v1.29.0 generated an exception while executing task 1234
+java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.NioSocketImpl.timedRead(NioSocketImpl.java:278)
+	at DiscordLink.jar/dev.example.discordlink.http.Client.get(Client.java:88) ~[DiscordLink.jar:?]
+	at org.bukkit.craftbukkit.scheduler.CraftTask.run(CraftTask.java:78) ~[paper-26.2.jar:26.2-128-a1b2c3d]
+	at org.bukkit.craftbukkit.scheduler.CraftAsyncTask.run(CraftAsyncTask.java:57) ~[paper-26.2.jar:26.2-128-a1b2c3d]

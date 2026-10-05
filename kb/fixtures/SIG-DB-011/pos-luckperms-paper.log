@@ -1,0 +1,4 @@
+# platform: paper 1.21.8
+# plugins: LuckPerms 5.5.17
+# source: synthetic (формат latest.log Paper с именем SLF4J-логгера, как в корпусе для PoolBase)
+[05:12:44] [luckperms-hikari housekeeper/WARN]: [me.lucko.luckperms.lib.hikari.pool.HikariPool] luckperms-hikari - Thread starvation or clock leap detected (housekeeper delta=1m12s345ms678µs901ns).

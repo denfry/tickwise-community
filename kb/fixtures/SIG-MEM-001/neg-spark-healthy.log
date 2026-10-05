@@ -1,0 +1,4 @@
+# platform: paper 26.2
+# source: synthetic (нормальная статистика памяти)
+[14:00:00 INFO]: [spark] Memory usage: 5.2 GB / 8.0 GB (65%)
+[14:00:00 INFO]: [spark] GC: G1 Young Generation 12 collections, avg 18 ms

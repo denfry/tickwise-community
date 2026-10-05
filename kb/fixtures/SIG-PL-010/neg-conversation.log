@@ -1,0 +1,5 @@
+# platform: paper 1.21.11
+# source: synthetic (соседнее сообщение ConversationTracker)
+[12:02:00 SEVERE]: Plugin Quests v5.1.4 generated an exception whilst handling conversation input
+java.lang.NumberFormatException: For input string: "abc"
+	at java.base/java.lang.Integer.parseInt(Integer.java:661)

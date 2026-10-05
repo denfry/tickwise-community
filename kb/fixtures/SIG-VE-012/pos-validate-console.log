@@ -1,0 +1,5 @@
+# platform: velocity 3.4.0
+# source: synthetic (консольный формат Velocity, режим bungeeguard)
+[21:15:40 INFO]: Booting up Velocity 3.4.0...
+[21:15:41 ERROR]: You don't have a forwarding secret set. This is required for security.
+[21:15:41 ERROR]: Your configuration is invalid. Velocity will not start up until the errors are resolved.

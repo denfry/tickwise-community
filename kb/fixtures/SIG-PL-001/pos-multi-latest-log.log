@@ -1,0 +1,6 @@
+# platform: paper 1.21.8
+# source: synthetic (формат latest.log; несколько недостающих зависимостей)
+[07:40:11] [Server thread/ERROR]: [ModernPluginLoadingStrategy] Could not load 'plugins/.paper-remapped/QuickShop-Hikari-6.2.0.10.jar' in 'plugins/.paper-remapped'
+org.bukkit.plugin.UnknownDependencyException: Unknown/missing dependency plugins: [Vault, ProtocolLib]. Please download and install these plugins to run 'QuickShop-Hikari'.
+	at io.papermc.paper.plugin.entrypoint.strategy.modern.ModernPluginLoadingStrategy.loadProviders(ModernPluginLoadingStrategy.java:82) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at io.papermc.paper.plugin.storage.SimpleProviderStorage.enter(SimpleProviderStorage.java:38) ~[paper-1.21.8.jar:1.21.8-60-29c8822]

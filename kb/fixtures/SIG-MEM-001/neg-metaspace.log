@@ -1,0 +1,6 @@
+# platform: paper 26.2
+# expect: SIG-MEM-002
+# source: synthetic (соседний тип OOM — Metaspace)
+[16:00:01 ERROR]: Encountered an unexpected exception
+java.lang.OutOfMemoryError: Metaspace
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)

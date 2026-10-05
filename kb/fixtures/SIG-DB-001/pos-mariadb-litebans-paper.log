@@ -1,0 +1,8 @@
+# platform: paper 1.21.8
+# plugins: LiteBans 2.19.0
+# source: politernal-sanitized (Leaf 1.21.8, 2026-09-20; сообщение плагина без стека; хост и имя БД заменены)
+[10:28:22] [Server thread/INFO]: [LiteBans] Loading: mariadb 3.1.2
+[10:28:22] [Server thread/INFO]: [LiteBans] Connecting to database...
+[10:28:51] [Server thread/ERROR]: [LiteBans] Failed to connect to [jdbc:mariadb://db.example.net:3306/litebans;useSSL=false&serverTimezone=UTC].
+[10:28:51] [Server thread/ERROR]: [LiteBans] Error: Socket fail to connect to host:address=(host=db.example.net)(port=3306)(type=primary). Connection refused
+[10:28:51] [Server thread/INFO]: [LiteBans] v2.19.0 enabled. Startup took 30069 ms.

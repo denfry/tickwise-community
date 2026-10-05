@@ -1,0 +1,3 @@
+# platform: paper 1.21.8
+# source: synthetic (формат latest.log)
+[07:40:09] [Server thread/ERROR]: [ModernPluginLoadingStrategy] Ambiguous plugin name 'Essentials' for files 'plugins/.paper-remapped/EssentialsX-2.21.2.jar' and 'plugins/.paper-remapped/EssentialsX-2.20.1.jar' in 'plugins/.paper-remapped'

@@ -1,0 +1,4 @@
+# platform: velocity 3.5.1
+# source: synthetic (velocity.error.modern-forwarding-needs-new-client — старый клиент, не рассогласование конфигов)
+[14:22:31] [Netty epoll Worker #0/ERROR] [com.velocitypowered.proxy.connection.client.ConnectedPlayer]: [connected player] OldClient (/198.51.100.33:50112): disconnected while connecting to lobby: This server is only compatible with Minecraft 1.13 and above.
+[14:22:31] [Netty epoll Worker #0/INFO] [com.velocitypowered.proxy.connection.client.ConnectedPlayer]: [connected player] OldClient (/198.51.100.33:50112) has disconnected: Unable to connect to lobby: This server is only compatible with Minecraft 1.13 and above.

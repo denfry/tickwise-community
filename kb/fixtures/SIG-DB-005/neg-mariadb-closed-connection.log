@@ -1,0 +1,3 @@
+# platform: velocity 3.5.1
+# source: politernal-sanitized (прокси, 2026-09-20: MariaDB-драйвер, HikariCP отбраковывает закрытое соединение)
+[09:19:55] [LuckPerms - Task Executor #34/WARN] [me.lucko.luckperms.lib.hikari.pool.PoolBase]: luckperms-hikari - Failed to validate connection me.lucko.luckperms.lib.mariadb.Connection@9feea53 ((conn=4071) Connection.setNetworkTimeout cannot be called on a closed connection). Possibly consider using a shorter maxLifetime value.

@@ -1,0 +1,4 @@
+# platform: velocity 3.4.0
+# source: synthetic (консольный формат; игрок ушёл на fallback, поэтому «has disconnected» нет)
+[09:31:17 ERROR]: [connected player] Alex_07 (/203.0.113.24:51022): disconnected while connecting to survival: If you wish to use IP forwarding, please enable it in your BungeeCord config as well!
+[09:31:17 INFO]: [server connection] Alex_07 -> lobby has connected

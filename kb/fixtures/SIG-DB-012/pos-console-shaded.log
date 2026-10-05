@@ -1,0 +1,6 @@
+# platform: purpur 1.21.4
+# plugins: Jobs 5.2.4
+# source: synthetic (консольный формат, только строка исключения видна в выводе плагина)
+[12:00:07 WARN]: [Jobs] Pool warning
+java.lang.Exception: Apparent connection leak detected
+	at com.gamingmesh.jobs.libs.hikari.HikariDataSource.getConnection(HikariDataSource.java:127)

@@ -1,0 +1,57 @@
+id: SIG-PL-002
+version: 1
+title: "В папке plugins/ лежит не плагин или plugin.yml повреждён"
+category: plugin
+severity: error
+scope: server
+platforms: [paper, purpur]
+rule_ref: PL-02
+symptoms:
+  - "Файл из plugins/ не появляется в /plugins"
+  - "В логе при старте: «does not contain a paper-plugin.yml or plugin.yml», «appears to be a server jar» или InvalidDescriptionException"
+match:
+  any:
+    - log:
+        regex: 'does not contain a paper-plugin\.yml or plugin\.yml! Could not determine plugin type, cannot load a plugin from it!'
+        literal: "Could not determine plugin type"
+        target: text
+    - log:
+        regex: 'appears to be a server jar! Server jars do not belong in the plugin folder\.'
+        literal: "Server jars do not belong in the plugin folder"
+        target: text
+    - log:
+        regex: 'org\.bukkit\.plugin\.InvalidDescriptionException: [^\n]+'
+        literal: "org.bukkit.plugin.InvalidDescriptionException: "
+        level: WARN
+        target: exception
+cause: "Paper не смог определить файл в plugins/ как плагин: в jar нет plugin.yml/paper-plugin.yml (мод Fabric/Forge, библиотека, jar сервера) или plugin.yml некорректен."
+possible_causes:
+  - { text: "В plugins/ положили мод Fabric/Forge/NeoForge или клиентский мод — на Paper он не работает", weight: 0.4 }
+  - { text: "В plugins/ лежит библиотека/зависимость или jar сервера, а не плагин", weight: 0.3 }
+  - { text: "plugin.yml повреждён или не содержит обязательных полей (name/version/main) — битая или неполная загрузка", weight: 0.3 }
+fix:
+  instructions_md: |
+    1. Найдите в evidence имя файла и причину: «does not contain a paper-plugin.yml or plugin.yml» — это не плагин; «appears to be a server jar» — jar сервера; `InvalidDescriptionException: …` — повреждён plugin.yml.
+    2. Моды Fabric/Forge и jar сервера удалите из `plugins/` (для модов нужна другая платформа или аналог-плагин).
+    3. Если это нужный плагин — скачайте его заново с официальной страницы (файл мог быть загружен не полностью) и проверьте, что версия предназначена для Paper/Spigot.
+    4. Перезапустите сервер.
+  action: null
+  risk: low
+confidence: 0.95
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/src/main/java/io/papermc/paper/plugin/provider/source/FileProviderSource.java
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/src/main/java/io/papermc/paper/plugin/provider/source/DirectoryProviderSource.java
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-api/src/main/java/org/bukkit/plugin/PluginDescriptionFile.java
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-api/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
+tests:
+  positive:
+    - fixtures/SIG-PL-002/pos-fabric-mod-console.log
+    - fixtures/SIG-PL-002/pos-library-latest-log.log
+    - fixtures/SIG-PL-002/pos-server-jar.log
+    - fixtures/SIG-PL-002/pos-invalid-plugin-yml.log
+  negative:
+    - fixtures/SIG-PL-002/neg-bundled-spark.log
+    - fixtures/SIG-PL-002/neg-legacy-no-api-version.log
+    - fixtures/SIG-PL-002/neg-unsupported-api.log

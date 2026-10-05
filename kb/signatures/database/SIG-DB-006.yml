@@ -1,0 +1,45 @@
+id: SIG-DB-006
+version: 1
+title: "MySQL 8: Public Key Retrieval is not allowed"
+category: database
+severity: error
+scope: server
+platforms: [paper, purpur, velocity]
+rule_ref: DB-06
+symptoms:
+  - "Плагин не подключается к MySQL 8: «Public Key Retrieval is not allowed»"
+match:
+  log:
+    # Connector/J Sha256PasswordPlugin.2 — аутентификация caching_sha2_password/sha256_password без SSL,
+    # когда allowPublicKeyRetrieval=false (по умолчанию).
+    regex: 'Public Key Retrieval is not allowed'
+    literal: "Public Key Retrieval is not allowed"
+    level: WARN
+    target: text
+cause: "Пользователь MySQL 8 использует caching_sha2_password, соединение идёт без SSL, а драйверу не разрешено запрашивать публичный RSA-ключ сервера (allowPublicKeyRetrieval=false)."
+possible_causes:
+  - { text: "В JDBC-параметрах плагина нет allowPublicKeyRetrieval=true при useSSL=false", weight: 0.7 }
+  - { text: "Пользователь БД переведён на caching_sha2_password (дефолт MySQL 8) после обновления MySQL", weight: 0.3 }
+fix:
+  instructions_md: |
+    1. Предпочтительно: включите SSL для соединения (`useSSL=true`, при необходимости `requireSSL=true`) — тогда ключ не нужен.
+    2. Либо добавьте в JDBC-параметры плагина `allowPublicKeyRetrieval=true` (для LuckPerms — в `data.pool-settings.properties`); используйте это только в доверенной сети между сервером и БД.
+    3. Альтернатива: перевести пользователя на `mysql_native_password` (устаревший способ; в MySQL 8.4+ отключён по умолчанию).
+    4. Перезапустите сервер или перезагрузите плагин.
+  action: null
+  risk: low
+confidence: 0.95
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/mysql/mysql-connector-j/blob/release/9.x/src/main/resources/com/mysql/cj/LocalizedErrorMessages.properties
+  - https://dev.mysql.com/doc/connector-j/en/connector-j-connp-props-security.html
+tests:
+  positive:
+    - fixtures/SIG-DB-006/pos-luckperms-mysql-paper.log
+    - fixtures/SIG-DB-006/pos-coreprotect-console.log
+    - fixtures/SIG-DB-006/pos-velocity-hikari-init.log
+  negative:
+    - fixtures/SIG-DB-006/neg-access-denied.log
+    - fixtures/SIG-DB-006/neg-pool-starting.log
+    - fixtures/SIG-DB-006/neg-ssl-warning.log

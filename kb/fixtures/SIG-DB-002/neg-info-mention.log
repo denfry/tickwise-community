@@ -1,0 +1,4 @@
+# platform: paper 1.21.11
+# source: synthetic (INFO-упоминание не является ошибкой)
+[10:05:00 INFO]: [Debug] Test mode: simulating "Connection is not available, request timed out after 1ms" is disabled
+[10:05:01 INFO]: [LuckPerms] Pool statistics: total=10, active=1, idle=9, waiting=0

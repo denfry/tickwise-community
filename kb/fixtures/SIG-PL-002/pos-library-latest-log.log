@@ -1,0 +1,5 @@
+# platform: paper 1.21.8
+# source: synthetic (формат latest.log; в plugins/ положили библиотеку)
+[07:40:09] [Server thread/ERROR]: [DirectoryProviderSource] Error loading plugin: java.lang.IllegalArgumentException: Directory 'plugins/worldedit-core-7.3.15.jar' does not contain a paper-plugin.yml or plugin.yml! Could not determine plugin type, cannot load a plugin from it!
+java.lang.RuntimeException: java.lang.IllegalArgumentException: Directory 'plugins/worldedit-core-7.3.15.jar' does not contain a paper-plugin.yml or plugin.yml! Could not determine plugin type, cannot load a plugin from it!
+	at io.papermc.paper.plugin.provider.source.FileProviderSource.registerProviders(FileProviderSource.java:73) ~[paper-1.21.8.jar:1.21.8-60-29c8822]

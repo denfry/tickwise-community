@@ -1,0 +1,6 @@
+# platform: paper 1.21.8
+# expect: SIG-PL-011
+# source: synthetic (исключение плагина с координатами, но не тик сущности)
+[15:14:00] [Server thread/ERROR]: Could not pass event EntityDamageEvent to CombatLog v3.0
+java.lang.IllegalStateException: Entity is not valid at world:10,64,-3
+	at CombatLog.jar/dev.example.combat.DamageListener.onDamage(DamageListener.java:40) ~[CombatLog.jar:?]

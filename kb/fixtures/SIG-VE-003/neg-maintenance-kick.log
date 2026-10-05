@@ -1,0 +1,4 @@
+# platform: velocity 3.5.1
+# source: synthetic (backend работает и штатно кикает: техработы / остановка сервера)
+[18:46:46] [Netty epoll Worker #1/ERROR] [com.velocitypowered.proxy.connection.client.ConnectedPlayer]: [connected player] Steve (/198.51.100.7:20935): disconnected while connecting to main: The server is under maintenance. Please come back later.
+[18:50:02] [Netty epoll Worker #0/INFO] [com.velocitypowered.proxy.connection.client.ConnectedPlayer]: [connected player] Alex_07 (/203.0.113.24:51022): kicked from server main: Server closed

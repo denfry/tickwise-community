@@ -1,0 +1,6 @@
+# platform: paper 1.21.11
+# source: synthetic (текст FoliaGlobalRegionScheduler — новый планировщик Paper API)
+[13:15:00 WARN]: [FancyNpcs] Global task for FancyNpcs v2.5.0 generated an exception
+java.lang.NullPointerException: Cannot invoke "org.bukkit.Location.getWorld()" because "loc" is null
+	at FancyNpcs.jar/de.oliver.fancynpcs.tracker.VisibilityTracker.run(VisibilityTracker.java:44) ~[FancyNpcs.jar:?]
+	at io.papermc.paper.threadedregions.scheduler.FoliaGlobalRegionScheduler$GlobalScheduledTask.run(FoliaGlobalRegionScheduler.java:177) ~[paper-1.21.11.jar:1.21.11-130-3b5e1f2]

@@ -1,0 +1,7 @@
+# platform: paper 1.21.11
+# expect: SIG-PL-010
+# source: synthetic (формат NoSuchFieldError из linkResolver.cpp JDK 21+)
+[13:05:40 WARN]: [MobStacker] Task #1882 for MobStacker v1.9.2 generated an exception
+java.lang.NoSuchFieldError: Class net.minecraft.world.entity.Entity does not have member field 'net.minecraft.world.level.Level level'
+	at MobStacker.jar/dev.example.mobstacker.nms.EntityHelper.world(EntityHelper.java:22) ~[MobStacker.jar:?]
+	at org.bukkit.craftbukkit.scheduler.CraftTask.run(CraftTask.java:78) ~[paper-1.21.11.jar:1.21.11-130-3b5e1f2]

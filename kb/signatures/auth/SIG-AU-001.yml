@@ -1,0 +1,66 @@
+id: SIG-AU-001
+version: 1
+title: "Сбой авторизации Mojang: сервер не может проверить сессии игроков"
+category: auth
+severity: error
+scope: network
+platforms: [velocity, paper, purpur]
+rule_ref: AU-01
+symptoms:
+  - "Игроки с лицензией не могут зайти: «Authentication servers are down. Please try again later, sorry!»"
+  - "В логе прокси ошибки обращения к sessionserver Mojang"
+match:
+  any:
+    - log:
+        # Velocity InitialLoginSessionHandler: ответ sessionserver не 200/204 → кик multiplayer.disconnect.authservers_down
+        regex: 'Got an unexpected error code \d{3} whilst contacting Mojang to log in'
+        literal: "whilst contacting Mojang to log in"
+        target: message
+    - all:
+        # Velocity InitialLoginSessionHandler: HTTP-запрос к Mojang не выполнился (DNS, таймаут, TLS, нет исходящего доступа)
+        - log:
+            regex: '^Unable to authenticate player$'
+            literal: "Unable to authenticate player"
+            level: ERROR
+            target: message
+        - log:
+            regex: '(?:java\.net\.|javax\.net\.ssl\.|java\.nio\.channels\.|java\.io\.IOException)'
+            target: exception
+    - log:
+        # Paper/vanilla standalone (online-mode=true): AuthenticationUnavailableException.
+        # Backend за Velocity работают в offline-mode и этого не пишут.
+        regex: "Couldn't verify username because servers are unavailable"
+        literal: "Couldn't verify username because servers are unavailable"
+        target: message
+cause: "Сервер не смог проверить сессию игрока у Mojang (sessionserver.mojang.com): сервис авторизации недоступен/отвечает ошибкой или у сервера нет исходящего доступа к нему."
+possible_causes:
+  - { text: "Сбой или rate limit на стороне сессионных серверов Mojang (коды 5xx/429)", weight: 0.5 }
+  - { text: "Нет исходящего доступа к sessionserver.mojang.com: DNS, файрвол/исходящие правила хостинга, блокировки провайдера", weight: 0.35 }
+  - { text: "Используется authlib-injector (Ely.by и т.п.) — проверять их сервер авторизации, а не Mojang", weight: 0.1 }
+  - { text: "Единичная ошибка возможна при кратком сбое; облако оценивает массовость по числу событий", weight: 0.05, advisory: true }
+fix:
+  instructions_md: |
+    1. Проверьте статус сервисов Mojang/Microsoft: если сбой общий — остаётся ждать восстановления, повторные попытки входа не помогут.
+    2. С хоста прокси проверьте исходящий доступ: разрешение DNS `sessionserver.mojang.com` и HTTPS-соединение до него (curl/wget); проверьте исходящие правила файрвола и панели хостинга.
+    3. Если используется authlib-injector (Ely.by и т.п.) — проверьте доступность их сервера авторизации и параметр `-javaagent` в строке запуска.
+    4. Не переключайте прокси в `online-mode = false` ради обхода сбоя: это открывает вход под любым ником.
+  action: null
+  risk: low
+confidence: 0.7
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Velocity/blob/dev/3.0.0/proxy/src/main/java/com/velocitypowered/proxy/connection/client/InitialLoginSessionHandler.java
+  - https://github.com/PaperMC/Velocity/blob/dev/4.0.0/proxy/src/main/java/com/velocitypowered/proxy/connection/client/InitialLoginSessionHandler.java
+  - https://github.com/PaperMC/Paper/blob/main/paper-server/patches/sources/net/minecraft/server/network/ServerLoginPacketListenerImpl.java.patch
+tests:
+  positive:
+    - fixtures/SIG-AU-001/pos-velocity-error-code-latest.log
+    - fixtures/SIG-AU-001/pos-velocity-http-failure-console.log
+    - fixtures/SIG-AU-001/pos-paper-standalone-authservers-down.log
+    - fixtures/SIG-AU-001/pos-velocity-rate-limited-4x.log
+  negative:
+    - fixtures/SIG-AU-001/neg-failed-to-verify-username.log
+    - fixtures/SIG-AU-001/neg-invalid-session.log
+    - fixtures/SIG-AU-001/neg-online-mode-only.log
+    - fixtures/SIG-AU-001/neg-unable-to-authenticate-plugin.log

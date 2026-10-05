@@ -1,0 +1,7 @@
+# platform: paper 26.2
+# source: synthetic (текст Level.java.patch)
+[15:10:03 ERROR]: Entity threw exception at world:-120.5,64.0,300.25
+java.lang.NullPointerException: Cannot invoke "net.minecraft.world.entity.ai.Brain.getMemory(net.minecraft.world.entity.ai.memory.MemoryModuleType)" because "brain" is null
+	at net.minecraft.world.entity.animal.allay.Allay.customServerAiStep(Allay.java:201) ~[paper-26.2.jar:26.2-128-a1b2c3d]
+	at net.minecraft.world.entity.Mob.serverAiStep(Mob.java:880) ~[paper-26.2.jar:26.2-128-a1b2c3d]
+	at net.minecraft.world.level.Level.guardEntityTick(Level.java:1480) ~[paper-26.2.jar:26.2-128-a1b2c3d]

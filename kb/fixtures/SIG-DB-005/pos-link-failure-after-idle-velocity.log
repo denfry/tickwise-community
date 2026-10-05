@@ -1,0 +1,12 @@
+# platform: velocity 3.5.1
+# plugins: ExampleSync 2.3.0
+# source: synthetic (формат latest.log Velocity; соединение порвано NAT после простоя)
+[04:00:00] [examplesync-db-1/ERROR] [examplesync]: Failed to sync player data
+com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 902,113 milliseconds ago. The last packet sent successfully to the server was 902,114 milliseconds ago.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:175)
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:161)
+Caused by: java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:318)

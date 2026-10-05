@@ -1,0 +1,51 @@
+# Copy this file to kb/signatures/<category>/SIG-XX-NNN.yml (the file name must equal the id) and fill it in.
+# Delete these comment lines when you are done. The full reference is docs/writing-signatures.md.
+
+id: SIG-PL-099                      # SIG-<PREFIX>-<3 digits>; the next free number in the category folder
+version: 1                          # +1 every time the logic or the text changes
+title: "ExamplePlugin cannot reach its license server (a made-up example, replace everything)"
+category: plugin                    # auth | database | disk | memory | network | performance | plugin | startup | velocity | world
+severity: error                     # info | warning | error | critical
+scope: server                       # server | network (network: the cause lies between servers)
+platforms: [paper, purpur, velocity]   # where the signature applies; the first one is the default platform of the fixtures
+symptoms:
+  - "What the admin sees: the visible effect on the server or the players"
+  - "What the log says, in plain words"
+
+# match: a tree of conditions. At least one `log` predicate must be able to be true (that is the proof).
+match:
+  log:
+    regex: 'ExamplePlugin\] Could not reach the license server \(timeout after \d+ms\)'   # RE2 syntax
+    literal: "Could not reach the license server"   # fast pre-filter, 8+ characters, must occur in every match
+    level: WARN                     # minimum level (TRACE DEBUG INFO WARN ERROR FATAL)
+    target: text                    # message (first line) | exception (Class: message) | text (whole event with stack trace)
+
+# Optional: fire only when it repeats.
+# threshold: { count: 3, window: 5m }
+
+cause: "One or two sentences: why this happens. The real reason, not a restatement of the error."
+possible_causes:                    # optional; weights are rough shares and should add up to about 1
+  - { text: "The most common reason", weight: 0.6 }
+  - { text: "The second most common reason", weight: 0.4 }
+fix:
+  instructions_md: |
+    1. First, look at ... (the first line is shown in the short form, make it count).
+    2. Then check ... (give a command or a file and a key where possible).
+    3. If that does not help ...
+    Never ask the reader to paste a whole config: it may contain passwords.
+  risk: low                         # low | medium | high: how risky it is to follow the steps
+  action: null                      # always null: Tickwise never runs commands on a server
+confidence: 0.7                     # (0, 1]: how sure you are that this cause is the real one when the signature fires
+verification: candidate             # use candidate for a new signature; maintainers raise it after review
+last_verified: 2026-10-05
+sources:                            # first-party links: plugin source where the message is printed, upstream issue, official docs
+  - https://example.com/link-to-the-source-code-or-issue
+tests:
+  positive:                         # at least 3: the signature MUST fire
+    - fixtures/SIG-PL-099/pos-first-case.log
+    - fixtures/SIG-PL-099/pos-second-case.log
+    - fixtures/SIG-PL-099/pos-third-case.log
+  negative:                         # at least 3: look-alikes where the signature MUST stay silent
+    - fixtures/SIG-PL-099/neg-normal-info-line.log
+    - fixtures/SIG-PL-099/neg-other-cause.log
+    - fixtures/SIG-PL-099/neg-neighbour-exception.log

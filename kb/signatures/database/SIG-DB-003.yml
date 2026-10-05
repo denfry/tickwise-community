@@ -1,0 +1,51 @@
+id: SIG-DB-003
+version: 1
+title: "Неверные учётные данные или права БД (Access denied for user)"
+category: database
+severity: error
+scope: server
+platforms: [paper, purpur, velocity]
+rule_ref: DB-03
+symptoms:
+  - "Плагин не подключается к MySQL/MariaDB: «Access denied for user '<user>'@'<host>'»"
+match:
+  log:
+    # MySQL/MariaDB ER_ACCESS_DENIED_ERROR (1045): «Access denied for user '%s'@'%s' (using password: %s)»
+    # и ER_DBACCESS_DENIED_ERROR (1044): «Access denied for user '%s'@'%s' to database '%s'».
+    # Хост в кавычках санитайзер заменяет на <ip:…>; имя класса SQLInvalidAuthorizationSpecException он может
+    # заменить на <secret:high_entropy>, поэтому якорь — только текст ошибки сервера.
+    regex: "Access denied for user '[^'\\n]*'@'[^'\\n]*'"
+    literal: "Access denied for user '"
+    level: WARN
+    target: text
+cause: "Сервер БД отклонил вход: неверные логин/пароль, пользователю не разрешён вход с адреса этого сервера или у него нет прав на указанную базу."
+possible_causes:
+  - { text: "Неверный пароль или имя пользователя в конфиге плагина (в т.ч. после смены пароля в панели хостинга)", weight: 0.55 }
+  - { text: "Пользователь создан для другого хоста ('user'@'localhost' вместо 'user'@'%' или IP сервера)", weight: 0.25 }
+  - { text: "У пользователя нет GRANT на нужную базу (ошибка «… to database '…'»)", weight: 0.2 }
+fix:
+  instructions_md: |
+    1. Проверьте имя пользователя и пароль в конфиге плагина (например, `data.username` / `data.password` в `plugins/LuckPerms/config.yml`) — сверяйте локально, не пересылая пароль в чаты и сторонние сервисы.
+    2. В MySQL/MariaDB проверьте, с какого хоста разрешён вход: `SELECT user, host FROM mysql.user;` — хост в ошибке (после `@`) должен подходить под запись пользователя.
+    3. Для ошибки «to database» выдайте права: `GRANT ALL PRIVILEGES ON <db>.* TO '<user>'@'<host>';`.
+    4. Если пароль содержит спецсимволы и задаётся в JDBC-URL — экранируйте его или вынесите в отдельный параметр конфига.
+    5. Перезапустите сервер или перезагрузите плагин.
+  action: null
+  risk: low
+confidence: 0.95
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/mysql/mysql-server/blob/trunk/share/messages_to_clients.txt
+  - https://github.com/MariaDB/server/blob/main/sql/share/errmsg-utf8.txt
+  - https://dev.mysql.com/doc/mysql-errors/8.0/en/server-error-reference.html
+tests:
+  positive:
+    - fixtures/SIG-DB-003/pos-mariadb-luckperms-paper.log
+    - fixtures/SIG-DB-003/pos-mysql-coreprotect-console.log
+    - fixtures/SIG-DB-003/pos-luckperms-velocity-console.log
+    - fixtures/SIG-DB-003/pos-no-grant-to-database.log
+  negative:
+    - fixtures/SIG-DB-003/neg-pool-starting.log
+    - fixtures/SIG-DB-003/neg-plugin-permission-denied.log
+    - fixtures/SIG-DB-003/neg-db-unreachable.log

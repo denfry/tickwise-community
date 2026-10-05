@@ -1,0 +1,8 @@
+# platform: paper 1.21.11
+# source: synthetic (занят порт query, основной порт работает)
+[12:00:09 INFO]: Starting GS4 status listener
+[12:00:09 WARN]: Unable to initialise query system on 0.0.0.0:25565
+java.net.BindException: Address already in use
+	at java.base/sun.nio.ch.Net.bind0(Native Method)
+	at java.base/java.net.DatagramSocket.<init>(DatagramSocket.java:292)
+[12:00:09 INFO]: Done (7.001s)! For help, type "help"

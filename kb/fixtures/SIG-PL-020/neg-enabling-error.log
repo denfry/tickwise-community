@@ -1,0 +1,6 @@
+# platform: paper 1.21.11
+# expect: SIG-PL-004
+# source: synthetic (соседняя ошибка — включение)
+[10:00:05 ERROR]: Error occurred while enabling Jobs v5.2.6.2 (Is it up to date?)
+java.lang.NullPointerException: Cannot invoke "java.util.List.size()" because "jobs" is null
+	at Jobs.jar/com.gamingmesh.jobs.Jobs.onEnable(Jobs.java:612) ~[Jobs.jar:?]

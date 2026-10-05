@@ -1,0 +1,4 @@
+# platform: velocity 3.5.1
+# expect: SIG-VE-001
+# source: synthetic (рассогласование modern forwarding — VE-01)
+[18:02:12] [Netty epoll Worker #1/ERROR] [com.velocitypowered.proxy.connection.client.ConnectedPlayer]: [connected player] Alex_07 (/203.0.113.24:51022): disconnected while connecting to lobby: Your server did not send a forwarding request to the proxy. Make sure the server is configured for Velocity forwarding.

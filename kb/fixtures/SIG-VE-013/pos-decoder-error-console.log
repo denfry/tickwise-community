@@ -1,0 +1,6 @@
+# platform: velocity 3.4.0
+# source: synthetic (консольный формат; backend прислал повреждённый пакет посреди сессии)
+[15:47:21 ERROR]: [server connection] Alex_07 -> skyblock: exception encountered in com.velocitypowered.proxy.connection.backend.BackendPlaySessionHandler@7b1d0e55
+io.netty.handler.codec.CorruptedFrameException: Bad packet length
+	at com.velocitypowered.proxy.protocol.netty.MinecraftVarintFrameDecoder.decode(MinecraftVarintFrameDecoder.java:78)
+[15:47:21 INFO]: [server connection] Alex_07 -> skyblock has disconnected

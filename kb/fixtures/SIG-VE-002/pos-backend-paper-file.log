@@ -1,0 +1,4 @@
+# platform: paper 1.21.8
+# source: synthetic (формат latest.log Paper; текст из ServerLoginPacketListenerImpl.java.patch)
+[10:11:12] [Netty Epoll Server IO #1/INFO]: Disconnecting Steve (/10.0.0.2:41822): Unable to verify player details
+[10:11:15] [Netty Epoll Server IO #3/INFO]: Disconnecting Alex_07 (/10.0.0.2:41830): Unable to verify player details

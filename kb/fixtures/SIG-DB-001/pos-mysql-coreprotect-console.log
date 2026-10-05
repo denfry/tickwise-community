@@ -1,0 +1,11 @@
+# platform: paper 1.21.11
+# plugins: CoreProtect 23.1
+# source: synthetic (Connector/J 9.x, printStackTrace построчно в консоль Paper; тексты из LocalizedErrorMessages.properties)
+[14:02:11 WARN]: com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+[14:02:11 WARN]:
+[14:02:11 WARN]: The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+[14:02:11 WARN]: 	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:175)
+[14:02:11 WARN]: 	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:825)
+[14:02:11 WARN]: 	at net.coreprotect.database.Database.getConnection(Database.java:180)
+[14:02:11 WARN]: Caused by: java.net.ConnectException: Connection refused
+[14:02:11 WARN]: 	at java.base/sun.nio.ch.Net.connect0(Native Method)

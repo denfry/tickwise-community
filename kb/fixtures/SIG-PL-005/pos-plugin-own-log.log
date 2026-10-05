@@ -1,0 +1,7 @@
+# platform: purpur 1.21.11
+# source: synthetic (плагин сам логирует ошибку инициализации NMS)
+[10:00:07 ERROR]: [FancyScoreboard] Failed to initialise packet adapter
+java.lang.ClassNotFoundException: net.minecraft.network.protocol.game.PacketPlayOutScoreboardObjective
+	at org.bukkit.plugin.java.PluginClassLoader.loadClass0(PluginClassLoader.java:197) ~[paper-api-1.21.11-R0.1-SNAPSHOT.jar:?]
+	at java.base/java.lang.Class.forName(Class.java:421)
+	at FancyScoreboard.jar/dev.example.board.PacketAdapter.<clinit>(PacketAdapter.java:18) ~[FancyScoreboard.jar:?]

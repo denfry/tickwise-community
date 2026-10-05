@@ -1,0 +1,8 @@
+# platform: paper 26.2
+# java: 25.0.1
+# expect: SIG-PL-011
+# source: synthetic (вариант «Compressed class space»)
+[16:10:44 ERROR]: Could not pass event PlayerJoinEvent to ScriptEngine v2.3
+java.lang.OutOfMemoryError: Compressed class space
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at ScriptEngine.jar/dev.example.script.Compiler.define(Compiler.java:120) ~[ScriptEngine.jar:?]

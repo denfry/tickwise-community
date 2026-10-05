@@ -1,0 +1,5 @@
+# platform: paper 1.21.8
+# source: synthetic (место закончилось на сервере БД, а не у Minecraft-сервера)
+[14:01:00] [Craft Scheduler Thread - 4/WARN]: [CoreProtect] Database error
+java.sql.SQLException: Error writing file '/tmp/MYfd=12' (Errcode: 28 "No space left on device")
+	at org.mariadb.jdbc.export.ExceptionFactory.createException(ExceptionFactory.java:306)

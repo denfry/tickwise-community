@@ -1,0 +1,42 @@
+id: SIG-PL-006
+version: 1
+title: "Плагин требует более новую версию сервера (Unsupported API version)"
+category: plugin
+severity: error
+scope: server
+platforms: [paper, purpur]
+rule_ref: PL-06
+symptoms:
+  - "Плагин не загружается при старте сервера"
+  - "В логе: «InvalidPluginException: Unsupported API version X»"
+match:
+  log:
+    regex: 'org\.bukkit\.plugin\.InvalidPluginException: Unsupported API version [^\n]+'
+    literal: "Unsupported API version "
+    target: exception
+cause: "В plugin.yml плагина указан api-version новее, чем поддерживает этот сервер: плагин собран для более новой версии Minecraft/Paper."
+possible_causes:
+  - { text: "Скачана версия плагина для более новой версии Minecraft", weight: 0.8 }
+  - { text: "Сервер не обновлён, хотя плагины уже обновлены под новую версию", weight: 0.2 }
+fix:
+  instructions_md: |
+    1. Сравните версию из evidence (`Unsupported API version X`) с версией сервера (`/version`).
+    2. Либо скачайте версию плагина для вашей версии сервера (раздел Versions на Hangar/Modrinth/SpigotMC), либо обновите сервер до версии не ниже X (с резервной копией мира и проверкой остальных плагинов).
+    3. Перезапустите сервер.
+  action: null
+  risk: medium
+confidence: 0.95
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/src/main/java/io/papermc/paper/plugin/provider/type/spigot/SpigotPluginProvider.java
+tests:
+  positive:
+    - fixtures/SIG-PL-006/pos-paper-1-21-11-console.log
+    - fixtures/SIG-PL-006/pos-leaf-latest-log.log
+    - fixtures/SIG-PL-006/pos-wrapped-runtime-load.log
+  negative:
+    - fixtures/SIG-PL-006/neg-too-old-api.log
+    - fixtures/SIG-PL-006/neg-legacy-no-api-version.log
+    - fixtures/SIG-PL-006/neg-version-banner.log

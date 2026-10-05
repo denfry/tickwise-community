@@ -1,0 +1,4 @@
+# platform: paper 26.2
+# source: synthetic (уровень FATAL)
+[03:35:00] [Server Watchdog/FATAL]: A single server tick took 60.01 seconds (should be max 0.05)
+[03:35:00] [Server Watchdog/FATAL]: Considering it to be crashed, server will forcibly shutdown.

@@ -1,0 +1,10 @@
+# platform: paper 26.2
+# expect: SIG-PL-005
+# source: synthetic (плагин под старую версию сервера)
+[10:00:05 INFO]: [HoloDisplays] Enabling HoloDisplays v3.1.0
+[10:00:05 ERROR]: Error occurred while enabling HoloDisplays v3.1.0 (Is it up to date?)
+java.lang.NoSuchMethodError: 'net.minecraft.server.level.ServerLevel org.bukkit.craftbukkit.CraftWorld.getHandle()'
+	at HoloDisplays-3.1.0.jar/dev.example.holo.nms.NmsAdapter.<init>(NmsAdapter.java:41) ~[HoloDisplays-3.1.0.jar:?]
+	at HoloDisplays-3.1.0.jar/dev.example.holo.HoloDisplays.onEnable(HoloDisplays.java:77) ~[HoloDisplays-3.1.0.jar:?]
+	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:280) ~[paper-api-26.2-R0.1-SNAPSHOT.jar:?]
+	at io.papermc.paper.plugin.manager.PaperPluginInstanceManager.enablePlugin(PaperPluginInstanceManager.java:202) ~[paper-26.2.jar:26.2-128-a1b2c3d]

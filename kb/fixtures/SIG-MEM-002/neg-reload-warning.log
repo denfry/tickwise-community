@@ -1,0 +1,5 @@
+# platform: paper 1.21.8
+# source: synthetic (предупреждения /reload без ошибки памяти)
+[17:30:02] [Server thread/WARN]: Please note that this command is not supported and may cause issues when using some plugins.
+[17:30:02] [Server thread/WARN]: If you encounter any issues please use the /stop command to restart your server.
+[17:30:06] [Server thread/INFO]: Reload complete.

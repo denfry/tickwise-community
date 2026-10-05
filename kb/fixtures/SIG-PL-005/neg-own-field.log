@@ -1,0 +1,6 @@
+# platform: purpur 1.21.11
+# expect: SIG-PL-010
+# source: synthetic (поле класса самого плагина — рассинхрон модулей плагина)
+[13:05:40 WARN]: [ShopGUI] Task #52 for ShopGUI v1.9.0 generated an exception
+java.lang.NoSuchFieldError: Class dev.example.shopgui.config.Settings does not have member field 'int maxItems'
+	at ShopGUI.jar/dev.example.shopgui.task.Restock.run(Restock.java:30) ~[ShopGUI.jar:?]

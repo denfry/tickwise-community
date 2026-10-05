@@ -1,0 +1,4 @@
+# platform: velocity 3.5.1
+# source: synthetic (формат latest.log Velocity; текст InitialLoginSessionHandler)
+[23:40:02] [HttpClient-3-Worker-1/ERROR] [com.velocitypowered.proxy.connection.client.InitialLoginSessionHandler]: Got an unexpected error code 503 whilst contacting Mojang to log in Steve (198.51.100.7)
+[23:40:05] [HttpClient-3-Worker-0/ERROR] [com.velocitypowered.proxy.connection.client.InitialLoginSessionHandler]: Got an unexpected error code 503 whilst contacting Mojang to log in Alex_07 (203.0.113.24)

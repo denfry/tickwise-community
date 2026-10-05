@@ -1,0 +1,4 @@
+# platform: paper 1.21.11
+# source: synthetic (сообщения плагинов о правах игрока/веб-панели — не БД)
+[12:00:00 INFO]: [AdminTools] Access denied for user Steve: missing permission admintools.use
+[12:00:05 WARN]: [WebPanel] Access denied for user admin from 203.0.113.5 (invalid token)

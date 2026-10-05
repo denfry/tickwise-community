@@ -1,0 +1,3 @@
+# platform: velocity 3.5.1
+# source: synthetic (стартовое предупреждение VelocityConfiguration.validate — не отказ игроку)
+[09:00:02] [main/WARN] [com.velocitypowered.proxy.config.VelocityConfiguration]: You don't have any servers configured.

@@ -1,0 +1,4 @@
+# platform: paper 1.21.8
+# source: synthetic (форма как в politernal-sanitized: занят порт веб-сервера плагина, а не порт Minecraft)
+[10:02:11] [Server thread/ERROR]: [WebMapPlugin] WebMapPlugin failed to start: Address already in use
+[10:02:11] [Server thread/INFO]: [WebMapPlugin] Web server disabled, map tiles will still be rendered

@@ -1,0 +1,3 @@
+# platform: paper 1.21.11
+# source: synthetic (SQLITE_LOCKED — конфликт внутри одного соединения, другой код)
+[18:20:01 WARN]: org.sqlite.SQLiteException: [SQLITE_LOCKED] A table in the database is locked (database table is locked)

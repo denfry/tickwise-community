@@ -1,0 +1,4 @@
+# platform: paper 26.2
+# java: 25-ea
+# source: synthetic (System.err из org.bukkit.craftbukkit.Main, до инициализации логгера)
+Unsupported Java detected (25-ea). You are running an unsupported, non official, version. Only general availability versions of Java are supported. Please update your Java version. See https://docs.papermc.io/paper/faq#unsupported-java-detected-what-do-i-do for more information.

@@ -1,0 +1,49 @@
+id: SIG-ST-003
+version: 1
+title: "Сервер не может занять порт (FAILED TO BIND TO PORT)"
+category: startup
+severity: critical
+scope: server
+platforms: [paper, purpur]
+rule_ref: ST-03
+symptoms:
+  - "Сервер останавливается на старте сразу после «Starting Minecraft server on …»"
+  - "Игроки не могут подключиться: порт занят другим процессом или адрес недоступен"
+match:
+  any:
+    - log:
+        regex: '\*\*\*\* FAILED TO BIND TO PORT!'
+        literal: "FAILED TO BIND TO PORT!"
+        level: WARN
+        target: message
+    - log:
+        regex: 'java\.lang\.IllegalStateException: Failed to bind to port'
+        literal: "Failed to bind to port"
+        target: exception
+cause: "Сервер не смог открыть TCP-порт из server.properties: порт уже занят (второй экземпляр сервера, другой процесс) или в server-ip указан адрес, которого нет на машине."
+possible_causes:
+  - { text: "Уже запущен другой экземпляр этого сервера (зависший процесс после рестарта) на том же порту", weight: 0.5 }
+  - { text: "Порт занят другим сервером/сервисом на той же машине (частая ошибка при копировании папки сервера)", weight: 0.3 }
+  - { text: "server-ip указывает на адрес, которого нет на машине («Cannot assign requested address»)", weight: 0.2 }
+fix:
+  instructions_md: |
+    1. Посмотрите строку `The exception was:` в evidence: `Address already in use` — порт занят; `Cannot assign requested address` — неверный `server-ip`.
+    2. Если порт занят: найдите процесс (`ss -ltnp | grep :<порт>` на Linux, `netstat -ano | findstr :<порт>` на Windows), остановите дубликат сервера или смените `server-port`.
+    3. Если адрес недоступен: оставьте `server-ip=` пустым (слушать все интерфейсы) или укажите реальный адрес машины/контейнера.
+    4. На хостинге с панелью проверьте, что порт в `server.properties` совпадает с выделенным панелью.
+  action: null
+  risk: low
+confidence: 0.95
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/patches/sources/net/minecraft/server/dedicated/DedicatedServer.java.patch
+tests:
+  positive:
+    - fixtures/SIG-ST-003/pos-address-in-use-console.log
+    - fixtures/SIG-ST-003/pos-wrong-server-ip-latest.log
+    - fixtures/SIG-ST-003/pos-crash-only.log
+  negative:
+    - fixtures/SIG-ST-003/neg-plugin-webserver-port.log
+    - fixtures/SIG-ST-003/neg-healthy-start.log
+    - fixtures/SIG-ST-003/neg-query-port-busy.log

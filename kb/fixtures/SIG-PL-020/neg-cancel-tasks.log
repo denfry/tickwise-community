@@ -1,0 +1,4 @@
+# platform: purpur 1.21.11
+# source: synthetic (другая ошибка загрузчика при остановке: отмена задач)
+[23:59:02 ERROR]: Error occurred (in the plugin loader) while cancelling tasks for DynamicShop v4.1.0 (Is it up to date?)
+java.lang.IllegalStateException: Scheduler is shutting down

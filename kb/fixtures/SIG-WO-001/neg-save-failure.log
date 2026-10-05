@@ -1,0 +1,6 @@
+# platform: paper 26.2
+# expect: SIG-WO-008
+# source: synthetic (соседняя ошибка — сохранение, не чтение)
+[12:40:00 ERROR]: [ChunkTaskScheduler] Failed to save chunk (12,-7) in world 'world'
+java.lang.NullPointerException: Cannot invoke "net.minecraft.world.level.block.entity.BlockEntity.saveWithFullMetadata(net.minecraft.core.HolderLookup$Provider)" because "tile" is null
+	at net.minecraft.world.level.chunk.storage.SerializableChunkData.copyOf(SerializableChunkData.java:512) ~[paper-26.2.jar:26.2-128-a1b2c3d]

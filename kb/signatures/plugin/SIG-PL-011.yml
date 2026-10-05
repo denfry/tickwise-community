@@ -1,0 +1,46 @@
+id: SIG-PL-011
+version: 1
+title: "Исключение в обработчике событий плагина (Could not pass event)"
+category: plugin
+severity: error
+scope: server
+platforms: [paper, purpur]
+rule_ref: PL-11
+symptoms:
+  - "Функция плагина, реагирующая на действия игроков (клики, вход, чат), не срабатывает"
+  - "В логе: «Could not pass event <Событие> to <плагин> vX» и stack trace"
+match:
+  log:
+    regex: 'Could not pass event \w+ to [^\n]+'
+    literal: "Could not pass event "
+    level: ERROR
+    target: message
+cause: "Обработчик события (listener) плагина бросил исключение. Paper продолжает работу, но действие плагина для этого события не выполнено."
+possible_causes:
+  - { text: "Баг плагина (NullPointerException и подобные в его классах)", weight: 0.45 }
+  - { text: "Плагин обращается к выключенному плагину или недоступному ресурсу", weight: 0.25 }
+  - { text: "Несовместимость с версией сервера или конфликт с другим плагином, изменяющим то же событие", weight: 0.3 }
+fix:
+  instructions_md: |
+    1. По evidence определите событие (имя после `Could not pass event`) и плагин (после `to`), исключение — в следующей строке и в `Caused by:`.
+    2. Если trace указывает на выключенный плагин или БД — сначала устраните эту причину (ошибки выше в логе).
+    3. Обновите плагин; при конфликте временно отключите по одному плагины, слушающие это же событие, чтобы найти виновника.
+    4. Сообщите автору плагина с полным trace и версиями, если ошибка воспроизводится на последней версии.
+  action: null
+  risk: low
+confidence: 0.85
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/src/main/java/io/papermc/paper/plugin/manager/PaperEventManager.java
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-api/src/main/java/org/bukkit/plugin/SimplePluginManager.java
+tests:
+  positive:
+    - fixtures/SIG-PL-011/pos-inventory-click-leaf.log
+    - fixtures/SIG-PL-011/pos-interact-npe-console.log
+    - fixtures/SIG-PL-011/pos-async-chat-thread.log
+  negative:
+    - fixtures/SIG-PL-011/neg-nag-author.log
+    - fixtures/SIG-PL-011/neg-task-exception.log
+    - fixtures/SIG-PL-011/neg-custom-payload.log
+    - fixtures/SIG-PL-011/neg-debug-passing.log

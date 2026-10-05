@@ -1,0 +1,8 @@
+# platform: velocity 3.5.1
+# expect: SIG-AU-001
+# source: synthetic (InitialLoginSessionHandler: запрос к Mojang не удался — это авторизация, а не forwarding)
+[03:10:44] [HttpClient-1-Worker-0/ERROR] [com.velocitypowered.proxy.connection.client.InitialLoginSessionHandler]: Unable to authenticate player
+java.net.ConnectException: null
+	at java.net.http/jdk.internal.net.http.HttpClientImpl.send(HttpClientImpl.java:951)
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)

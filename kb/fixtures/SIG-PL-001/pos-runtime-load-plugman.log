@@ -1,0 +1,9 @@
+# platform: purpur 1.21.11
+# plugins: PlugManX 2.4.1
+# source: synthetic (загрузка во время работы через PluginManager#loadPlugin → SpigotPluginProvider)
+[15:30:22 INFO]: [PlugManX] Loading ChestShop-3.12.2.jar
+[15:30:22 WARN]: [PlugManX] Could not load plugin ChestShop-3.12.2.jar
+org.bukkit.plugin.UnknownDependencyException: Unknown/missing dependency plugins: [Vault]. Please download and install these plugins to run 'ChestShop v3.12.2'.
+	at io.papermc.paper.plugin.provider.type.spigot.SpigotPluginProvider.createInstance(SpigotPluginProvider.java:117) ~[purpur-1.21.11.jar:1.21.11-2512-c0ffee1]
+	at io.papermc.paper.plugin.manager.PaperPluginInstanceManager.loadPlugin(PaperPluginInstanceManager.java:127) ~[purpur-1.21.11.jar:1.21.11-2512-c0ffee1]
+	at com.rylinaux.plugman.util.PluginUtil.load(PluginUtil.java:410) ~[PlugManX.jar:?]

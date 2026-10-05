@@ -1,0 +1,8 @@
+# platform: paper 26.2
+# java: 25.0.1
+# source: synthetic (битый jar: другая LinkageError, не версия Java)
+[10:15:03 ERROR]: [ModernPluginLoadingStrategy] Could not load plugin 'BrokenPlugin.jar' in folder 'plugins'
+org.bukkit.plugin.InvalidPluginException: java.lang.ClassFormatError: Incompatible magic value 1347093252 in class file dev/example/broken/Main
+	at io.papermc.paper.plugin.provider.type.spigot.SpigotPluginProvider.createInstance(SpigotPluginProvider.java:127) ~[paper-26.2.jar:26.2-128-a1b2c3d]
+Caused by: java.lang.ClassFormatError: Incompatible magic value 1347093252 in class file dev/example/broken/Main
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)

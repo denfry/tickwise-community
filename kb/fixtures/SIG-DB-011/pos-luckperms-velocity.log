@@ -1,0 +1,4 @@
+# platform: velocity 3.5.1
+# plugins: LuckPerms 5.5.17
+# source: synthetic (формат latest.log Velocity)
+[05:12:44] [luckperms-hikari housekeeper/WARN] [me.lucko.luckperms.lib.hikari.pool.HikariPool]: luckperms-hikari - Thread starvation or clock leap detected (housekeeper delta=48s202ms111µs5ns).

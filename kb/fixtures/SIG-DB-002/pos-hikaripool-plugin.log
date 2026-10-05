@@ -1,0 +1,9 @@
+# platform: paper 26.2
+# plugins: CoreProtect 23.1
+# source: synthetic (формат HikariCP)
+[14:02:11 WARN]: [CoreProtect] Database error
+java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 30000ms.
+	at com.zaxxer.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:696)
+	at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:197)
+	at net.coreprotect.database.Database.getConnection(Database.java:180)
+	at net.coreprotect.consumer.Consumer.run(Consumer.java:122)

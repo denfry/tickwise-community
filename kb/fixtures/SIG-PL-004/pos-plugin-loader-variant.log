@@ -1,0 +1,6 @@
+# platform: purpur 1.21.11
+# source: synthetic (вариант «(in the plugin loader)»)
+[10:00:06 ERROR]: Error occurred (in the plugin loader) while enabling ShopKeepers v2.23.3 (Is it up to date?)
+java.lang.NullPointerException: Cannot invoke "org.bukkit.configuration.ConfigurationSection.getKeys(boolean)" because "section" is null
+	at Shopkeepers.jar/com.nisovin.shopkeepers.config.Settings.load(Settings.java:512) ~[Shopkeepers.jar:?]
+	at io.papermc.paper.plugin.manager.PaperPluginInstanceManager.enablePlugin(PaperPluginInstanceManager.java:210) ~[purpur-1.21.11.jar:1.21.11-2512-c0ffee1]

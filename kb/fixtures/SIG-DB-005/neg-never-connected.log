@@ -1,0 +1,8 @@
+# platform: paper 1.21.11
+# expect: SIG-DB-001
+# source: synthetic (соединение не устанавливалось — «packet sent … 0 milliseconds ago», это DB-01)
+[14:02:11 WARN]: [CoreProtect] Database error
+com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:175)

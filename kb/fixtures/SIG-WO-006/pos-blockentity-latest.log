@@ -1,0 +1,6 @@
+# platform: paper 1.21.8
+# source: synthetic (формат latest.log; текст LevelChunk.java.patch)
+[15:11:40] [Server thread/ERROR]: BlockEntity threw exception at world_nether:12,70,-5
+java.lang.ClassCastException: class net.minecraft.world.level.block.entity.ChestBlockEntity cannot be cast to class net.minecraft.world.level.block.entity.HopperBlockEntity
+	at net.minecraft.world.level.block.entity.HopperBlockEntity.pushItemsTick(HopperBlockEntity.java:150) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.world.level.chunk.LevelChunk$BoundTickingBlockEntity.tick(LevelChunk.java:1102) ~[paper-1.21.8.jar:1.21.8-60-29c8822]

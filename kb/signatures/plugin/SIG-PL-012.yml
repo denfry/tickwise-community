@@ -1,0 +1,44 @@
+id: SIG-PL-012
+version: 1
+title: "Плагин обращается к API сервера не из основного потока (Asynchronous …!)"
+category: plugin
+severity: error
+scope: server
+platforms: [paper, purpur]
+rule_ref: PL-12
+symptoms:
+  - "Действие плагина не выполняется, в логе IllegalStateException «Asynchronous <операция>!»"
+  - "Возможны дюпы предметов, рассинхронизация сущностей и краши, если плагин продолжает так делать"
+match:
+  log:
+    regex: 'java\.lang\.IllegalStateException: (?:Asynchronous [^\n]{1,160}!|Thread failed main thread check: )'
+    literal: "java.lang.IllegalStateException: "
+    level: WARN
+    target: exception
+cause: "Плагин вызвал операцию, разрешённую только в основном потоке сервера (добавление сущностей, загрузка чанков, телепорт и т.п.), из асинхронной задачи или сетевого потока; Paper (AsyncCatcher/TickThread) заблокировал вызов."
+possible_causes:
+  - { text: "Плагин выполняет Bukkit API в runTaskAsynchronously/CompletableFuture без возврата в основной поток", weight: 0.7 }
+  - { text: "Устаревшая версия плагина, не адаптированная к проверкам Paper", weight: 0.3 }
+fix:
+  instructions_md: |
+    1. Определите плагин по фреймам trace (первые фреймы после `org.spigotmc.AsyncCatcher` или `TickThread`) и операцию из текста `Asynchronous <операция>!`.
+    2. Обновите плагин; если ошибка есть в последней версии — сообщите автору (нужно перенести вызов в основной поток через `runTask`).
+    3. До исправления отключите функцию плагина, вызывающую ошибку, или сам плагин: такие вызовы грозят дюпами и повреждением данных.
+  action: null
+  risk: low
+confidence: 0.95
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/src/main/java/org/spigotmc/AsyncCatcher.java
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/src/main/java/ca/spottedleaf/moonrise/common/util/TickThread.java
+tests:
+  positive:
+    - fixtures/SIG-PL-012/pos-async-task-entity-add.log
+    - fixtures/SIG-PL-012/pos-event-nearby-entities-latest.log
+    - fixtures/SIG-PL-012/pos-ticket-thread-check.log
+  negative:
+    - fixtures/SIG-PL-012/neg-shutdown-command-netty.log
+    - fixtures/SIG-PL-012/neg-other-illegal-state.log
+    - fixtures/SIG-PL-012/neg-save-players-ensure-main.log
+    - fixtures/SIG-PL-012/neg-async-info-text.log

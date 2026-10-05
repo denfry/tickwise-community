@@ -1,0 +1,4 @@
+# platform: velocity 3.5.1
+# source: synthetic (сообщение плагина очереди, похожая формулировка)
+[12:30:00] [Queue Thread/INFO] [ajqueue]: There are no available slots in queue survival right now, position 5
+[12:30:01] [Queue Thread/INFO] [ajqueue]: No servers available for Steve, retrying in 5 seconds

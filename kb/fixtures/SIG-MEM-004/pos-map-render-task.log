@@ -1,0 +1,8 @@
+# platform: purpur 1.21.11
+# java: 21.0.4
+# expect: SIG-PL-010
+# source: synthetic (веб-карта в асинхронной задаче)
+[20:15:00 WARN]: [BlueMap] Plugin BlueMap v5.11 generated an exception while executing task 5521
+java.lang.OutOfMemoryError: Cannot reserve 4194304 bytes of direct buffer memory (allocated: 2143289344, limit: 2147483648)
+	at java.base/java.nio.Bits.reserveMemory(Bits.java:178)
+	at BlueMap.jar/de.bluecolored.bluemap.core.storage.Compression.compress(Compression.java:61) ~[BlueMap.jar:?]

@@ -1,0 +1,35 @@
+# platform: purpur 1.21.11
+# expect: SIG-PA-007
+# source: synthetic (сначала ранние дампы, затем остановка)
+[21:42:00 ERROR]: --- DO NOT REPORT THIS TO PAPER - THIS IS NOT A BUG OR A CRASH  - 1.21.11-2512-c0ffee1 (MC: 1.21.11) ---
+[21:42:00 ERROR]: The server has not responded for 10 seconds! Creating thread dump
+[21:42:00 ERROR]: ------------------------------
+[21:42:00 ERROR]: Server thread dump (Look for plugins here before reporting to Paper!):
+[21:42:00 ERROR]: ------------------------------
+[21:42:00 ERROR]: Current Thread: Server thread
+[21:42:00 ERROR]: 	PID: 38 | Suspended: false | Native: false | State: RUNNABLE
+[21:42:00 ERROR]: 	Stack:
+[21:42:00 ERROR]: 		Towny.jar//com.palmergames.bukkit.towny.db.TownyDatabase.saveAll(TownyDatabase.java:310)
+[21:42:00 ERROR]: 		net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:1720)
+[21:42:00 ERROR]: ------------------------------
+[21:42:00 ERROR]: --- DO NOT REPORT THIS TO PAPER - THIS IS NOT A BUG OR A CRASH ---
+[21:42:00 ERROR]: ------------------------------
+[21:42:50 ERROR]: ------------------------------
+[21:42:50 ERROR]: The server has stopped responding! This is (probably) not a Paper bug.
+[21:42:50 ERROR]: If you see a plugin in the Server thread dump below, then please report it to that author
+[21:42:50 ERROR]: 	 *Especially* if it looks like HTTP or MySQL operations are occurring
+[21:42:50 ERROR]: If you see a world save or edit, then it means you did far more than your server can handle at once
+[21:42:50 ERROR]: 	 If this is the case, consider increasing timeout-time in spigot.yml but note that this will replace the crash with LARGE lag spikes
+[21:42:50 ERROR]: If you are unsure or still think this is a Paper bug, please report this to https://github.com/PaperMC/Paper/issues
+[21:42:50 ERROR]: Be sure to include ALL relevant console errors and Minecraft crash reports
+[21:42:50 ERROR]: Paper version: 1.21.11-2512-c0ffee1 (MC: 1.21.11)
+[21:42:50 ERROR]: ------------------------------
+[21:42:50 ERROR]: Server thread dump (Look for plugins here before reporting to Paper!):
+[21:42:50 ERROR]: ------------------------------
+[21:42:50 ERROR]: Current Thread: Server thread
+[21:42:50 ERROR]: 	PID: 38 | Suspended: false | Native: true | State: RUNNABLE
+[21:42:50 ERROR]: 	Stack:
+[21:42:50 ERROR]: 		java.base@21.0.4/sun.nio.ch.Net.poll(Native Method)
+[21:42:50 ERROR]: 		Towny.jar//com.palmergames.bukkit.towny.db.TownyDatabase.saveAll(TownyDatabase.java:310)
+[21:42:50 ERROR]: 		net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:1720)
+[21:42:50 ERROR]: ------------------------------

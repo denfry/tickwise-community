@@ -1,0 +1,48 @@
+id: SIG-PL-010
+version: 1
+title: "Повторяющиеся исключения в задачах планировщика плагина (Task #N generated an exception)"
+category: plugin
+severity: error
+scope: server
+platforms: [paper, purpur]
+rule_ref: PL-10
+symptoms:
+  - "Периодическая функция плагина (автосохранение, таймеры, обновление табло) не работает или работает частично"
+  - "В логе многократно: «Task #N for <плагин> vX generated an exception»"
+match:
+  log:
+    regex: '(?:Task #\d+ for [^\n]+ generated an exception|Plugin [^\n]+ generated an exception while executing task \d+|(?:Async|Global|Entity) task for [^\n]+ generated an exception)'
+    literal: "generated an exception"
+    level: WARN
+    target: message
+threshold: { count: 10, window: 1h }
+cause: "Задача, запланированная плагином через планировщик Bukkit/Paper, бросает исключение при каждом запуске. Причина — в stack trace: баг плагина, неверный конфиг или зависимость от выключенного плагина/недоступного ресурса."
+possible_causes:
+  - { text: "Баг плагина (NullPointerException и подобные в его собственных классах)", weight: 0.45 }
+  - { text: "Задача обращается к выключенному плагину или недоступному ресурсу (БД, веб-API)", weight: 0.3 }
+  - { text: "Несовместимость версии плагина с сервером (NoSuchMethodError и т.п. в trace)", weight: 0.25 }
+fix:
+  instructions_md: |
+    1. По evidence определите плагин (имя после `for`/`Plugin`) и исключение в первой строке trace и в `Caused by:`.
+    2. Проверьте, не выключен ли плагин, к которому обращается задача (сообщения «plugin is disabled», ошибки включения выше в логе), и доступны ли внешние ресурсы.
+    3. Обновите плагин; если ошибка остаётся — отправьте автору полный trace и версии сервера/плагина.
+    4. Если ошибки спамят лог и мешают работе — временно отключите проблемную функцию в конфиге плагина.
+  action: null
+  risk: low
+confidence: 0.85
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/src/main/java/org/bukkit/craftbukkit/scheduler/CraftAsyncTask.java
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/src/main/java/io/papermc/paper/threadedregions/scheduler/FoliaGlobalRegionScheduler.java
+tests:
+  positive:
+    - fixtures/SIG-PL-010/pos-sync-task-leaf.log
+    - fixtures/SIG-PL-010/pos-async-task-console.log
+    - fixtures/SIG-PL-010/pos-global-region-task.log
+  negative:
+    - fixtures/SIG-PL-010/neg-plugin-message.log
+    - fixtures/SIG-PL-010/neg-conversation.log
+    - fixtures/SIG-PL-010/neg-event-pass.log
+    - fixtures/SIG-PL-010/neg-task-scheduled-info.log

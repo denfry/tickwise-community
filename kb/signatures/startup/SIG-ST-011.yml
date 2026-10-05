@@ -1,0 +1,41 @@
+id: SIG-ST-011
+version: 1
+title: "Paper отказался стартовать на pre-release Java (Unsupported Java detected)"
+category: startup
+severity: critical
+scope: server
+platforms: [paper, purpur]
+rule_ref: ST-11
+symptoms:
+  - "Процесс сервера завершается сразу после запуска, до загрузки мира и плагинов"
+  - "В консоли панели: «Unsupported Java detected (…). You are running an unsupported, non official, version.»"
+match:
+  log:
+    regex: 'Unsupported Java detected \([^)\n]*\)\. You are running an unsupported, non official, version\.'
+    literal: "You are running an unsupported, non official, version."
+    target: text
+cause: "Paper считает сборку Java не-GA (в java.version есть «-», например 25-ea) и завершает работу до старта сервера."
+possible_causes:
+  - { text: "В образе/панели выбрана early-access или nightly сборка JDK (например, 26-ea)", weight: 0.8 }
+  - { text: "Используется beta-сборка дистрибутива (версия вида 21.0.5-beta)", weight: 0.2 }
+fix:
+  instructions_md: |
+    1. Посмотрите версию в скобках в evidence: суффиксы `-ea`, `-beta` означают не-GA сборку.
+    2. Установите GA-сборку Java нужной версии (Paper 1.21.x — Java 21, Paper 26.x — Java 25), например Eclipse Temurin; в панели хостинга выберите стабильный образ Java.
+    3. Флаг `-DPaper.IgnoreJavaVersion=true` отключает проверку, но Paper поддерживает только GA-сборки — используйте его только осознанно и временно.
+  action: null
+  risk: low
+confidence: 0.97
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/src/main/java/org/bukkit/craftbukkit/Main.java
+tests:
+  positive:
+    - fixtures/SIG-ST-011/pos-ea-single-line.log
+    - fixtures/SIG-ST-011/pos-after-paperclip.log
+    - fixtures/SIG-ST-011/pos-beta-build.log
+  negative:
+    - fixtures/SIG-ST-011/neg-check-skipped.log
+    - fixtures/SIG-ST-011/neg-healthy-banner.log
+    - fixtures/SIG-ST-011/neg-path-with-plus.log

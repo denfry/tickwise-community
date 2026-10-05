@@ -1,0 +1,5 @@
+# platform: purpur 1.21.8
+# source: synthetic (во время прегенерации)
+[03:10:00 INFO]: [Chunky] Task running for world. Processed: 120400 chunks (12.04%), ETA: 1:40:12, Rate: 210.4 cps, Current: 64, -120
+[03:10:21 WARN]: Can't keep up! Is the server overloaded? Running 2211ms or 44 ticks behind
+[03:10:30 INFO]: [Chunky] Task running for world. Processed: 121900 chunks (12.19%), ETA: 1:41:03, Rate: 180.0 cps, Current: 66, -120

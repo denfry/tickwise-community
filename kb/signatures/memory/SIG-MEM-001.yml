@@ -1,0 +1,46 @@
+id: SIG-MEM-001
+version: 1
+title: "Нехватка памяти heap (OutOfMemoryError: Java heap space)"
+category: memory
+severity: critical
+scope: server
+platforms: [paper, purpur]
+rule_ref: MEM-01
+symptoms:
+  - "Сервер сильно лагает, затем падает или перестаёт отвечать"
+  - "В логе: «java.lang.OutOfMemoryError: Java heap space» (или «GC overhead limit exceeded»)"
+match:
+  log:
+    regex: 'java\.lang\.OutOfMemoryError: (?:Java heap space|GC overhead limit exceeded)'
+    literal: "java.lang.OutOfMemoryError: "
+    level: WARN
+    target: text
+cause: "JVM не смогла выделить объект в heap: заданного -Xmx не хватает для текущей нагрузки или память удерживает утечка (плагин, огромное число сущностей/чанков)."
+possible_causes:
+  - { text: "-Xmx мал для числа игроков, плагинов и загруженных чанков", weight: 0.45 }
+  - { text: "Утечка памяти в плагине (память растёт от рестарта к рестарту до OOM)", weight: 0.35 }
+  - { text: "Разовая перегрузка: прегенерация/WorldEdit по большой области, тысячи сущностей в одном месте", weight: 0.2 }
+fix:
+  instructions_md: |
+    1. Перезапустите сервер: после OutOfMemoryError состояние JVM ненадёжно, данные могут не сохраниться.
+    2. Проверьте `-Xmx` в команде запуска: он должен оставлять запас до лимита контейнера/VDS (1–1,5 ГБ на off-heap); при запасе увеличьте `-Xmx` (и `-Xms` до того же значения).
+    3. Если OOM повторяется при достаточном heap — ищите утечку: `/spark heapsummary` незадолго до падения или heap dump (`-XX:+HeapDumpOnOutOfMemoryError`), сравните с недавно установленными/обновлёнными плагинами.
+    4. Проверьте, не выполнялась ли в момент падения тяжёлая операция (прегенерация, WorldEdit), и ограничьте её.
+  action: null
+  risk: medium
+confidence: 0.95
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/openjdk/jdk21u/blob/master/src/hotspot/share/memory/universe.cpp
+tests:
+  positive:
+    - fixtures/SIG-MEM-001/pos-tick-loop-console.log
+    - fixtures/SIG-MEM-001/pos-stderr-thread-latest.log
+    - fixtures/SIG-MEM-001/pos-crash-report-in-log.log
+    - fixtures/SIG-MEM-001/pos-gc-overhead-task.log
+  negative:
+    - fixtures/SIG-MEM-001/neg-spark-healthy.log
+    - fixtures/SIG-MEM-001/neg-info-advice.log
+    - fixtures/SIG-MEM-001/neg-metaspace.log
+    - fixtures/SIG-MEM-001/neg-array-size-limit.log

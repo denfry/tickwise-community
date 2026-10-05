@@ -1,0 +1,44 @@
+id: SIG-PA-007
+version: 1
+title: "Ранний сигнал watchdog: тик длится больше 10 секунд (Creating thread dump)"
+category: performance
+severity: warning
+scope: server
+platforms: [paper, purpur]
+rule_ref: PA-07
+symptoms:
+  - "Сервер на несколько секунд «замирает» для всех игроков"
+  - "В логе: «The server has not responded for N seconds! Creating thread dump» и дамп Server thread"
+match:
+  log:
+    regex: 'The server has not responded for \d+ seconds! Creating thread dump'
+    literal: "has not responded for "
+    level: ERROR
+    target: message
+cause: "Текущий тик идёт дольше early-warning-delay (по умолчанию 10 с). Paper печатает дамп основного потока — сервер ещё работает, но если тик не завершится до timeout-time, watchdog его остановит."
+possible_causes:
+  - { text: "Плагин выполняет блокирующую операцию в основном потоке (SQL/HTTP, файловый ввод-вывод)", weight: 0.5 }
+  - { text: "Долгое сохранение мира/чанков или большая операция WorldEdit", weight: 0.3 }
+  - { text: "Нехватка CPU или длинная пауза GC", weight: 0.2 }
+fix:
+  instructions_md: |
+    1. В дампе `Server thread` под evidence найдите первые фреймы плагина — это вероятный источник зависания.
+    2. Если повторяется с одним и тем же плагином — обновите его или перенесите его тяжёлые функции (сохранение, запросы) на время без игроков; сообщите автору с дампом.
+    3. Если в дампе сохранение мира — проверьте скорость и свободное место на диске.
+    4. Для наблюдения используйте `/spark profiler --only-ticks-over 100`, чтобы поймать длинные тики.
+  action: null
+  risk: low
+confidence: 0.9
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/src/main/java/org/spigotmc/WatchdogThread.java
+tests:
+  positive:
+    - fixtures/SIG-PA-007/pos-console.log
+    - fixtures/SIG-PA-007/pos-leaf-latest.log
+    - fixtures/SIG-PA-007/pos-repeated-20s.log
+  negative:
+    - fixtures/SIG-PA-007/neg-stopped-responding.log
+    - fixtures/SIG-PA-007/neg-connection-not-responded.log
+    - fixtures/SIG-PA-007/neg-server-pausing.log

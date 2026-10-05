@@ -1,0 +1,6 @@
+# platform: paper 1.21.8
+# expect: SIG-PL-011
+# source: politernal-sanitized (2026-09-18, work-7297; соседний сценарий — listener, не задача)
+[16:25:29] [Server thread/ERROR]: Could not pass event InventoryClickEvent to Civitas v0.0.1
+org.bukkit.command.CommandException: Cannot execute command 'pdonations' in plugin PoliternalDonations v1.0.0 - plugin is disabled.
+	at org.bukkit.command.PluginCommand.execute(PluginCommand.java:37) ~[paper-api-1.21.8-R0.1-SNAPSHOT.jar:?]

@@ -1,0 +1,6 @@
+# platform: paper 1.21.8
+# java: 21.0.8
+# expect: SIG-PA-001
+# source: synthetic (формат latest.log: необработанное исключение потока через STDERR)
+[03:10:44] [Craft Scheduler Thread - 41/WARN]: Exception in thread "Craft Scheduler Thread - 41" java.lang.OutOfMemoryError: Java heap space
+[03:10:46] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 12034ms or 240 ticks behind

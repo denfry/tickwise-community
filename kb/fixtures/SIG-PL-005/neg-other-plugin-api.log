@@ -1,0 +1,8 @@
+# platform: paper 26.2
+# expect: SIG-PL-004
+# source: synthetic (не хватает класса другого плагина, а не сервера)
+[10:00:05 ERROR]: Error occurred while enabling AntiXray v1.4 (Is it up to date?)
+java.lang.NoClassDefFoundError: com/comphenix/protocol/ProtocolLibrary
+	at AntiXray.jar/dev.example.antixray.AntiXray.onEnable(AntiXray.java:25) ~[AntiXray.jar:?]
+Caused by: java.lang.ClassNotFoundException: com.comphenix.protocol.ProtocolLibrary
+	at org.bukkit.plugin.java.PluginClassLoader.loadClass0(PluginClassLoader.java:197) ~[paper-api-26.2-R0.1-SNAPSHOT.jar:?]

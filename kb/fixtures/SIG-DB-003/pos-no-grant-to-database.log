@@ -1,0 +1,6 @@
+# platform: purpur 1.21.4
+# plugins: Plan 5.6
+# source: synthetic (ER_DBACCESS_DENIED_ERROR 1044 — пользователь есть, прав на базу нет)
+[16:40:00 ERROR]: [Plan] Database failed to initialize
+java.sql.SQLSyntaxErrorException: Access denied for user 'plan'@'%' to database 'plan'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:112)

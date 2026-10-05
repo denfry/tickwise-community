@@ -1,0 +1,6 @@
+# platform: paper 26.2
+# source: synthetic (нормальный старт)
+[12:00:03 INFO]: Starting Minecraft server on *:25565
+[12:00:03 INFO]: Using epoll channel type
+[12:00:03 INFO]: Paper: Using libdeflate (Linux x86_64) compression from Velocity.
+[12:00:09 INFO]: Done (6.214s)! For help, type "help"

@@ -1,0 +1,22 @@
+# platform: paper 26.2
+# expect: SIG-PA-002
+# source: synthetic (соседний сигнал — watchdog Paper)
+[03:37:00 ERROR]: ------------------------------
+[03:37:00 ERROR]: The server has stopped responding! This is (probably) not a Paper bug.
+[03:37:00 ERROR]: If you see a plugin in the Server thread dump below, then please report it to that author
+[03:37:00 ERROR]: 	 *Especially* if it looks like HTTP or MySQL operations are occurring
+[03:37:00 ERROR]: If you see a world save or edit, then it means you did far more than your server can handle at once
+[03:37:00 ERROR]: 	 If this is the case, consider increasing timeout-time in spigot.yml but note that this will replace the crash with LARGE lag spikes
+[03:37:00 ERROR]: If you are unsure or still think this is a Paper bug, please report this to https://github.com/PaperMC/Paper/issues
+[03:37:00 ERROR]: Be sure to include ALL relevant console errors and Minecraft crash reports
+[03:37:00 ERROR]: Paper version: 26.2-128-main@a1b2c3d (2026-09-10T10:00:00Z)
+[03:37:00 ERROR]: ------------------------------
+[03:37:00 ERROR]: Server thread dump (Look for plugins here before reporting to Paper!):
+[03:37:00 ERROR]: ------------------------------
+[03:37:00 ERROR]: Current Thread: Server thread
+[03:37:00 ERROR]: 	PID: 38 | Suspended: false | Native: true | State: RUNNABLE
+[03:37:00 ERROR]: 	Stack:
+[03:37:00 ERROR]: 		java.base@21.0.4/sun.nio.ch.Net.poll(Native Method)
+[03:37:00 ERROR]: 		MyStats.jar//dev.example.mystats.Storage.saveSync(Storage.java:77)
+[03:37:00 ERROR]: 		net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:1720)
+[03:37:00 ERROR]: ------------------------------

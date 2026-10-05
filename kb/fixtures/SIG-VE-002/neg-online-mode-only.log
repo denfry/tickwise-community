@@ -1,0 +1,3 @@
+# platform: velocity 3.5.1
+# source: synthetic (velocity.error.online-mode-only — пиратский клиент на online-прокси)
+[13:13:13] [Netty epoll Worker #1/INFO] [com.velocitypowered.proxy.connection.client.InitialInboundConnection]: [initial connection] /198.51.100.41:50001 has disconnected: You are not logged into your Minecraft account. If you are logged into your Minecraft account, try restarting your Minecraft client.

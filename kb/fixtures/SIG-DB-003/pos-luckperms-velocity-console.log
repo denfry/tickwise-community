@@ -1,0 +1,8 @@
+# platform: velocity 3.5.1
+# plugins: LuckPerms 5.5.17
+# expect: SIG-DB-002
+# source: synthetic (Velocity, стек через VelocityConsole построчно; пароль не задан)
+[10:00:02] [LuckPerms Scheduler Worker - 1/ERROR] [com.velocitypowered.proxy.console.VelocityConsole]: java.sql.SQLTransientConnectionException: luckperms-hikari - Connection is not available, request timed out after 5000ms (total=0, active=0, idle=0, waiting=0)
+[10:00:02] [LuckPerms Scheduler Worker - 1/ERROR] [com.velocitypowered.proxy.console.VelocityConsole]: 	at me.lucko.luckperms.lib.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:709)
+[10:00:02] [LuckPerms Scheduler Worker - 1/ERROR] [com.velocitypowered.proxy.console.VelocityConsole]: Caused by: java.sql.SQLInvalidAuthorizationSpecException: (conn=51) Access denied for user 'luckperms'@'10.0.0.1' (using password: NO)
+[10:00:02] [LuckPerms Scheduler Worker - 1/ERROR] [com.velocitypowered.proxy.console.VelocityConsole]: 	at me.lucko.luckperms.lib.mariadb.export.ExceptionFactory.createException(ExceptionFactory.java:295)

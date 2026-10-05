@@ -1,0 +1,44 @@
+id: SIG-WO-008
+version: 1
+title: "Чанк не сохраняется (Failed to save chunk)"
+category: world
+severity: error
+scope: server
+platforms: [paper, purpur]
+rule_ref: WO-08
+symptoms:
+  - "После перезапуска в части мира откатываются изменения игроков"
+  - "В логе: «Failed to save chunk (x,z) in world '…'» и stack trace"
+match:
+  log:
+    regex: 'Failed to save chunk (?:data )?(?:\(-?\d+,-?\d+\) in world ''[^''\n]*''|\[-?\d+, -?\d+\])'
+    literal: "Failed to save chunk"
+    level: ERROR
+    target: message
+cause: "Сервер не смог сериализовать или записать данные чанка. Изменения в этом чанке с момента последнего успешного сохранения могут быть потеряны."
+possible_causes:
+  - { text: "Проблема диска: нет места, нет прав на запись, ошибка ввода-вывода (см. Caused by)", weight: 0.5 }
+  - { text: "Некорректные данные блок-сущности/сущности (часто после вмешательства плагина) ломают сериализацию", weight: 0.35 }
+  - { text: "Баг сервера/форка", weight: 0.15 }
+fix:
+  instructions_md: |
+    1. Посмотрите исключение в evidence: `IOException`/`No space left on device`/`AccessDeniedException` — проблема диска или прав; `NullPointerException` в сериализации — повреждённые данные чанка.
+    2. Для диска: освободите место (`df -h`), проверьте владельца и права папки мира (сервер должен иметь запись в `world/region`).
+    3. Для данных: по координатам чанка (x,z) найдите место и проверьте блоки с данными (сундуки, спавнеры, блоки плагинов); обновите плагин, который их изменяет.
+    4. Сделайте резервную копию мира до перезапуска.
+  action: null
+  risk: medium
+confidence: 0.9
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/patches/features/0003-Moonrise-optimisation-patches.patch
+tests:
+  positive:
+    - fixtures/SIG-WO-008/pos-disk-full-console.log
+    - fixtures/SIG-WO-008/pos-save-data-npe-latest.log
+    - fixtures/SIG-WO-008/pos-access-denied.log
+  negative:
+    - fixtures/SIG-WO-008/neg-saving-info.log
+    - fixtures/SIG-WO-008/neg-chunk-io-halt.log
+    - fixtures/SIG-WO-008/neg-chunk-load-failure.log

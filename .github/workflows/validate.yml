@@ -1,0 +1,40 @@
+name: validate
+
+# Runs on every pull request and on main. The job has a read-only token and no secrets, so it is safe for
+# pull requests from forks. Never switch this workflow to pull_request_target.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  kb:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Privacy lint (IP addresses, e-mails, secrets)
+        run: bash scripts/lint-fixtures.sh
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      # The validator is the same code the Tickwise agent runs on a server, shipped as a zip in this
+      # repository's "tools" release. Its checksum is pinned in tools/KB_TOOLS_SHA256.
+      - name: Download kb-tools
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download tools --repo "$GITHUB_REPOSITORY" --pattern 'kb-tools.zip' --dir "$RUNNER_TEMP"
+          echo "$(cat tools/KB_TOOLS_SHA256)  $RUNNER_TEMP/kb-tools.zip" | sha256sum --check
+          unzip -q "$RUNNER_TEMP/kb-tools.zip" -d "$RUNNER_TEMP/kb-tools"
+
+      - name: Validate signatures and run every fixture
+        run: |
+          "$(echo "$RUNNER_TEMP"/kb-tools/*/bin/kb-tools)" test --kb kb

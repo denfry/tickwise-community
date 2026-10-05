@@ -1,0 +1,3 @@
+# platform: paper 26.2
+# source: synthetic (соседнее сообщение PaperEventManager — AuthorNagException)
+[14:00:12 ERROR]: Nag author(s): '[ExampleDev]' of 'OldCompass v1.0' about the following: This plugin is not properly shutting down its async tasks when it is being shut down. This task may throw errors during the final shutdown logs and might not complete before process dies.

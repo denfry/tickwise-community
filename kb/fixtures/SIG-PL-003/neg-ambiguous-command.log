@@ -1,0 +1,3 @@
+# platform: paper 1.21.8
+# source: synthetic (слово «ambiguous» в контексте команд, не плагинов)
+[07:41:00] [Server thread/WARN]: [Essentials] Ambiguous command /home: using essentials:home over homes:home

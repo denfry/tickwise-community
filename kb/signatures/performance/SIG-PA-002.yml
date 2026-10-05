@@ -1,0 +1,44 @@
+id: SIG-PA-002
+version: 1
+title: "Watchdog: сервер завис и будет остановлен (The server has stopped responding!)"
+category: performance
+severity: critical
+scope: server
+platforms: [paper, purpur]
+rule_ref: PA-02
+symptoms:
+  - "Сервер перестал отвечать, игроков выкинуло по таймауту, затем процесс остановился/перезапустился"
+  - "В логе: «The server has stopped responding!» и дамп потока Server thread"
+match:
+  log:
+    regex: 'The server has stopped responding! This is \(probably\) not a [A-Za-z]+ bug\.'
+    literal: "The server has stopped responding!"
+    level: ERROR
+    target: message
+cause: "Основной поток сервера не завершал тик дольше timeout-time из spigot.yml (по умолчанию 60 с); watchdog напечатал дамп потоков и останавливает сервер. Виновник обычно виден во фреймах Server thread."
+possible_causes:
+  - { text: "Плагин блокирует основной поток (синхронный HTTP/SQL-запрос, бесконечный цикл, deadlock)", weight: 0.5 }
+  - { text: "Огромная операция с миром (WorldEdit, взрыв/редстоун-машина, сохранение мира на медленном диске)", weight: 0.3 }
+  - { text: "Нехватка ресурсов: CPU/диск хоста, OOM-пауза GC", weight: 0.2 }
+fix:
+  instructions_md: |
+    1. В дампе `Server thread` найдите первые фреймы, принадлежащие плагину (пакет/jar плагина), — это наиболее вероятный виновник; фреймы `sun.nio`/`java.net`/`com.mysql` рядом означают блокирующий сетевой запрос.
+    2. Обновите или временно отключите этот плагин; сообщите автору с дампом.
+    3. Если в дампе сохранение мира/чанков — проверьте диск (свободное место, скорость) и не запускайте тяжёлые операции WorldEdit на ходу.
+    4. Не увеличивайте `timeout-time` в `spigot.yml` как «решение» — это превращает падения в длинные зависания.
+  action: null
+  risk: low
+confidence: 0.95
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/src/main/java/org/spigotmc/WatchdogThread.java
+tests:
+  positive:
+    - fixtures/SIG-PA-002/pos-console-mysql-frame.log
+    - fixtures/SIG-PA-002/pos-leaf-latest.log
+    - fixtures/SIG-PA-002/pos-after-early-warnings.log
+  negative:
+    - fixtures/SIG-PA-002/neg-early-warning-only.log
+    - fixtures/SIG-PA-002/neg-normal-shutdown.log
+    - fixtures/SIG-PA-002/neg-plugin-not-responding.log

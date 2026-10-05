@@ -1,0 +1,12 @@
+# platform: paper 1.21.8
+# plugins: LuckPerms 5.5.17
+# expect: SIG-DB-001
+# source: politernal-sanitized (структура реальной ошибки, 2026-09-20)
+[09:20:00] [ForkJoinPool.commonPool-worker-3/WARN]: java.sql.SQLTransientConnectionException: luckperms-hikari - Connection is not available, request timed out after 5003ms (total=0, active=0, idle=0, waiting=0)
+[09:20:00] [ForkJoinPool.commonPool-worker-3/WARN]: 	at me.lucko.luckperms.lib.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:709)
+[09:20:00] [ForkJoinPool.commonPool-worker-3/WARN]: 	at me.lucko.luckperms.lib.hikari.pool.HikariPool.getConnection(HikariPool.java:188)
+[09:20:00] [ForkJoinPool.commonPool-worker-3/WARN]: 	at me.lucko.luckperms.lib.hikari.HikariDataSource.getConnection(HikariDataSource.java:99)
+[09:20:00] [ForkJoinPool.commonPool-worker-3/WARN]: 	at me.lucko.luckperms.common.messaging.sql.SqlMessenger.getConnection(SqlMessenger.java:57)
+[09:20:00] [ForkJoinPool.commonPool-worker-3/WARN]: Caused by: java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=<ip:1a2b3c4d>)(port=3306)(type=primary). Connection refused
+[09:20:00] [ForkJoinPool.commonPool-worker-3/WARN]: 	at me.lucko.luckperms.lib.mariadb.client.impl.ConnectionHelper.connectSocket(ConnectionHelper.java:136)
+[09:20:00] [ForkJoinPool.commonPool-worker-3/WARN]: 	... 12 more

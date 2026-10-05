@@ -1,0 +1,6 @@
+# platform: velocity 3.5.1
+# plugins: LuckPerms 5.5.17
+# source: synthetic (Velocity, стек через VelocityConsole построчно; ER_CON_COUNT_ERROR 1040)
+[20:00:00] [LuckPerms - Task Executor #3/ERROR] [com.velocitypowered.proxy.console.VelocityConsole]: java.sql.SQLNonTransientConnectionException: Too many connections
+[20:00:00] [LuckPerms - Task Executor #3/ERROR] [com.velocitypowered.proxy.console.VelocityConsole]: 	at me.lucko.luckperms.lib.mariadb.export.ExceptionFactory.createException(ExceptionFactory.java:293)
+[20:00:00] [LuckPerms - Task Executor #3/ERROR] [com.velocitypowered.proxy.console.VelocityConsole]: 	at me.lucko.luckperms.lib.mariadb.client.impl.StandardClient.<init>(StandardClient.java:180)

@@ -1,0 +1,50 @@
+id: SIG-VE-002
+version: 1
+title: "Forwarding secret Velocity не совпадает с секретом backend"
+category: velocity
+severity: critical
+scope: network
+platforms: [paper, purpur, velocity]
+rule_ref: VE-02
+symptoms:
+  - "Все игроки кикаются при входе на backend с «Unable to verify player details»"
+  - "Modern forwarding включён с обеих сторон, но HMAC-проверка данных игрока на backend не проходит"
+match:
+  log:
+    # Paper: VelocityProxy.checkIntegrity() == false → disconnect("Unable to verify player details").
+    # На backend: «Disconnecting <player> (/ip:port): …»; на прокси: «disconnected while connecting to <server>: …»
+    # и «has disconnected: Unable to connect to <server>: …». Текст Paper не переводится.
+    regex: ': Unable to verify player details\s*$'
+    literal: "Unable to verify player details"
+    target: message
+cause: "Backend получил modern-forwarding данные, но их подпись (HMAC-SHA256) не сходится: значение proxies.velocity.secret на backend отличается от forwarding secret прокси."
+possible_causes:
+  - { text: "proxies.velocity.secret в config/paper-global.yml не совпадает с содержимым forwarding.secret прокси (опечатка, лишний пробел/перевод строки, секрет от другого прокси)", weight: 0.75 }
+  - { text: "Секрет на прокси перегенерирован (файл forwarding.secret удалён — Velocity создал новый) или задан переменной окружения VELOCITY_FORWARDING_SECRET, а backend не обновлён", weight: 0.2 }
+  - { text: "Backend не перезапущен после смены секрета", weight: 0.05 }
+fix:
+  instructions_md: |
+    1. На прокси найдите действующий секрет: файл из `forwarding-secret-file` в `velocity.toml` (по умолчанию `forwarding.secret`); если задана переменная окружения `VELOCITY_FORWARDING_SECRET`, действует она.
+    2. На каждом backend в `config/paper-global.yml` установите `proxies.velocity.secret` ровно в это значение (без лишних пробелов и переносов строк). Копируйте локально — не пересылайте секрет в чаты, тикеты и сторонние сервисы; Tickwise сравнивает секреты без раскрытия.
+    3. Если за прокси несколько backend — секрет должен быть одинаковым на всех.
+    4. Перезапустите backend: секрет читается только при старте.
+  action: null
+  risk: medium
+confidence: 0.85
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Paper/blob/main/paper-server/patches/sources/net/minecraft/server/network/ServerLoginPacketListenerImpl.java.patch
+  - https://github.com/PaperMC/Velocity/blob/dev/3.0.0/proxy/src/main/java/com/velocitypowered/proxy/connection/client/ConnectedPlayer.java
+  - https://github.com/PaperMC/Velocity/blob/dev/3.0.0/proxy/src/main/java/com/velocitypowered/proxy/config/VelocityConfiguration.java
+  - https://docs.papermc.io/velocity/player-information-forwarding
+tests:
+  positive:
+    - fixtures/SIG-VE-002/pos-backend-paper-file.log
+    - fixtures/SIG-VE-002/pos-backend-purpur-console.log
+    - fixtures/SIG-VE-002/pos-proxy-latest.log
+  negative:
+    - fixtures/SIG-VE-002/neg-requires-velocity.log
+    - fixtures/SIG-VE-002/neg-failed-to-verify-username.log
+    - fixtures/SIG-VE-002/neg-online-mode-only.log
+    - fixtures/SIG-VE-002/neg-unable-to-authenticate.log

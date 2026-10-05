@@ -1,0 +1,6 @@
+# platform: paper 1.21.8
+# source: synthetic (формат latest.log)
+[07:40:10] [Server thread/ERROR]: [ModernPluginLoadingStrategy] Could not load plugin 'Nexo-1.12.jar' in folder 'plugins/.paper-remapped'
+org.bukkit.plugin.InvalidPluginException: Unsupported API version 1.21.10
+	at org.bukkit.craftbukkit.util.CraftMagicNumbers.checkSupported(CraftMagicNumbers.java:378) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at io.papermc.paper.plugin.provider.type.spigot.SpigotPluginProvider.createInstance(SpigotPluginProvider.java:121) ~[paper-1.21.8.jar:1.21.8-60-29c8822]

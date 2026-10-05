@@ -1,0 +1,4 @@
+# platform: velocity 3.5.1
+# source: politernal-sanitized (прокси, 2026-09-07: обычный выход игрока)
+[16:47:27] [Netty epoll Worker #1/INFO] [com.velocitypowered.proxy.connection.MinecraftConnection]: [connected player] <player:a4dd6254> (/<ip:429b676d>:54171) has disconnected
+[16:47:27] [Netty epoll Worker #1/INFO] [com.velocitypowered.proxy.connection.MinecraftConnection]: [server connection] <player:a4dd6254> -> lobby has disconnected

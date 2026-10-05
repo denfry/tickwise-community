@@ -1,0 +1,4 @@
+# platform: velocity 3.5.1
+# source: synthetic (формат latest.log; прокси в legacy/none, backend ждёт modern; игрок ушёл на fallback)
+[11:02:33] [Netty epoll Worker #0/ERROR] [com.velocitypowered.proxy.connection.client.ConnectedPlayer]: [connected player] Builder42 (/203.0.113.90:60311): disconnected while connecting to survival: This server requires you to connect with Velocity.
+[11:02:33] [Netty epoll Worker #0/INFO] [com.velocitypowered.proxy.connection.MinecraftConnection]: [server connection] Builder42 -> lobby has connected

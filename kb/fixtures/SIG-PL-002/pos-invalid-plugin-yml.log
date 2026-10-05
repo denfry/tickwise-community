@@ -1,0 +1,8 @@
+# platform: paper 1.21.11
+# source: synthetic (plugin.yml без поля main; текст из PluginDescriptionFile)
+[09:30:12 ERROR]: [DirectoryProviderSource] Error loading plugin: main is not defined
+org.bukkit.plugin.InvalidDescriptionException: main is not defined
+	at org.bukkit.plugin.PluginDescriptionFile.loadMap(PluginDescriptionFile.java:1109) ~[paper-api-1.21.11-R0.1-SNAPSHOT.jar:?]
+	at org.bukkit.plugin.PluginDescriptionFile.<init>(PluginDescriptionFile.java:268) ~[paper-api-1.21.11-R0.1-SNAPSHOT.jar:?]
+Caused by: java.lang.NullPointerException
+	at org.bukkit.plugin.PluginDescriptionFile.loadMap(PluginDescriptionFile.java:1103) ~[paper-api-1.21.11-R0.1-SNAPSHOT.jar:?]

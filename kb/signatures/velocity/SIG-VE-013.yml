@@ -1,0 +1,56 @@
+id: SIG-VE-013
+version: 1
+title: "Обрыв соединения с backend посреди игровой сессии"
+category: velocity
+severity: error
+scope: network
+platforms: [velocity]
+rule_ref: VE-13
+symptoms:
+  - "Игроков выбрасывает с сервера во время игры: «Your connection to <server> encountered a problem.»"
+  - "В логе прокси: «[server connection] <player> -> <server>: exception encountered in …BackendPlaySessionHandler»"
+match:
+  any:
+    - log:
+        # velocity.error.connected-server-error (английская локаль по умолчанию): ConnectedPlayer.handleConnectionException,
+        # когда исключение пришло от уже подключённого сервера и fallback не нашёлся.
+        regex: 'has disconnected: Your connection to [\w.-]+ encountered a problem\.'
+        literal: "encountered a problem."
+        target: message
+    - log:
+        # MinecraftConnection.exceptionCaught: «{association}: exception encountered in {handler}».
+        # BackendPlaySessionHandler = состояние PLAY, т.е. игрок уже был на сервере (не фаза подключения).
+        regex: '\[server connection\] [^\n]* -> [\w.-]+: exception encountered in com\.velocitypowered\.proxy\.connection\.backend\.BackendPlaySessionHandler'
+        literal: "BackendPlaySessionHandler"
+        target: message
+cause: "Соединение прокси с backend оборвалось, когда игрок уже находился на сервере: backend упал, завис или перезапустился, либо соединение сбросила сеть."
+possible_causes:
+  - { text: "Backend упал или был перезапущен (Connection reset by peer) — облако сопоставляет с крашем/рестартом backend (NW-01)", weight: 0.5 }
+  - { text: "Backend завис/сильно лагает и соединение рвётся по таймауту или ошибке протокола", weight: 0.25 }
+  - { text: "Сетевые проблемы между прокси и backend (разные хосты/ДЦ, перегруженный канал, conntrack)", weight: 0.2 }
+  - { text: "Тексты киков Velocity переводимы и переопределяемы; основной источник — API-события Velocity-агента", weight: 0.05, advisory: true }
+fix:
+  instructions_md: |
+    1. Посмотрите исключение под строкой `exception encountered in …BackendPlaySessionHandler` и время события.
+    2. Проверьте latest.log backend за те же ±2 минуты: краш, watchdog («The server has stopped responding!»), OutOfMemoryError, перезапуск.
+    3. Если backend работал нормально — проверьте сеть между прокси и backend (потери пакетов, лимиты conntrack, перегрузка канала).
+    4. Держите в `try` рабочий fallback-сервер, чтобы игроков переносило, а не отключало от сети.
+  action: null
+  risk: low
+confidence: 0.8
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Velocity/blob/dev/3.0.0/proxy/src/main/java/com/velocitypowered/proxy/connection/MinecraftConnection.java
+  - https://github.com/PaperMC/Velocity/blob/dev/3.0.0/proxy/src/main/java/com/velocitypowered/proxy/connection/client/ConnectedPlayer.java
+  - https://github.com/PaperMC/Velocity/blob/dev/3.0.0/proxy/src/main/resources/com/velocitypowered/proxy/l10n/messages.properties
+tests:
+  positive:
+    - fixtures/SIG-VE-013/pos-backend-reset-in-session.log
+    - fixtures/SIG-VE-013/pos-kick-connection-problem.log
+    - fixtures/SIG-VE-013/pos-decoder-error-console.log
+  negative:
+    - fixtures/SIG-VE-013/neg-read-timeout-while-connecting.log
+    - fixtures/SIG-VE-013/neg-login-handler-error.log
+    - fixtures/SIG-VE-013/neg-client-side-error.log
+    - fixtures/SIG-VE-013/neg-server-closed-kick.log

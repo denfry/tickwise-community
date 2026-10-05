@@ -1,0 +1,4 @@
+# platform: paper 1.21.8
+# source: synthetic (Paper без прокси, online-mode=true; текст из ServerLoginPacketListenerImpl)
+[17:20:01] [User Authenticator #3/ERROR]: Couldn't verify username because servers are unavailable
+[17:20:01] [User Authenticator #3/INFO]: Disconnecting Steve (/198.51.100.7:40211): Authentication servers are down. Please try again later, sorry!

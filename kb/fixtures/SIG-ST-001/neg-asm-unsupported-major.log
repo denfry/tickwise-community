@@ -1,0 +1,7 @@
+# platform: paper 1.21.11
+# java: 21.0.4
+# source: synthetic (ASM старой библиотеки плагина не понимает class file — это не несовместимость Java сервера)
+[11:20:40 WARN]: [SkinsRestorer] Failed to transform class for injection
+java.lang.IllegalArgumentException: Unsupported class file major version 69
+	at net.skinsrestorer.shadow.asm.ClassReader.<init>(ClassReader.java:200) ~[SkinsRestorer.jar:?]
+	at net.skinsrestorer.bukkit.utils.Injector.transform(Injector.java:51) ~[SkinsRestorer.jar:?]

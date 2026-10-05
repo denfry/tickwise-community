@@ -1,0 +1,5 @@
+# platform: paper 26.2
+# java: 25-ea
+# source: synthetic (проверка отключена флагом, сервер продолжает запуск — другой сценарий)
+Unsupported Java detected (25-ea), but the check was skipped. Proceed with caution!
+[08:00:00 INFO]: [bootstrap] Running Java 25 (OpenJDK 64-Bit Server VM 25-ea+30-3123; Oracle Corporation) on Linux 6.8.0 (amd64)

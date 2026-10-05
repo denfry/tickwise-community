@@ -1,0 +1,4 @@
+# platform: paper 1.21.8
+# source: synthetic (форма как в politernal-sanitized: сообщение самого плагина о подсистеме, плагин не выключен)
+[07:40:30] [Server thread/ERROR]: [LuckPerms] Exception occurred whilst enabling SQL messaging service
+[07:40:31] [Server thread/INFO]: [LuckPerms] Successfully enabled. (took 1520ms)

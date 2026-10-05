@@ -1,0 +1,5 @@
+# platform: purpur 1.21.11
+# source: synthetic (другая ошибка ввода-вывода)
+[14:02:00 WARN]: [DiscordLink] Failed to send message
+java.io.IOException: Broken pipe
+	at java.base/sun.nio.ch.SocketDispatcher.write0(Native Method)

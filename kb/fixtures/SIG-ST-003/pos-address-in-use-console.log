@@ -1,0 +1,8 @@
+# platform: paper 26.2
+# java: 25.0.1
+# source: synthetic (текст из DedicatedServer.java.patch; порт занят дубликатом)
+[12:00:03 INFO]: Starting Minecraft server on *:25565
+[12:00:03 INFO]: Using epoll channel type
+[12:00:03 WARN]: **** FAILED TO BIND TO PORT!
+[12:00:03 WARN]: The exception was: io.netty.channel.unix.Errors$NativeIoException: bind(..) failed: Address already in use
+[12:00:03 WARN]: Perhaps a server is already running on that port?

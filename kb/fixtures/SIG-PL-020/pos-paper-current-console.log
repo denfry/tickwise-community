@@ -1,0 +1,7 @@
+# platform: paper 26.2
+# source: synthetic (текущий текст PaperPluginInstanceManager, без «Is it up to date?»)
+[23:59:01 INFO]: [Citizens] Disabling Citizens v2.0.39-SNAPSHOT (build 3900)
+[23:59:01 ERROR]: Error occurred while disabling Citizens v2.0.39-SNAPSHOT (build 3900)
+java.lang.IllegalStateException: zip file closed
+	at java.base/java.util.zip.ZipFile.ensureOpen(ZipFile.java:846)
+	at Citizens.jar/net.citizensnpcs.Citizens.onDisable(Citizens.java:312) ~[Citizens.jar:?]

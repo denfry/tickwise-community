@@ -1,0 +1,64 @@
+# Allowlist конфиг-ключей (minecraft/config-analysis.md). Всё, чего здесь нет, отправляется только как sha256+размер.
+# Агент дополнительно применяет НЕИЗМЕНЯЕМЫЙ denylist: ключи с pass|secret|token|key|webhook|rcon|auth|credential
+# всегда уходят как present_length, даже если здесь указано value (инвариант I-5).
+keys:
+  - { file: server.properties, key: online-mode, send: value }
+  - { file: server.properties, key: server-ip, send: present_length }
+  - { file: server.properties, key: server-port, send: value }
+  - { file: server.properties, key: view-distance, send: value }
+  - { file: server.properties, key: simulation-distance, send: value }
+  - { file: server.properties, key: max-players, send: value }
+  - { file: server.properties, key: network-compression-threshold, send: value }
+  - { file: server.properties, key: enforce-secure-profile, send: value }
+  - { file: server.properties, key: enable-rcon, send: value }
+  - { file: server.properties, key: rcon.password, send: present_length }
+  - { file: server.properties, key: enable-query, send: value }
+  - { file: server.properties, key: white-list, send: value }
+  - { file: server.properties, key: enforce-whitelist, send: value }
+  - { file: server.properties, key: sync-chunk-writes, send: value }
+  - { file: server.properties, key: require-resource-pack, send: value }
+  - { file: server.properties, key: resource-pack, send: present_length }
+  - { file: server.properties, key: resource-pack-sha1, send: present_length }
+  - { file: server.properties, key: level-name, send: hash_only }
+  - { file: config/paper-global.yml, key: proxies.velocity.enabled, send: value }
+  - { file: config/paper-global.yml, key: proxies.velocity.online-mode, send: value }
+  - { file: config/paper-global.yml, key: proxies.velocity.secret, send: present_length }
+  - { file: config/paper-global.yml, key: proxies.bungee-cord.online-mode, send: value }
+  - { file: config/paper-global.yml, key: chunk-system.io-threads, send: value }
+  - { file: config/paper-global.yml, key: chunk-system.worker-threads, send: value }
+  - { file: config/paper-global.yml, key: watchdog.early-warning-delay, send: value }
+  - { file: config/paper-global.yml, key: watchdog.early-warning-every, send: value }
+  - { file: config/paper-world-defaults.yml, key: entities.spawning.per-player-mob-spawns, send: value }
+  - { file: config/paper-world-defaults.yml, key: chunks.auto-save-interval, send: value }
+  - { file: config/paper-world-defaults.yml, key: chunks.max-auto-save-chunks-per-tick, send: value }
+  - { file: config/paper-world-defaults.yml, key: collisions.max-entity-collisions, send: value }
+  - { file: config/paper-world-defaults.yml, key: hopper.cooldown-when-full, send: value }
+  - { file: config/paper-world-defaults.yml, key: hopper.disable-move-event, send: value }
+  - { file: spigot.yml, key: settings.bungeecord, send: value }
+  - { file: spigot.yml, key: settings.restart-on-crash, send: value }
+  - { file: spigot.yml, key: settings.restart-script, send: present_length }
+  - { file: spigot.yml, key: settings.timeout-time, send: value }
+  - { file: bukkit.yml, key: settings.connection-throttle, send: value }
+  - { file: velocity.toml, key: player-info-forwarding-mode, send: value }
+  - { file: velocity.toml, key: forwarding-secret-file, send: present_length }
+  - { file: velocity.toml, key: online-mode, send: value }
+  - { file: velocity.toml, key: force-key-authentication, send: value }
+  - { file: velocity.toml, key: servers.try, send: value }
+  - { file: velocity.toml, key: advanced.compression-threshold, send: value }
+  - { file: velocity.toml, key: advanced.login-ratelimit, send: value }
+  - { file: velocity.toml, key: advanced.connection-timeout, send: value }
+  - { file: velocity.toml, key: advanced.read-timeout, send: value }
+  - { file: velocity.toml, key: advanced.haproxy-protocol, send: value }
+  - { file: plugins/LuckPerms/config.yml, key: storage-method, send: value }
+  - { file: plugins/LuckPerms/config.yml, key: messaging-service, send: value }
+  - { file: plugins/LuckPerms/config.yml, key: data.pool-settings.maximum-pool-size, send: value }
+# Логгеры чат-плагинов: их события отбрасываются до санитайзера (agent.md §3.5)
+chat_loggers:
+  - VentureChat
+  - ChatControl
+  - ChatControlRed
+  - TownyChat
+  - CMIChat
+  - EssentialsChat
+  - HuskChat
+  - LPC

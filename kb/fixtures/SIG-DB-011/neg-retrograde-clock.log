@@ -1,0 +1,3 @@
+# platform: paper 1.21.11
+# source: synthetic (часы ушли назад — другое сообщение HouseKeeper)
+[05:12:44 WARN]: HikariPool-1 - Retrograde clock change detected (housekeeper delta=-1s2ms), soft-evicting connections from pool.

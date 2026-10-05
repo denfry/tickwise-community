@@ -1,0 +1,5 @@
+# platform: paper 1.21.11
+# source: synthetic (нормальное включение и сообщение «up to date»)
+[10:00:05 INFO]: [Vault] Enabling Vault v1.7.3-b131
+[10:00:05 INFO]: [Vault] Checking for updates... Vault is up to date.
+[10:00:06 INFO]: [ViaVersion] Enabling ViaVersion v5.4.2

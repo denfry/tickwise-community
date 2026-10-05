@@ -1,0 +1,6 @@
+# platform: velocity 3.5.1
+# source: politernal-sanitized (прокси, 2026-09-12; строки ConnectedPlayer + исключение без заголовка)
+[23:03:53] [Netty epoll Worker #1/ERROR] [com.velocitypowered.proxy.connection.client.ConnectedPlayer]: [connected player] <player:fbecaafc> (/<ip:53cd525f>:14851): unable to connect to server lobby
+io.netty.channel.AbstractChannel$AnnotatedConnectException: finishConnect(..) failed with error(-111): Connection refused: /<ip:6d113037>:25572
+Caused by: java.net.ConnectException: finishConnect(..) failed with error(-111): Connection refused
+	at io.netty.channel.unix.Errors.newConnectException0(Errors.java:166)

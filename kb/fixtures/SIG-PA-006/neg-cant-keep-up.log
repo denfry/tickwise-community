@@ -1,0 +1,4 @@
+# platform: paper 1.21.8
+# expect: SIG-PA-001
+# source: synthetic (соседний сигнал — отставание тиков)
+[03:38:00] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 3012ms or 60 ticks behind

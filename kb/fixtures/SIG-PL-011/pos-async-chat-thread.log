@@ -1,0 +1,6 @@
+# platform: purpur 1.21.11
+# source: synthetic (ошибка в потоке асинхронного чата: уровень ERROR, событие не отбрасывается как чат)
+[18:40:03] [Async Chat Thread - #2/ERROR]: Could not pass event AsyncChatEvent to ChatFormatter v11.3.1
+java.lang.IllegalArgumentException: Invalid MiniMessage tag in format 'chat.global'
+	at ChatFormatter.jar/dev.example.chat.FormatListener.onChat(FormatListener.java:88) ~[ChatFormatter.jar:?]
+	at io.papermc.paper.plugin.manager.PaperEventManager.callEvent(PaperEventManager.java:54) ~[purpur-1.21.11.jar:1.21.11-2512-c0ffee1]

@@ -1,0 +1,4 @@
+# platform: paper 1.21.8
+# source: politernal-sanitized (Leaf 1.21.8, 2026-09-19: HikariCP отбраковывает протухшие соединения — БД доступна; пакет обезличен)
+[00:01:30] [Server thread/WARN]: [com.example.libs.hikari.pool.PoolBase] HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@a261af9 (Communications link failure). Possibly consider using a shorter maxLifetime value.
+[00:01:30] [Server thread/WARN]: [com.example.libs.hikari.pool.PoolBase] HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@1d332fc1 (Communications link failure). Possibly consider using a shorter maxLifetime value.

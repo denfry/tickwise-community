@@ -1,0 +1,3 @@
+# platform: paper 1.21.11
+# source: synthetic (соседняя ошибка раннего старта из того же Main.java)
+Cannot run server in a directory with ! or + in the pathname. Please rename the affected folders and try again.

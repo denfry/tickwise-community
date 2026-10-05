@@ -1,0 +1,7 @@
+# platform: paper 26.3
+# java: 26-ea
+# source: synthetic (консоль панели: строки paperclip перед сообщением)
+Downloading mojang_26.3.jar
+Applying patches
+Starting org.bukkit.craftbukkit.Main
+Unsupported Java detected (26-ea). You are running an unsupported, non official, version. Only general availability versions of Java are supported. Please update your Java version. See https://docs.papermc.io/paper/faq#unsupported-java-detected-what-do-i-do for more information.

@@ -1,0 +1,5 @@
+# platform: paper 1.21.11
+# source: synthetic (MCUtil.ensureMain: предупреждение без сообщения в IllegalStateException, операция выполняется в основном потоке)
+[04:00:00 WARN]: Asynchronous Save Players!
+java.lang.IllegalStateException: null
+	at io.papermc.paper.util.MCUtil.ensureMain(MCUtil.java:130) ~[paper-1.21.11.jar:1.21.11-130-3b5e1f2]

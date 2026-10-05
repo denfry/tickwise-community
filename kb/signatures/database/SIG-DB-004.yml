@@ -1,0 +1,50 @@
+id: SIG-DB-004
+version: 1
+title: "Превышен лимит соединений БД (Too many connections)"
+category: database
+severity: error
+scope: network
+platforms: [paper, purpur, velocity]
+rule_ref: DB-04
+symptoms:
+  - "Новые соединения с MySQL/MariaDB отклоняются: «Too many connections» (ошибка 1040)"
+  - "Плагины на части серверов сети не могут подключиться к общей БД"
+match:
+  log:
+    # ER_CON_COUNT_ERROR (1040) «Too many connections» как сообщение исключения драйвера:
+    # MariaDB «(conn=N) Too many connections», Connector/J 5.1 «Data source rejected establishment of connection,
+    # message from server: "Too many connections"», HikariCP «Failed to initialize pool: Too many connections».
+    # Якорь на «…Exception: » исключает сообщения анти-бот плагинов вида «Too many connections from your IP».
+    regex: '(?m)(?:Exception|<secret:high_entropy>): (?:\(conn=\d+\) |Data source rejected establishment of connection, +message from server: "|Failed to initialize pool: (?:\(conn=\d+\) )?)?Too many connections"?\.?\s*$'
+    literal: "Too many connections"
+    level: WARN
+    target: text
+cause: "Сервер БД исчерпал max_connections: суммарные пулы соединений плагинов на всех серверах сети (или посторонние клиенты) держат больше соединений, чем разрешено."
+possible_causes:
+  - { text: "Сумма maximum-pool-size всех плагинов × число серверов сети больше max_connections БД (часто на shared-хостинге БД лимит 10–50)", weight: 0.6 }
+  - { text: "Утечка соединений в плагине или «зависшие» соединения после падений серверов", weight: 0.25 }
+  - { text: "Лимит max_user_connections для пользователя БД ниже, чем нужно пулам", weight: 0.15 }
+fix:
+  instructions_md: |
+    1. Посчитайте суммарный размер пулов: для каждого сервера сети сложите `maximum-pool-size` плагинов с MySQL/MariaDB (LuckPerms по умолчанию 10) и умножьте на число серверов.
+    2. Сравните с `SHOW VARIABLES LIKE 'max_connections';` (и `max_user_connections`) на БД; текущие соединения — `SHOW STATUS LIKE 'Threads_connected';`.
+    3. Уменьшите `maximum-pool-size` там, где нагрузка небольшая (для LuckPerms на backend часто хватает 3–5), или поднимите `max_connections`, если БД это позволяет.
+    4. Если соединений больше, чем должно быть по конфигам, — ищите утечку (включите `leak-detection-threshold`, см. SIG-DB-012).
+  action: null
+  risk: low
+confidence: 0.85
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/mysql/mysql-server/blob/trunk/share/messages_to_clients.txt
+  - https://github.com/MariaDB/server/blob/main/sql/share/errmsg-utf8.txt
+  - https://dev.mysql.com/doc/refman/8.0/en/too-many-connections.html
+tests:
+  positive:
+    - fixtures/SIG-DB-004/pos-mariadb-luckperms-velocity.log
+    - fixtures/SIG-DB-004/pos-mysql-legacy-driver-paper.log
+    - fixtures/SIG-DB-004/pos-hikari-init-console.log
+  negative:
+    - fixtures/SIG-DB-004/neg-antibot-too-many-connections.log
+    - fixtures/SIG-DB-004/neg-pool-exhausted.log
+    - fixtures/SIG-DB-004/neg-info-pool-stats.log

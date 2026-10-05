@@ -1,0 +1,36 @@
+name: A signature is wrong
+description: A signature fires when it should not (false positive) or misses the error (false negative), or its advice is wrong.
+title: "[SIG-XX-000] "
+labels: ["signature"]
+body:
+  - type: input
+    id: id
+    attributes:
+      label: Signature id
+      placeholder: SIG-DB-001
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What is wrong?
+      options:
+        - It fires on a log where it should not (false positive)
+        - It does not fire on a log where it should (false negative)
+        - The explanation or the steps are wrong or outdated
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Log fragment (sanitized) or the correct advice
+      render: text
+    validations:
+      required: true
+  - type: checkboxes
+    id: sanitized
+    attributes:
+      label: Privacy
+      options:
+        - label: I removed IP addresses, player names, domains, e-mails, passwords and tokens.
+          required: true

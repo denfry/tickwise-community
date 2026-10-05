@@ -1,0 +1,44 @@
+id: SIG-DB-002
+version: 1
+title: "Пул соединений с БД исчерпан (HikariCP: Connection is not available)"
+category: database
+severity: error
+scope: server
+platforms: [paper, purpur, velocity]
+rule_ref: DB-02
+symptoms:
+  - "Плагин не может получить соединение из пула за отведённое время"
+  - "Команды/входы, зависящие от БД (права, экономика), тормозят или падают"
+match:
+  log:
+    regex: '[\w.-]+ - Connection is not available, request timed out after \d+ms'
+    literal: "Connection is not available, request timed out after"
+    level: WARN
+    target: text
+cause: "Плагин не получил соединение из пула HikariCP: БД недоступна, пул слишком мал для нагрузки или соединения утекают/зависают на медленных запросах."
+possible_causes:
+  - { text: "Сервер БД недоступен или отклоняет подключения (см. Caused by: Connection refused / Socket fail to connect)", weight: 0.55 }
+  - { text: "Размер пула (maximum-pool-size) меньше конкурентной нагрузки или max_connections БД исчерпан", weight: 0.25 }
+  - { text: "Утечка соединений или долгие запросы в плагине", weight: 0.2 }
+fix:
+  instructions_md: |
+    1. Посмотрите строку `Caused by:` в evidence: `Connection refused` / `Socket fail to connect` — БД недоступна (проверьте сервис БД, хост и порт в конфиге плагина).
+    2. Если БД доступна — проверьте `maximum-pool-size` плагина и `max_connections` БД (сумма пулов всех серверов сети не должна превышать лимит).
+    3. Если ошибка повторяется при нормальной БД — обновите плагин и включите `leak-detection-threshold` для поиска утечки.
+  action: null
+  risk: low
+confidence: 0.85
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing
+  - https://luckperms.net/wiki/Storage-types
+tests:
+  positive:
+    - fixtures/SIG-DB-002/pos-luckperms-paper.log
+    - fixtures/SIG-DB-002/pos-luckperms-velocity.log
+    - fixtures/SIG-DB-002/pos-hikaripool-plugin.log
+  negative:
+    - fixtures/SIG-DB-002/neg-pool-starting.log
+    - fixtures/SIG-DB-002/neg-info-mention.log
+    - fixtures/SIG-DB-002/neg-validate-connection.log

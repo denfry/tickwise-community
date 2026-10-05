@@ -1,0 +1,7 @@
+# platform: paper 1.21.8
+# source: synthetic (формат latest.log; server-ip не принадлежит машине)
+[08:12:40] [Server thread/INFO]: Starting Minecraft server on 10.20.30.40:25565
+[08:12:40] [Server thread/INFO]: Using epoll channel type
+[08:12:40] [Server thread/WARN]: **** FAILED TO BIND TO PORT!
+[08:12:40] [Server thread/WARN]: The exception was: io.netty.channel.unix.Errors$NativeIoException: bind(..) failed: Cannot assign requested address
+[08:12:40] [Server thread/WARN]: Perhaps a server is already running on that port?

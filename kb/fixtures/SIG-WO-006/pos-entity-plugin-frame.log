@@ -1,0 +1,6 @@
+# platform: purpur 1.21.11
+# source: synthetic (исключение из кода плагина при тике сущности)
+[15:12:00 ERROR]: Entity threw exception at world:1022.4,71.0,-88.9
+java.lang.IllegalArgumentException: Speed cannot be negative
+	at MobAI.jar/dev.example.mobai.goals.FollowGoal.tick(FollowGoal.java:58) ~[MobAI.jar:?]
+	at net.minecraft.world.entity.ai.goal.GoalSelector.tickRunningGoals(GoalSelector.java:120) ~[purpur-1.21.11.jar:1.21.11-2512-c0ffee1]

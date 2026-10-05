@@ -1,0 +1,3 @@
+# platform: purpur 1.21.11
+# source: synthetic (отладочный вывод плагина со схожими словами)
+[18:41:00 INFO]: [EventDebugger] Passing event PlayerJoinEvent to 12 listeners (took 0.4ms)

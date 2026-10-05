@@ -1,0 +1,56 @@
+id: SIG-VE-004
+version: 1
+title: "Legacy (BungeeCord) forwarding рассогласован между Velocity и backend"
+category: velocity
+severity: critical
+scope: network
+platforms: [velocity]
+rule_ref: VE-04
+symptoms:
+  - "Игроки не могут зайти на backend: «If you wish to use IP forwarding, please enable it in your BungeeCord config as well!»"
+  - "Или обратная ситуация: «Unknown data in login hostname, did you forget to enable BungeeCord in spigot.yml?»"
+match:
+  any:
+    - log:
+        # Paper ServerHandshakePacketListenerImpl: settings.bungeecord=true на backend, а в handshake нет legacy-данных.
+        # На прокси виден как «disconnected while connecting to <server>: …» / «has disconnected: Unable to connect to <server>: …».
+        # Строку backend «/ip:port lost connection: …» намеренно НЕ ловим: в реальном корпусе она встречается только
+        # при прямых подключениях к порту backend в обход прокси.
+        regex: '(?:disconnected while connecting to [\w.-]+|has disconnected: Unable to connect to [\w.-]+): If you wish to use IP forwarding, please enable it in your BungeeCord config as well!'
+        literal: "If you wish to use IP forwarding, please enable it in your BungeeCord config as well!"
+        target: message
+    - log:
+        # Обратное рассогласование: прокси шлёт legacy-данные, а settings.bungeecord на backend выключен.
+        regex: '(?:disconnected while connecting to [\w.-]+|has disconnected: Unable to connect to [\w.-]+): Unknown data in login hostname, did you forget to enable BungeeCord in spigot\.yml\?'
+        literal: "Unknown data in login hostname"
+        target: message
+cause: "Прокси и backend по-разному настроены для legacy (BungeeCord) forwarding: на backend включён settings.bungeecord, а Velocity не передаёт legacy-данные (режим modern/none), или наоборот."
+possible_causes:
+  - { text: "В spigot.yml backend settings.bungeecord: true, а на Velocity player-info-forwarding-mode = \"modern\" или \"none\"", weight: 0.7 }
+  - { text: "На Velocity режим legacy/bungeeguard, а на backend settings.bungeecord: false", weight: 0.25 }
+  - { text: "Backend не перезапущен после смены режима forwarding", weight: 0.05 }
+fix:
+  instructions_md: |
+    1. Выберите один режим forwarding для всей сети. Для Minecraft 1.13+ рекомендуется modern: на Velocity `player-info-forwarding-mode = "modern"`, на backend `settings.bungeecord: false` в `spigot.yml` и `proxies.velocity.enabled: true` + секрет в `config/paper-global.yml`.
+    2. Если нужен legacy (backend ≤ 1.12.2): на Velocity `player-info-forwarding-mode = "legacy"` (или `"bungeeguard"` с плагином BungeeGuard), на backend `settings.bungeecord: true`.
+    3. На backend выставьте `online-mode=false` и закройте его порт извне — legacy forwarding без этого небезопасен.
+    4. Перезапустите backend.
+  action: null
+  risk: medium
+confidence: 0.95
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Paper/blob/main/paper-server/patches/sources/net/minecraft/server/network/ServerHandshakePacketListenerImpl.java.patch
+  - https://github.com/PaperMC/Velocity/blob/dev/3.0.0/proxy/src/main/java/com/velocitypowered/proxy/connection/client/ConnectedPlayer.java
+  - https://docs.papermc.io/velocity/player-information-forwarding
+tests:
+  positive:
+    - fixtures/SIG-VE-004/pos-proxy-latest-bungeecord-on-backend.log
+    - fixtures/SIG-VE-004/pos-proxy-console-with-fallback.log
+    - fixtures/SIG-VE-004/pos-proxy-legacy-backend-bungeecord-off.log
+  negative:
+    - fixtures/SIG-VE-004/neg-modern-forwarding-failed.log
+    - fixtures/SIG-VE-004/neg-forwarding-disabled-warning.log
+    - fixtures/SIG-VE-004/neg-cant-connect-other-reason.log
+    - fixtures/SIG-VE-004/neg-backend-direct-connection.log

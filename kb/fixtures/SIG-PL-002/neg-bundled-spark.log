@@ -1,0 +1,4 @@
+# platform: paper 26.2
+# source: synthetic (штатное сообщение из того же FileProviderSource)
+[09:30:10 INFO]: [FileProviderSource] The spark plugin will not be loaded as this server bundles the spark profiler.
+[09:30:12 INFO]: [PluginInitializerManager] Initialized 21 plugins

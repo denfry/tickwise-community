@@ -1,0 +1,6 @@
+# platform: paper 1.21.11
+# expect: SIG-PL-010
+# source: synthetic (соседний сценарий — задача планировщика)
+[13:15:00 WARN]: [Holograms] Task #310 for Holograms v2.2.0 generated an exception
+java.lang.NullPointerException: Cannot invoke "org.bukkit.World.getName()" because "world" is null
+	at Holograms.jar/dev.example.holo.UpdateTask.run(UpdateTask.java:21) ~[Holograms.jar:?]

@@ -1,0 +1,6 @@
+# platform: paper 1.21.8
+# source: synthetic (log4j StatusLogger пишет в stderr без заголовка Minecraft)
+2026-09-24 03:14:15,926 Log4j2-AsyncAppenderEventDispatcher-1-Async ERROR Unable to write to stream logs/latest.log for appender File org.apache.logging.log4j.core.appender.AppenderLoggingException: Error writing to RandomAccessFile logs/latest.log
+	at org.apache.logging.log4j.core.appender.rolling.RollingRandomAccessFileManager.writeToDestination(RollingRandomAccessFileManager.java:109)
+Caused by: java.io.IOException: No space left on device
+	at java.base/java.io.RandomAccessFile.writeBytes(Native Method)

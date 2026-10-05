@@ -1,0 +1,7 @@
+# platform: paper 26.2
+# java: 25.0.1
+# source: synthetic (нормальный старт: версия Java подходит)
+[08:00:00 INFO]: [bootstrap] Running Java 25 (OpenJDK 64-Bit Server VM 25.0.1+8-LTS; Eclipse Adoptium Temurin-25.0.1+8) on Linux 6.8.0-64-generic (amd64)
+[08:00:00 INFO]: [bootstrap] Loading Paper 26.2-128-main@a1b2c3d (2026-09-10T10:00:00Z) for Minecraft 26.2
+[08:00:03 INFO]: [PluginInitializerManager] Initializing plugins...
+[08:00:04 INFO]: [PluginInitializerManager] Initialized 24 plugins

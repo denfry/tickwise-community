@@ -1,0 +1,15 @@
+# platform: paper 1.21.8
+# source: synthetic (формат latest.log)
+[21:44:15] [Paper Watchdog Thread/ERROR]: --- DO NOT REPORT THIS TO PAPER - THIS IS NOT A BUG OR A CRASH  - 1.21.8-60-29c8822 (MC: 1.21.8) ---
+[21:44:15] [Paper Watchdog Thread/ERROR]: The server has not responded for 15 seconds! Creating thread dump
+[21:44:15] [Paper Watchdog Thread/ERROR]: ------------------------------
+[21:44:15] [Paper Watchdog Thread/ERROR]: Server thread dump (Look for plugins here before reporting to Paper!):
+[21:44:15] [Paper Watchdog Thread/ERROR]: ------------------------------
+[21:44:15] [Paper Watchdog Thread/ERROR]: Current Thread: Server thread
+[21:44:15] [Paper Watchdog Thread/ERROR]: 	PID: 38 | Suspended: false | Native: false | State: RUNNABLE
+[21:44:15] [Paper Watchdog Thread/ERROR]: 	Stack:
+[21:44:15] [Paper Watchdog Thread/ERROR]: 		CoreProtect.jar//net.coreprotect.database.Database.commit(Database.java:210)
+[21:44:15] [Paper Watchdog Thread/ERROR]: 		net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:1720)
+[21:44:15] [Paper Watchdog Thread/ERROR]: ------------------------------
+[21:44:15] [Paper Watchdog Thread/ERROR]: --- DO NOT REPORT THIS TO PAPER - THIS IS NOT A BUG OR A CRASH ---
+[21:44:15] [Paper Watchdog Thread/ERROR]: ------------------------------

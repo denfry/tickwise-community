@@ -1,0 +1,8 @@
+# Метаданные Signature Pack (knowledge-base.md §5). Любое изменение signatures/ → увеличить version,
+# пересобрать и подписать pack ОФЛАЙН (docs/operations/signature-authoring.md).
+version: "2026.09.24-1"
+channel: stable
+created_at: "2026-09-24T00:00:00Z"
+expires_days: 30
+min_agent_version: "0.1.0"
+key_id: "tickwise-pack-2026a"

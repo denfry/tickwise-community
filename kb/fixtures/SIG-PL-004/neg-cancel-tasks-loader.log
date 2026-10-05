@@ -1,0 +1,5 @@
+# platform: paper 26.2
+# source: synthetic (другая ошибка загрузчика с тем же хвостом «Is it up to date?»)
+[23:59:02 ERROR]: Error occurred (in the plugin loader) while cancelling tasks for DynamicShop v4.1.0 (Is it up to date?)
+java.lang.IllegalStateException: Scheduler is shutting down
+	at org.bukkit.craftbukkit.scheduler.CraftScheduler.cancelTasks(CraftScheduler.java:302) ~[paper-26.2.jar:26.2-128-a1b2c3d]

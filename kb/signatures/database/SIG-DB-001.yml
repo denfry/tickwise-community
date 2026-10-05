@@ -1,0 +1,69 @@
+id: SIG-DB-001
+version: 1
+title: "База данных недоступна (MySQL: Communications link failure / MariaDB: Socket fail to connect)"
+category: database
+severity: error
+scope: server
+platforms: [paper, purpur, velocity]
+rule_ref: DB-01
+symptoms:
+  - "Плагин не может открыть соединение с MySQL/MariaDB: права, экономика, баны не загружаются"
+  - "В логе: «Communications link failure … The driver has not received any packets from the server» или «Socket fail to connect to …»"
+match:
+  any:
+    - all:
+        # MySQL Connector/J (5.1: com.mysql.jdbc…CommunicationsException, 8.x/9.x: com.mysql.cj…CommunicationsException)
+        # и HikariCP «Failed to initialize pool: Communications link failure».
+        - log:
+            regex: '(?:CommunicationsException|Failed to initialize pool): Communications link failure'
+            literal: "Communications link failure"
+            level: WARN
+            target: text
+        # Если соединение уже жило («last packet successfully received …»), это обрыв/протухание — SIG-DB-005.
+        - not:
+            log:
+              regex: 'The last packet successfully received from the server was'
+              literal: "The last packet successfully received from the server was"
+              target: text
+    - log:
+        # MariaDB Connector/J 3.x ConnectionHelper: «Socket fail to connect to <host>. <IOException message>»
+        # (LuckPerms, LiteBans и другие плагины с шейдингом драйвера MariaDB).
+        regex: 'Socket fail to connect to \S+'
+        literal: "Socket fail to connect to"
+        level: WARN
+        target: text
+cause: "Драйвер JDBC не смог установить TCP-соединение с сервером БД: сервис MySQL/MariaDB остановлен, указан неверный host/порт или соединение блокирует сеть/файрвол."
+possible_causes:
+  - { text: "Сервер MySQL/MariaDB остановлен, перезапускается или упал (Connection refused)", weight: 0.5 }
+  - { text: "Неверный host или порт БД в конфиге плагина (опечатка, localhost вместо адреса контейнера/хоста БД)", weight: 0.25 }
+  - { text: "Файрвол, bind-address БД или сеть хостинга не пропускают соединения с этого сервера (connect timed out / No route to host)", weight: 0.2 }
+  - { text: "Сбой DNS-имени хоста БД (UnknownHostException)", weight: 0.05 }
+fix:
+  instructions_md: |
+    1. Посмотрите хвост сообщения в evidence: `Connection refused` — на адресе никто не слушает; `connect timed out` / `No route to host` — сеть или файрвол; `UnknownHostException` — DNS.
+    2. Проверьте, что сервис БД запущен (панель хостинга, `systemctl status mysql`/`mariadb`, контейнер БД).
+    3. Сверьте host и порт в конфиге плагина (например, `storage-method`/`data.address` в `plugins/LuckPerms/config.yml`) с реальным адресом БД; из контейнера `localhost` — это сам контейнер, а не хост.
+    4. Если БД на другом сервере — проверьте `bind-address` БД и правила файрвола для IP этого Minecraft-сервера.
+    5. Пароль в evidence не попадает; не публикуйте конфиг плагина целиком при обращении за помощью.
+  action: null
+  risk: low
+confidence: 0.9
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/mysql/mysql-connector-j/blob/release/9.x/src/main/resources/com/mysql/cj/LocalizedErrorMessages.properties
+  - https://github.com/mysql/mysql-connector-j/blob/release/9.x/src/main/core-api/java/com/mysql/cj/exceptions/ExceptionFactory.java
+  - https://github.com/mariadb-corporation/mariadb-connector-j/blob/develop/src/main/java/org/mariadb/jdbc/client/impl/ConnectionHelper.java
+tests:
+  positive:
+    - fixtures/SIG-DB-001/pos-mariadb-luckperms-velocity.log
+    - fixtures/SIG-DB-001/pos-mariadb-litebans-paper.log
+    - fixtures/SIG-DB-001/pos-mariadb-pool-init-paper.log
+    - fixtures/SIG-DB-001/pos-mysql-coreprotect-console.log
+    - fixtures/SIG-DB-001/pos-mysql-hikari-init-velocity.log
+  negative:
+    - fixtures/SIG-DB-001/neg-pool-starting.log
+    - fixtures/SIG-DB-001/neg-hikari-validate-stale.log
+    - fixtures/SIG-DB-001/neg-access-denied.log
+    - fixtures/SIG-DB-001/neg-redis-connection-refused.log
+    - fixtures/SIG-DB-001/neg-stale-connection-link-failure.log

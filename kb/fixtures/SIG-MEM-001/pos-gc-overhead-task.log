@@ -1,0 +1,8 @@
+# platform: paper 1.21.11
+# java: 21.0.4
+# expect: SIG-PL-010
+# source: synthetic (Parallel GC: «GC overhead limit exceeded» в задаче плагина)
+[11:45:03 WARN]: [CoreProtect] Task #77 for CoreProtect v23.1 generated an exception
+java.lang.OutOfMemoryError: GC overhead limit exceeded
+	at java.base/java.lang.StringLatin1.newString(StringLatin1.java:752)
+	at CoreProtect.jar/net.coreprotect.consumer.Consumer.run(Consumer.java:140) ~[CoreProtect.jar:?]

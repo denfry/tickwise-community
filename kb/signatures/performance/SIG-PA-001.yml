@@ -1,0 +1,46 @@
+id: SIG-PA-001
+version: 1
+title: "Сервер не успевает обрабатывать тики (Can't keep up!)"
+category: performance
+severity: warning
+scope: server
+platforms: [paper, purpur]
+rule_ref: PA-01
+symptoms:
+  - "Игроки видят лаги: откаты движения, задержка ломания блоков, мобы «телепортируются»"
+  - "В логе повторяется «Can't keep up! Is the server overloaded? Running Nms or N ticks behind»"
+match:
+  log:
+    regex: 'Can''t keep up! Is the server overloaded\? Running \d+ms or \d+ ticks behind'
+    literal: "Can't keep up! Is the server overloaded?"
+    level: WARN
+    target: message
+threshold: { count: 3, window: 10m }
+cause: "Основной поток сервера отстал от расписания тиков более чем на 2 секунды: один или несколько тиков длились намного дольше 50 мс. Сообщение печатают vanilla, Spigot, форки (Leaf, Purpur) и Paper до переписывания tick loop; в актуальном Paper его нет — там перегрузку видно по MSPT."
+possible_causes:
+  - { text: "Тяжёлые плагины или их задачи в основном потоке (синхронные запросы к БД/HTTP, большие операции)", weight: 0.35 }
+  - { text: "Нагрузка мира: много сущностей/редстоуна/хопперов, генерация чанков (прегенерация, быстро летающие игроки)", weight: 0.35 }
+  - { text: "Нехватка ресурсов: CPU хоста перегружен соседями, длинные паузы GC из-за малого heap", weight: 0.3 }
+fix:
+  instructions_md: |
+    1. Единичное сообщение сразу после старта (загрузка мира) — норма; тревожно, если оно повторяется во время игры.
+    2. Снимите профиль во время лагов: `/spark profiler start`, через 2–5 минут `/spark profiler stop` — посмотрите, какие плагины/задачи занимают основной поток.
+    3. Проверьте `/spark tps` и `/spark healthreport`: MSPT, загрузку CPU, паузы GC; при частых долгих GC — увеличьте heap или ищите утечку.
+    4. Если идёт прегенерация (Chunky и т.п.) — снизьте её скорость или запускайте без игроков; ограничьте фермы сущностей и `view-distance`/`simulation-distance`.
+  action: null
+  risk: low
+confidence: 0.95
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/patches/sources/net/minecraft/server/MinecraftServer.java.patch
+tests:
+  positive:
+    - fixtures/SIG-PA-001/pos-leaf-latest.log
+    - fixtures/SIG-PA-001/pos-console-single.log
+    - fixtures/SIG-PA-001/pos-purpur-during-pregen.log
+  negative:
+    - fixtures/SIG-PA-001/neg-server-pausing.log
+    - fixtures/SIG-PA-001/neg-spark-tps.log
+    - fixtures/SIG-PA-001/neg-plugin-overloaded.log
+    - fixtures/SIG-PA-001/neg-watchdog-early.log

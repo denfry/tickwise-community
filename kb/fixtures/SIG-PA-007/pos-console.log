@@ -1,0 +1,15 @@
+# platform: paper 26.2
+# source: synthetic (текст WatchdogThread, ранний дамп)
+[21:43:00 ERROR]: --- DO NOT REPORT THIS TO PAPER - THIS IS NOT A BUG OR A CRASH  - 26.2-128-main@a1b2c3d (2026-09-10T10:00:00Z) (Implementing API version 26.2-R0.1-SNAPSHOT) ---
+[21:43:00 ERROR]: The server has not responded for 10 seconds! Creating thread dump
+[21:43:00 ERROR]: ------------------------------
+[21:43:00 ERROR]: Server thread dump (Look for plugins here before reporting to Paper!):
+[21:43:00 ERROR]: ------------------------------
+[21:43:00 ERROR]: Current Thread: Server thread
+[21:43:00 ERROR]: 	PID: 38 | Suspended: false | Native: false | State: RUNNABLE
+[21:43:00 ERROR]: 	Stack:
+[21:43:00 ERROR]: 		MyStats.jar//dev.example.mystats.Storage.saveSync(Storage.java:77)
+[21:43:00 ERROR]: 		net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:1720)
+[21:43:00 ERROR]: ------------------------------
+[21:43:00 ERROR]: --- DO NOT REPORT THIS TO PAPER - THIS IS NOT A BUG OR A CRASH ---
+[21:43:00 ERROR]: ------------------------------

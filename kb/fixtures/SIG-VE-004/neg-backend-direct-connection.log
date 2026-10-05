@@ -1,0 +1,4 @@
+# platform: velocity 3.5.1
+# source: politernal-sanitized (первая строка — backend Leaf 1.21.8, 2026-09-15, прямое подключение в обход прокси) + synthetic аналог для второго текста; прогоняются как velocity, чтобы проверить, что якорь на формулировку прокси их отсекает
+[07:34:45] [Server thread/INFO]: /<ip:0fd8ed84>:43176 lost connection: Unknown data in login hostname, did you forget to enable BungeeCord in spigot.yml?
+[18:20:37] [Server thread/INFO]: /<ip:0fd8ed84>:48998 lost connection: If you wish to use IP forwarding, please enable it in your BungeeCord config as well!

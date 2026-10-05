@@ -1,0 +1,45 @@
+id: SIG-PL-020
+version: 1
+title: "Плагин упал при выключении (Error occurred while disabling)"
+category: plugin
+severity: error
+scope: server
+platforms: [paper, purpur]
+rule_ref: PL-20
+symptoms:
+  - "При остановке/перезапуске сервера в логе ошибка выключения плагина"
+  - "После перезапуска могут пропасть последние изменения данных плагина (не сохранились при выключении)"
+match:
+  log:
+    regex: 'Error occurred (?:\(in the plugin loader\) )?while disabling [^\n]+'
+    literal: "while disabling "
+    level: ERROR
+    target: message
+cause: "Метод onDisable плагина бросил исключение. Плагин мог не сохранить данные (БД, файлы) и не закрыть ресурсы."
+possible_causes:
+  - { text: "Баг плагина при сохранении данных на выключении", weight: 0.45 }
+  - { text: "Ресурс уже недоступен при остановке: БД закрыта, зависимый плагин выключен раньше, jar заменён во время работы", weight: 0.4 }
+  - { text: "Выключение через /reload или PlugMan, которое плагин не поддерживает", weight: 0.15 }
+fix:
+  instructions_md: |
+    1. По evidence определите плагин и исключение (следующая строка и `Caused by:`).
+    2. После запуска проверьте сохранность данных этого плагина (последние изменения, файлы в `plugins/<плагин>/`, таблицы БД).
+    3. Не заменяйте jar плагина при работающем сервере и не используйте `/reload`/PlugMan — останавливайте сервер полностью.
+    4. Обновите плагин; если ошибка повторяется при обычной остановке — сообщите автору с полным trace.
+  action: null
+  risk: low
+confidence: 0.9
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/src/main/java/io/papermc/paper/plugin/manager/PaperPluginInstanceManager.java
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-api/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
+tests:
+  positive:
+    - fixtures/SIG-PL-020/pos-paper-current-console.log
+    - fixtures/SIG-PL-020/pos-legacy-text-latest.log
+    - fixtures/SIG-PL-020/pos-plugin-loader-variant.log
+  negative:
+    - fixtures/SIG-PL-020/neg-disabling-info.log
+    - fixtures/SIG-PL-020/neg-enabling-error.log
+    - fixtures/SIG-PL-020/neg-cancel-tasks.log

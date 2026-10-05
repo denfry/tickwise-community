@@ -1,0 +1,5 @@
+# platform: paper 1.21.8
+# source: politernal-sanitized (2026-09-18, work-7297; Leaf 1.21.8)
+[12:22:12] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 4506ms or 90 ticks behind
+[12:22:35] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2507ms or 50 ticks behind
+[12:22:58] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 8342ms or 166 ticks behind

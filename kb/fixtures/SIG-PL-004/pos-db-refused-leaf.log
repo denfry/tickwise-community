@@ -1,0 +1,11 @@
+# platform: paper 1.21.8
+# plugins: PoliternalStaffTools 1.0
+# expect: SIG-DB-001
+# source: politernal-sanitized (2026-09-20, work-7297; хост БД заменён на db.internal, стек укорочен)
+[10:28:20] [Server thread/ERROR]: Error occurred while enabling PoliternalStaffTools v${project.version} (Is it up to date?)
+ru.politernal.stafftools.libs.hikari.pool.HikariPool$PoolInitializationException: Failed to initialize pool: Socket fail to connect to host:address=(host=db.internal)(port=3306)(type=primary). Connection refused
+	at PoliternalStaffTools.jar/ru.politernal.stafftools.libs.hikari.pool.HikariPool.throwPoolInitializationException(HikariPool.java:584) ~[PoliternalStaffTools.jar:?]
+	at PoliternalStaffTools.jar/ru.politernal.stafftools.libs.hikari.pool.HikariPool.checkFailFast(HikariPool.java:571) ~[PoliternalStaffTools.jar:?]
+	at PoliternalStaffTools.jar/ru.politernal.stafftools.StaffToolsPlugin.onEnable(StaffToolsPlugin.java:34) ~[PoliternalStaffTools.jar:?]
+	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:280) ~[paper-api-1.21.8-R0.1-SNAPSHOT.jar:?]
+	at io.papermc.paper.plugin.manager.PaperPluginInstanceManager.enablePlugin(PaperPluginInstanceManager.java:202) ~[paper-1.21.8.jar:1.21.8-60-29c8822]

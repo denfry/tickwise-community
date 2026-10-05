@@ -1,0 +1,8 @@
+# platform: paper 1.21.8
+# expect: SIG-PL-011
+# source: synthetic (формат latest.log; вызов из асинхронного события)
+[21:05:44] [User Authenticator #3/ERROR]: Could not pass event AsyncPlayerPreLoginEvent to LoginGuard v1.6.0
+java.lang.IllegalStateException: Asynchronous getNearbyEntities!
+	at org.spigotmc.AsyncCatcher.catchOp(AsyncCatcher.java:10) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at org.bukkit.craftbukkit.CraftWorld.getNearbyEntities(CraftWorld.java:1011) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at LoginGuard.jar/dev.example.loginguard.PreLoginListener.onPreLogin(PreLoginListener.java:37) ~[LoginGuard.jar:?]

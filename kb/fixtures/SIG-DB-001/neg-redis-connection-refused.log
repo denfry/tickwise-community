@@ -1,0 +1,8 @@
+# platform: velocity 3.5.1
+# source: synthetic (Connection refused от Redis/HTTP — не БД SQL)
+[11:00:00] [main/ERROR] [redisbungee]: Unable to connect to Redis
+redis.clients.jedis.exceptions.JedisConnectionException: Failed to connect to any host resolved for DNS name.
+	at redis.clients.jedis.DefaultJedisSocketFactory.connectToFirstSuccessfulHost(DefaultJedisSocketFactory.java:63)
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+[11:00:03] [Plan Webserver Thread/WARN] [plan]: Failed to send data to http://127.0.0.1:8804: java.net.ConnectException: Connection refused

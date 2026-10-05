@@ -1,0 +1,4 @@
+# platform: velocity 3.5.1
+# source: synthetic (формат latest.log Velocity; текст кика — ServerHandshakePacketListenerImpl.java.patch Paper)
+[20:10:01] [Netty epoll Worker #0/ERROR] [com.velocitypowered.proxy.connection.client.ConnectedPlayer]: [connected player] Steve (/198.51.100.7:40211): disconnected while connecting to lobby: If you wish to use IP forwarding, please enable it in your BungeeCord config as well!
+[20:10:01] [Netty epoll Worker #0/INFO] [com.velocitypowered.proxy.connection.client.ConnectedPlayer]: [connected player] Steve (/198.51.100.7:40211) has disconnected: Unable to connect to lobby: If you wish to use IP forwarding, please enable it in your BungeeCord config as well!

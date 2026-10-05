@@ -1,0 +1,10 @@
+# platform: paper 1.21.8
+# java: 21.0.8
+# source: synthetic (формат latest.log Leaf/Paper, плагин из .paper-remapped)
+[09:01:12] [Server thread/INFO]: [PluginInitializerManager] Initializing plugins...
+[09:01:13] [Server thread/ERROR]: [ModernPluginLoadingStrategy] Could not load plugin 'WorldGuardExtraFlags.jar' in folder 'plugins/.paper-remapped'
+org.bukkit.plugin.InvalidPluginException: java.lang.UnsupportedClassVersionError: net/example/wgflags/WGFlagsPlugin has been compiled by a more recent version of the Java Runtime (class file version 69.0), this version of the Java Runtime only recognizes class file versions up to 65.0
+	at io.papermc.paper.plugin.provider.type.spigot.SpigotPluginProvider.createInstance(SpigotPluginProvider.java:127) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+Caused by: java.lang.UnsupportedClassVersionError: net/example/wgflags/WGFlagsPlugin has been compiled by a more recent version of the Java Runtime (class file version 69.0), this version of the Java Runtime only recognizes class file versions up to 65.0
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	... 9 more

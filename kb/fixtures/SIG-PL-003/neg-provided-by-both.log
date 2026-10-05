@@ -1,0 +1,3 @@
+# platform: paper 26.2
+# source: synthetic (соседнее предупреждение ModernPluginLoadingStrategy о provides, не дубликат jar)
+[10:00:01 WARN]: [ModernPluginLoadingStrategy] `Vault' is provided by both `VaultUnlocked' and `CMILib'

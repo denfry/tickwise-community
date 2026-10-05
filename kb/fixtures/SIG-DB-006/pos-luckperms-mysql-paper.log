@@ -1,0 +1,8 @@
+# platform: paper 1.21.8
+# plugins: LuckPerms 5.5.17
+# source: synthetic (MySQL 8 + Connector/J; текст Sha256PasswordPlugin.2)
+[10:00:02] [Server thread/ERROR]: [LuckPerms] Failed to init storage implementation
+java.sql.SQLNonTransientConnectionException: Public Key Retrieval is not allowed
+	at me.lucko.luckperms.lib.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:111)
+Caused by: me.lucko.luckperms.lib.mysql.cj.exceptions.UnableToConnectException: Public Key Retrieval is not allowed
+	at me.lucko.luckperms.lib.mysql.cj.protocol.a.authentication.CachingSha2PasswordPlugin.nextAuthenticationStep(CachingSha2PasswordPlugin.java:130)

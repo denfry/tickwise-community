@@ -1,0 +1,6 @@
+# platform: paper 1.21.11
+# expect: SIG-DB-002
+# source: synthetic (исчерпание пула — DB-02)
+[14:02:11 WARN]: [CoreProtect] Database error
+java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 30000ms (total=10, active=10, idle=0, waiting=12)
+	at com.zaxxer.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:696)

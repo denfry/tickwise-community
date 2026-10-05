@@ -1,0 +1,5 @@
+# platform: paper 26.2
+# source: synthetic (соседний случай CraftMagicNumbers: api-version ниже минимального)
+[09:30:12 ERROR]: [ModernPluginLoadingStrategy] Could not load plugin 'AncientWarps.jar' in folder 'plugins'
+org.bukkit.plugin.InvalidPluginException: Plugin API version 1.13 is lower than the minimum allowed version. Please update or replace it.
+	at org.bukkit.craftbukkit.util.CraftMagicNumbers.checkSupported(CraftMagicNumbers.java:383) ~[paper-26.2.jar:26.2-128-a1b2c3d]

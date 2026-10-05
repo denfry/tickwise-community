@@ -1,0 +1,4 @@
+# platform: velocity 3.5.1
+# source: synthetic (формат latest.log Velocity; причина — текст кика Paper, прокси пересказывает его как есть)
+[19:44:02] [Netty epoll Worker #0/ERROR] [com.velocitypowered.proxy.connection.client.ConnectedPlayer]: [connected player] Steve (/203.0.113.24:51990): disconnected while connecting to lobby: Unable to verify player details
+[19:44:02] [Netty epoll Worker #0/INFO] [com.velocitypowered.proxy.connection.client.ConnectedPlayer]: [connected player] Steve (/203.0.113.24:51990) has disconnected: Unable to connect to lobby: Unable to verify player details

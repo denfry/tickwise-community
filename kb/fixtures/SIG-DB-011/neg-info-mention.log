@@ -1,0 +1,3 @@
+# platform: paper 1.21.11
+# source: synthetic (INFO-упоминание, не предупреждение пула)
+[09:00:00 INFO]: [Spark] Hint: "HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1s)" usually means GC pauses

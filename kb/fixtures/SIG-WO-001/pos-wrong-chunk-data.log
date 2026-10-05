@@ -1,0 +1,4 @@
+# platform: purpur 1.21.11
+# source: synthetic (текст патча Paper: в заголовке региона чужие данные)
+[11:06:10] [Region I/O Worker #1/ERROR]: Attempting to read chunk data at [12, 40] but got chunk data for [44, 72] instead! Attempting regionfile recalculation for regionfile /home/mc/server/world/region/r.0.1.mca
+[11:06:10] [Region I/O Worker #1/ERROR]: Can't recalculate regionfile header, regenerating chunk [12, 40] for /home/mc/server/world/region/r.0.1.mca

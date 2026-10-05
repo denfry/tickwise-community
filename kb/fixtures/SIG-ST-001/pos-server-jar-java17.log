@@ -1,0 +1,14 @@
+# platform: paper 26.2
+# java: 17.0.12
+# source: synthetic (вывод консоли панели до инициализации log4j: ядро собрано под Java 25, запущено на Java 17)
+Starting org.bukkit.craftbukkit.Main
+Exception in thread "ServerMain" java.lang.UnsupportedClassVersionError: org/bukkit/craftbukkit/Main has been compiled by a more recent version of the Java Runtime (class file version 69.0), this version of the Java Runtime only recognizes class file versions up to 61.0
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:1012)
+	at java.base/java.net.URLClassLoader.defineClass(URLClassLoader.java:524)
+	at java.base/java.net.URLClassLoader.findClass(URLClassLoader.java:427)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:592)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:467)
+	at io.papermc.paperclip.Paperclip.lambda$main$0(Paperclip.java:42)
+	at java.base/java.lang.Thread.run(Thread.java:840)

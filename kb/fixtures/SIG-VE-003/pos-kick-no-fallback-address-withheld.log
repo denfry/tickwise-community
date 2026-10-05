@@ -1,0 +1,5 @@
+# platform: velocity 4.0.0
+# source: synthetic (ветка dev/4.0.0, enable-player-address-logging = false; кик без fallback)
+[05:12:00] [Netty epoll Worker #2/ERROR] [com.velocitypowered.proxy.connection.client.ConnectedPlayer]: [connected player] Alex_07 (<ip address withheld>): unable to connect to server hub
+io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: /10.0.0.4:30066
+[05:12:00] [Netty epoll Worker #2/INFO] [com.velocitypowered.proxy.connection.client.ConnectedPlayer]: [connected player] Alex_07 (<ip address withheld>) has disconnected: Unable to connect you to hub. Please try again later.

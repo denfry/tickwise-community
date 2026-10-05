@@ -1,0 +1,4 @@
+# platform: velocity 3.5.1
+# source: synthetic (отказ backend по другой причине: whitelist)
+[16:05:44] [Netty epoll Worker #0/ERROR] [com.velocitypowered.proxy.connection.client.ConnectedPlayer]: [connected player] Visitor (/203.0.113.61:40022): disconnected while connecting to lobby: You are not whitelisted on this server!
+[16:05:44] [Netty epoll Worker #0/INFO] [com.velocitypowered.proxy.connection.client.ConnectedPlayer]: [connected player] Visitor (/203.0.113.61:40022) has disconnected: Unable to connect to lobby: You are not whitelisted on this server!

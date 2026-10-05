@@ -1,0 +1,44 @@
+id: SIG-PL-003
+version: 1
+title: "Дубликат плагина: два jar с одним именем (Ambiguous plugin name)"
+category: plugin
+severity: warning
+scope: server
+platforms: [paper, purpur]
+rule_ref: PL-03
+symptoms:
+  - "После обновления плагина работает старая версия или поведение непредсказуемо"
+  - "В логе при старте: «Ambiguous plugin name '…' for files …»"
+match:
+  log:
+    regex: 'Ambiguous plugin name [`''][^`''\n]+''(?: for files [`''][^\n]+'' and [`''][^\n]+''| ?\. It is also provided by )'
+    literal: "Ambiguous plugin name"
+    level: WARN
+    target: message
+cause: "В plugins/ лежат два файла, объявляющие плагин с одним и тем же именем (обычно старая и новая версия). Загружается только один из них — не обязательно нужный."
+possible_causes:
+  - { text: "При обновлении новый jar положили, а старый не удалили", weight: 0.8 }
+  - { text: "Два разных плагина/форка используют одно имя в plugin.yml", weight: 0.2 }
+fix:
+  instructions_md: |
+    1. Возьмите из evidence имя плагина и оба пути к файлам.
+    2. Остановите сервер, оставьте в `plugins/` только нужную (обычно более новую) версию, второй файл удалите или перенесите в резервную папку вне `plugins/`.
+    3. Если это разные плагины с одинаковым именем — оставьте один из них (одновременно они работать не могут).
+    4. Запустите сервер и проверьте версию через `/version <плагин>`.
+  action: null
+  risk: low
+confidence: 0.98
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/src/main/java/io/papermc/paper/plugin/entrypoint/strategy/modern/ModernPluginLoadingStrategy.java
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/src/main/java/io/papermc/paper/plugin/entrypoint/strategy/LegacyPluginLoadingStrategy.java
+tests:
+  positive:
+    - fixtures/SIG-PL-003/pos-modern-console.log
+    - fixtures/SIG-PL-003/pos-modern-latest-log.log
+    - fixtures/SIG-PL-003/pos-legacy-backticks.log
+  negative:
+    - fixtures/SIG-PL-003/neg-provided-by-both.log
+    - fixtures/SIG-PL-003/neg-plugin-list.log
+    - fixtures/SIG-PL-003/neg-ambiguous-command.log

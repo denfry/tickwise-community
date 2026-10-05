@@ -1,0 +1,5 @@
+# platform: paper 26.2
+# expect: SIG-WO-001
+# source: synthetic (соседняя ошибка — чтение чанка)
+[11:02:44 ERROR]: [ChunkLoadTask] Failed to load chunk data for task: GenericDataLoadTask{class: ca.spottedleaf.moonrise.patches.chunk_system.scheduling.task.ChunkLoadTask$ChunkDataLoadTask, world: world, chunk: (140,-32), hashcode: 99812311, priority: NORMAL, type: CHUNK_DATA}, chunk data will be lost
+java.util.zip.ZipException: invalid distance too far back

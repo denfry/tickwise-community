@@ -1,0 +1,5 @@
+# platform: paper 1.21.11
+# source: synthetic (нормальный старт пула с allowPublicKeyRetrieval в параметрах)
+[10:00:01 INFO]: [LuckPerms] Loading storage provider... [MYSQL]
+[10:00:01 INFO]: HikariPool-1 - Starting...
+[10:00:02 INFO]: HikariPool-1 - Start completed.

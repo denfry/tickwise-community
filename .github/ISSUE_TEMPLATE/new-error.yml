@@ -1,0 +1,42 @@
+name: New error (no signature yet)
+description: You saw an error on a Minecraft server that Tickwise does not recognise. You do not have to write the signature yourself.
+title: "[new error] "
+labels: ["new-error"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you! Please **remove personal data first**: player names, IP addresses, domains, passwords, tokens.
+        Replace them with `Player`, `203.0.113.5`, `db.example.net`, `<redacted>`.
+  - type: input
+    id: platform
+    attributes:
+      label: Platform and version
+      placeholder: Paper 1.21.11 / Velocity 3.4.0 / Purpur 1.21.8
+    validations:
+      required: true
+  - type: input
+    id: plugin
+    attributes:
+      label: Plugin and version (if the error comes from a plugin)
+      placeholder: LuckPerms 5.5.17
+  - type: textarea
+    id: log
+    attributes:
+      label: The log fragment (sanitized)
+      description: The error with its stack trace and about 10 lines around it.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: cause
+    attributes:
+      label: What was the cause and how did you fix it?
+      description: If you know. Links to an upstream issue, the plugin's source or documentation are the best proof.
+  - type: checkboxes
+    id: sanitized
+    attributes:
+      label: Privacy
+      options:
+        - label: I removed IP addresses, player names, domains, e-mails, passwords and tokens from the log.
+          required: true

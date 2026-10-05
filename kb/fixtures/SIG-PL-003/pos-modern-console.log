@@ -1,0 +1,4 @@
+# platform: paper 26.2
+# source: synthetic (текст ModernPluginLoadingStrategy)
+[10:00:01 ERROR]: [ModernPluginLoadingStrategy] Ambiguous plugin name 'LuckPerms' for files 'plugins/LuckPerms-Bukkit-5.5.17.jar' and 'plugins/LuckPerms-Bukkit-5.4.141.jar' in 'plugins'
+[10:00:02 INFO]: [PluginInitializerManager] Initialized 20 plugins

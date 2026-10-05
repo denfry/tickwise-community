@@ -1,0 +1,44 @@
+id: SIG-MEM-002
+version: 1
+title: "Исчерпан Metaspace (OutOfMemoryError: Metaspace)"
+category: memory
+severity: critical
+scope: server
+platforms: [paper, purpur]
+rule_ref: MEM-02
+symptoms:
+  - "После /reload или перезагрузки плагинов через PlugMan сервер падает или плагины не включаются"
+  - "В логе: «java.lang.OutOfMemoryError: Metaspace» или «Compressed class space»"
+match:
+  log:
+    regex: 'java\.lang\.OutOfMemoryError: (?:Metaspace|Compressed class space)'
+    literal: "java.lang.OutOfMemoryError: "
+    level: WARN
+    target: text
+cause: "Закончилась память для метаданных классов. Обычно из-за утечки загрузчиков классов при /reload или перезагрузке плагинов «на лету», реже из-за слишком низкого -XX:MaxMetaspaceSize."
+possible_causes:
+  - { text: "Многократные /reload или PlugMan reload: старые загрузчики классов плагинов не освобождаются", weight: 0.6 }
+  - { text: "Задан слишком маленький -XX:MaxMetaspaceSize / CompressedClassSpaceSize", weight: 0.25 }
+  - { text: "Плагин генерирует классы во время работы (скрипты, прокси) и не освобождает их", weight: 0.15 }
+fix:
+  instructions_md: |
+    1. Полностью перезапустите сервер (не `/reload`).
+    2. Перестаньте использовать `/reload` и перезагрузку плагинов через PlugMan — обновляйте плагины только с остановкой сервера.
+    3. Проверьте флаги JVM: если задан `-XX:MaxMetaspaceSize` — увеличьте его или уберите ограничение.
+    4. Если OOM повторяется без перезагрузок — найдите плагин, генерирующий классы (`/spark heapsummary`, рост числа загруженных классов).
+  action: null
+  risk: low
+confidence: 0.9
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/openjdk/jdk21u/blob/master/src/hotspot/share/memory/universe.cpp
+tests:
+  positive:
+    - fixtures/SIG-MEM-002/pos-after-reload-enable.log
+    - fixtures/SIG-MEM-002/pos-tick-loop-latest.log
+    - fixtures/SIG-MEM-002/pos-compressed-class-space.log
+  negative:
+    - fixtures/SIG-MEM-002/neg-heap-oom.log
+    - fixtures/SIG-MEM-002/neg-spark-metaspace-info.log
+    - fixtures/SIG-MEM-002/neg-reload-warning.log

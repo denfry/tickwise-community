@@ -1,0 +1,6 @@
+# platform: paper 1.21.11
+# expect: SIG-PL-011
+# source: synthetic (метод другого плагина с параметром Bukkit-типа — несовместимость между плагинами, не с сервером)
+[14:10:00 ERROR]: Could not pass event PlayerQuitEvent to ShopAddon v1.2.0
+java.lang.NoSuchMethodError: 'void dev.example.economy.api.EconomyApi.deposit(org.bukkit.OfflinePlayer, double)'
+	at ShopAddon.jar/dev.example.shopaddon.QuitListener.onQuit(QuitListener.java:19) ~[ShopAddon.jar:?]

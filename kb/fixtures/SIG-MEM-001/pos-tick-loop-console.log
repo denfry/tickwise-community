@@ -1,0 +1,9 @@
+# platform: paper 26.2
+# java: 25.0.1
+# source: synthetic (текст OutOfMemoryError из universe.cpp)
+[14:22:10 ERROR]: Encountered an unexpected exception
+java.lang.OutOfMemoryError: Java heap space
+	at java.base/java.util.Arrays.copyOf(Arrays.java:3541)
+	at java.base/java.util.ArrayList.grow(ArrayList.java:237)
+	at net.minecraft.world.level.entity.EntityTickList.forEach(EntityTickList.java:57) ~[paper-26.2.jar:26.2-128-a1b2c3d]
+	at net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:1720) ~[paper-26.2.jar:26.2-128-a1b2c3d]

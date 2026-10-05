@@ -1,0 +1,44 @@
+id: SIG-PA-006
+version: 1
+title: "Vanilla watchdog: один тик длился слишком долго, сервер принудительно остановлен"
+category: performance
+severity: critical
+scope: server
+platforms: [paper, purpur]
+rule_ref: PA-06
+symptoms:
+  - "Сервер завис, затем процесс завершился с краш-репортом «Watching Server»"
+  - "В логе: «A single server tick took N seconds (should be max 0.05)»"
+match:
+  log:
+    regex: 'A single server tick took \d+(?:[.,]\d+)? seconds \(should be max \d+(?:[.,]\d+)?\)'
+    literal: "A single server tick took "
+    level: WARN
+    target: message
+cause: "Встроенный watchdog vanilla (max-tick-time в server.properties) обнаружил тик длиннее лимита и принудительно остановил сервер. В Paper/Spigot этот watchdog отключён — сообщение встречается у vanilla-подобных сборок и форков, которые его вернули."
+possible_causes:
+  - { text: "Бесконечный цикл или блокировка в моде/плагине/датапаке", weight: 0.5 }
+  - { text: "Огромная операция с миром или генерация, превысившая max-tick-time", weight: 0.3 }
+  - { text: "Нехватка CPU/долгая пауза GC", weight: 0.2 }
+fix:
+  instructions_md: |
+    1. Откройте краш-репорт `crash-reports/crash-<дата>-server.txt` (описание «Watching Server») и посмотрите стек `Server thread` — ищите фреймы мода/плагина/датапака.
+    2. Обновите или отключите найденный компонент; проверьте, не выполнялась ли в этот момент тяжёлая операция с миром.
+    3. Не отключайте `max-tick-time` (-1) как решение: сервер будет висеть вместо перезапуска.
+  action: null
+  risk: low
+confidence: 0.95
+verification: community
+last_verified: 2026-09-24
+sources:
+  - https://minecraft.wiki/w/Server.properties
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/patches/sources/net/minecraft/server/dedicated/DedicatedServer.java.patch
+tests:
+  positive:
+    - fixtures/SIG-PA-006/pos-vanilla-latest.log
+    - fixtures/SIG-PA-006/pos-console-crash-report.log
+    - fixtures/SIG-PA-006/pos-fatal-level.log
+  negative:
+    - fixtures/SIG-PA-006/neg-spark-tickmonitor.log
+    - fixtures/SIG-PA-006/neg-paper-watchdog.log
+    - fixtures/SIG-PA-006/neg-cant-keep-up.log

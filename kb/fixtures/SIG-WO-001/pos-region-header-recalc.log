@@ -1,0 +1,5 @@
+# platform: paper 1.21.11
+# source: synthetic (тексты RegionFile и патча Paper о пересчёте заголовка)
+[11:05:01 WARN]: Region file ./world/region/r.4.-1.mca has an invalid sector at index: 612; sector 30 is out of bounds
+[11:05:01 ERROR]: Detected invalid header for regionfile ./world/region/r.4.-1.mca! Recalculating header...
+[11:05:02 ERROR]: Chunk [140, -20] stream is truncated: expected 20480 but read 4096

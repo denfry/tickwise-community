@@ -1,0 +1,8 @@
+# platform: paper 26.2
+# source: synthetic (текст FileProviderSource/DirectoryProviderSource; мод Fabric в plugins/)
+[09:30:11 ERROR]: [DirectoryProviderSource] Error loading plugin: java.lang.IllegalArgumentException: Directory 'plugins/sodium-fabric-0.6.13+mc1.21.6.jar' does not contain a paper-plugin.yml or plugin.yml! Could not determine plugin type, cannot load a plugin from it!
+java.lang.RuntimeException: java.lang.IllegalArgumentException: Directory 'plugins/sodium-fabric-0.6.13+mc1.21.6.jar' does not contain a paper-plugin.yml or plugin.yml! Could not determine plugin type, cannot load a plugin from it!
+	at io.papermc.paper.plugin.provider.source.FileProviderSource.registerProviders(FileProviderSource.java:73) ~[paper-26.2.jar:26.2-128-a1b2c3d]
+	at io.papermc.paper.plugin.provider.source.DirectoryProviderSource.registerProviders(DirectoryProviderSource.java:59) ~[paper-26.2.jar:26.2-128-a1b2c3d]
+Caused by: java.lang.IllegalArgumentException: Directory 'plugins/sodium-fabric-0.6.13+mc1.21.6.jar' does not contain a paper-plugin.yml or plugin.yml! Could not determine plugin type, cannot load a plugin from it!
+	... 9 more

@@ -1,0 +1,7 @@
+# platform: paper 1.21.8
+# plugins: Plan 5.6
+# source: synthetic (HikariCP ProxyLeakTask, формат latest.log Paper)
+[12:00:07] [HikariPool-1 housekeeper/WARN]: [com.zaxxer.hikari.pool.ProxyLeakTask] Connection leak detection triggered for org.mariadb.jdbc.Connection@6e3f5a1b on thread Craft Scheduler Thread - 12 - Plan, stack trace follows
+java.lang.Exception: Apparent connection leak detected
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:127)
+	at com.djrapitops.plan.storage.database.SQLDB.getConnection(SQLDB.java:310)

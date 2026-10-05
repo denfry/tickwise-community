@@ -1,0 +1,4 @@
+# platform: velocity 3.5.1
+# expect: SIG-VE-003
+# source: synthetic (конкретный backend недоступен — VE-03, а не пустой список серверов)
+[05:12:00] [Netty epoll Worker #2/INFO] [com.velocitypowered.proxy.connection.client.ConnectedPlayer]: [connected player] Alex_07 (/203.0.113.24:51022) has disconnected: Unable to connect you to hub. Please try again later.

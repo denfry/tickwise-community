@@ -1,0 +1,5 @@
+# platform: paper 26.2
+# source: synthetic (нормальное выключение)
+[23:59:01 INFO]: [Vault] Disabling Vault v1.7.3-b131
+[23:59:01 INFO]: [LuckPerms] Disabling LuckPerms v5.5.17
+[23:59:02 INFO]: [LuckPerms] Goodbye!

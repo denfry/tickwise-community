@@ -1,0 +1,6 @@
+# platform: velocity 3.5.1
+# plugins: LuckPerms 5.5.17
+# source: synthetic (формат latest.log Velocity; LuckPerms со storage-method: sqlite)
+[18:20:01] [luckperms-worker-2/ERROR] [luckperms]: Exception whilst saving user data
+java.sql.SQLException: [SQLITE_BUSY] The database file is locked (database is locked)
+	at me.lucko.luckperms.lib.sqlite.core.DB.newSQLException(DB.java:1179)

@@ -1,0 +1,3 @@
+# platform: paper 1.21.11
+# source: synthetic (INFO-вывод отладочной команды плагина, не ошибка)
+[09:00:00 INFO]: [DBDebug] Last error sample: "The last packet successfully received from the server was 12 milliseconds ago" (resolved)

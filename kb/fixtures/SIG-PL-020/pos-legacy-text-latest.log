@@ -1,0 +1,6 @@
+# platform: paper 1.21.8
+# source: synthetic (формат latest.log, legacy-текст JavaPluginLoader с «(Is it up to date?)»)
+[03:00:02] [Server thread/ERROR]: Error occurred while disabling CoreStats v1.4.0 (Is it up to date?)
+java.sql.SQLException: HikariDataSource HikariDataSource (CoreStats-pool) has been closed.
+	at CoreStats.jar/dev.example.corestats.libs.hikari.HikariDataSource.getConnection(HikariDataSource.java:96) ~[CoreStats.jar:?]
+	at CoreStats.jar/dev.example.corestats.CoreStats.onDisable(CoreStats.java:58) ~[CoreStats.jar:?]

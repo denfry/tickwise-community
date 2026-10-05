@@ -1,0 +1,5 @@
+# platform: velocity 3.5.1
+# source: politernal-sanitized (строки backend Leaf 1.21.8, 2026-09-12/20: прямые подключения в обход прокси; прогоняются как velocity, чтобы проверить, что якорь на формулировку прокси их отсекает)
+[22:08:44] [Netty Epoll Server IO #2/INFO]: Disconnecting <player:3440fba8> (/<ip:559db244>:62366): This server requires you to connect with Velocity.
+[18:20:37] [Netty Epoll Server IO #2/INFO]: Disconnecting <player:0c063081> (/<ip:0fd8ed84>:48988): This server requires you to connect with Velocity.
+[18:20:37] [Server thread/INFO]: /<ip:0fd8ed84>:48998 lost connection: Unknown data in login hostname, did you forget to enable BungeeCord in spigot.yml?

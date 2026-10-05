@@ -1,0 +1,8 @@
+# platform: velocity 3.5.1
+# expect: SIG-VE-013
+# source: politernal-sanitized (прокси, 2026-09-17: обрыв уже установленной сессии с backend — VE-13, не VE-03)
+[19:01:08] [Netty epoll Worker #0/ERROR] [com.velocitypowered.proxy.connection.MinecraftConnection]: [server connection] <player:0fe484ee> -> main: exception encountered in com.velocitypowered.proxy.connection.backend.BackendPlaySessionHandler@251fa7a4
+io.netty.channel.unix.Errors$NativeIoException: recvAddress(..) failed with error(-104): Connection reset by peer
+[19:01:08] [Netty epoll Worker #0/INFO] [com.velocitypowered.proxy.connection.MinecraftConnection]: [server connection] <player:0fe484ee> -> main has disconnected
+[19:01:08] [Netty epoll Worker #0/INFO] [com.velocitypowered.proxy.connection.MinecraftConnection]: [server connection] <player:0fe484ee> -> lobby has connected
+[19:05:31] [Netty epoll Worker #1/ERROR] [com.velocitypowered.proxy.connection.MinecraftConnection]: [connected player] <player:a9e4687c> (/<ip:4d51c6f1>:52355): read timed out

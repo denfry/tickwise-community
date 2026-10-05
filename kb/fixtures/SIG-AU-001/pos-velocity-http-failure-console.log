@@ -1,0 +1,10 @@
+# platform: velocity 3.4.0
+# source: synthetic (консольный формат; нет исходящего доступа к sessionserver.mojang.com)
+[04:02:11 ERROR]: Unable to authenticate player
+java.util.concurrent.CompletionException: java.net.http.HttpConnectTimeoutException: HTTP connect timed out
+	at java.base/java.util.concurrent.CompletableFuture.encodeRelay(CompletableFuture.java:368)
+	at java.base/java.util.concurrent.CompletableFuture.completeRelay(CompletableFuture.java:377)
+Caused by: java.net.http.HttpConnectTimeoutException: HTTP connect timed out
+	at java.net.http/jdk.internal.net.http.ResponseTimerEvent.handle(ResponseTimerEvent.java:68)
+Caused by: java.net.ConnectException: HTTP connect timed out
+	... 9 more

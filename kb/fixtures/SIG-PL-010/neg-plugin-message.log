@@ -1,0 +1,5 @@
+# platform: paper 26.2
+# source: synthetic (соседнее сообщение StandardMessenger — обработчик plugin message, не задача)
+[12:01:00 WARN]: Plugin BungeeGuard v1.3 generated an exception whilst handling plugin message
+java.lang.IllegalArgumentException: Invalid channel payload
+	at BungeeGuard.jar/dev.example.guard.Listener.onPluginMessageReceived(Listener.java:40) ~[BungeeGuard.jar:?]

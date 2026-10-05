@@ -1,0 +1,44 @@
+id: SIG-PL-001
+version: 1
+title: "Плагин не загружен: не установлена обязательная зависимость (UnknownDependencyException)"
+category: plugin
+severity: error
+scope: server
+platforms: [paper, purpur]
+rule_ref: PL-01
+symptoms:
+  - "Плагин отсутствует в /plugins (или показан красным), его команды не работают"
+  - "В логе при старте: «Could not load '…' …» и UnknownDependencyException со списком зависимостей"
+match:
+  log:
+    regex: 'org\.bukkit\.plugin\.UnknownDependencyException: (?:Unknown/missing dependency plugins: \[[^\]\n]*\]\. Please download and install these plugins to run|Unknown dependency [^\n]+\. Please download and install )'
+    literal: "UnknownDependencyException: Unknown"
+    target: exception
+cause: "У плагина в plugin.yml/paper-plugin.yml указана обязательная зависимость (depend), которой нет на сервере или которая сама не загрузилась, поэтому Paper не загрузил плагин."
+possible_causes:
+  - { text: "Зависимость (Vault, ProtocolLib, PlaceholderAPI и т.п.) не установлена в plugins/", weight: 0.6 }
+  - { text: "Зависимость установлена, но сама не загрузилась (ищите её собственную ошибку выше в логе)", weight: 0.3 }
+  - { text: "Имя зависимости не совпадает (другой форк/переименованный плагин, например VaultUnlocked вместо Vault)", weight: 0.1 }
+fix:
+  instructions_md: |
+    1. Возьмите список из квадратных скобок в evidence — это недостающие плагины, и имя плагина, которому они нужны.
+    2. Проверьте, есть ли эти плагины в `plugins/` и загрузились ли они (`/plugins`); если зависимость есть, но не загрузилась — сначала исправьте её ошибку выше в логе.
+    3. Установите недостающие плагины с официальной страницы (Hangar/Modrinth/SpigotMC), совместимые с вашей версией сервера, и перезапустите сервер (не `/reload`).
+  action: null
+  risk: low
+confidence: 0.97
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-api/src/main/java/org/bukkit/plugin/UnknownDependencyException.java
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/src/main/java/io/papermc/paper/plugin/entrypoint/strategy/modern/ModernPluginLoadingStrategy.java
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-api/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
+tests:
+  positive:
+    - fixtures/SIG-PL-001/pos-modern-console.log
+    - fixtures/SIG-PL-001/pos-multi-latest-log.log
+    - fixtures/SIG-PL-001/pos-runtime-load-plugman.log
+  negative:
+    - fixtures/SIG-PL-001/neg-circular-dependency.log
+    - fixtures/SIG-PL-001/neg-missing-main-class.log
+    - fixtures/SIG-PL-001/neg-optional-dependency-warn.log

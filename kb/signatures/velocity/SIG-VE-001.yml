@@ -1,0 +1,64 @@
+id: SIG-VE-001
+version: 1
+title: "Modern forwarding рассогласован между Velocity и backend"
+category: velocity
+severity: critical
+scope: network
+platforms: [velocity]
+rule_ref: VE-01
+symptoms:
+  - "Игроки не могут зайти на backend через Velocity: кик сразу после входа"
+  - "На прокси: «Your server did not send a forwarding request to the proxy…» или пересказанный кик backend «This server requires you to connect with Velocity.»"
+match:
+  any:
+    - log:
+        # Velocity backend.LoginSessionHandler: прокси в modern, backend не ответил на velocity:player_info.
+        # Текст — ключ velocity.error.modern-forwarding-failed, английская локаль по умолчанию.
+        regex: 'Your server did not send a forwarding request to the proxy\. Make sure the server is configured for Velocity forwarding\.'
+        literal: "Your server did not send a forwarding request to the proxy"
+        target: message
+    - log:
+        # Кик Paper (proxies.velocity.enabled=true, а modern-данных нет), как его пересказывает прокси:
+        # «disconnected while connecting to <server>: …» / «has disconnected: Unable to connect to <server>: …».
+        # Строку backend «Disconnecting <player> (/ip:port): …» намеренно НЕ ловим: в реальном корпусе все 9 таких
+        # строк за 2 недели — прямые подключения к порту backend в обход прокси, а не рассогласование конфигов.
+        regex: '(?:disconnected while connecting to [\w.-]+|has disconnected: Unable to connect to [\w.-]+): This server requires you to connect with Velocity\.'
+        literal: "This server requires you to connect with Velocity."
+        target: message
+cause: "Режим player info forwarding на Velocity и настройки backend не совпадают: прокси ждёт modern forwarding, а backend его не поддерживает, или backend ждёт Velocity, а прокси работает в legacy/none."
+possible_causes:
+  - { text: "На backend выключено proxies.velocity.enabled в config/paper-global.yml, а на Velocity player-info-forwarding-mode = \"modern\"", weight: 0.5 }
+  - { text: "На Velocity режим legacy/none/bungeeguard, а на backend включена поддержка Velocity (proxies.velocity.enabled: true)", weight: 0.4 }
+  - { text: "Backend не перезапущен после смены настроек forwarding", weight: 0.05 }
+  - { text: "Тексты киков Velocity переводимы: при нестандартной локали/переопределённых сообщениях строка прокси будет на другом языке — сигнатура ловит только английские тексты по умолчанию", weight: 0.05, advisory: true }
+fix:
+  instructions_md: |
+    1. На Velocity в `velocity.toml` проверьте `player-info-forwarding-mode` — для 1.13+ рекомендуется `"modern"`.
+    2. На каждом Paper/Purpur backend в `config/paper-global.yml`: `proxies.velocity.enabled: true`, `proxies.velocity.online-mode` — как `online-mode` на прокси, `proxies.velocity.secret` — содержимое файла `forwarding.secret` прокси (копируйте локально, никуда не пересылая).
+    3. В `spigot.yml` backend выставьте `settings.bungeecord: false` (legacy и modern одновременно не используются), в `server.properties` — `online-mode=false`.
+    4. Перезапустите backend: режим и секрет читаются только при старте.
+    5. Закройте порт backend файрволом, оставив доступ только с IP прокси.
+  action: null
+  risk: medium
+confidence: 0.9
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Velocity/blob/dev/3.0.0/proxy/src/main/resources/com/velocitypowered/proxy/l10n/messages.properties
+  - https://github.com/PaperMC/Velocity/blob/dev/3.0.0/proxy/src/main/java/com/velocitypowered/proxy/connection/backend/LoginSessionHandler.java
+  - https://github.com/PaperMC/Velocity/blob/dev/3.0.0/proxy/src/main/java/com/velocitypowered/proxy/connection/client/ConnectedPlayer.java
+  - https://github.com/PaperMC/Velocity/blob/dev/4.0.0/proxy/src/main/resources/com/velocitypowered/proxy/l10n/messages.properties
+  - https://github.com/PaperMC/Paper/blob/main/paper-server/patches/sources/net/minecraft/server/network/ServerLoginPacketListenerImpl.java.patch
+  - https://docs.papermc.io/velocity/player-information-forwarding
+tests:
+  positive:
+    - fixtures/SIG-VE-001/pos-proxy-modern-no-backend-support.log
+    - fixtures/SIG-VE-001/pos-proxy-console-backend-requires-velocity.log
+    - fixtures/SIG-VE-001/pos-proxy-kick-with-fallback-4x.log
+    - fixtures/SIG-VE-001/pos-proxy-requires-velocity-with-fallback.log
+  negative:
+    - fixtures/SIG-VE-001/neg-forwarding-disabled-warning.log
+    - fixtures/SIG-VE-001/neg-needs-new-client.log
+    - fixtures/SIG-VE-001/neg-secret-mismatch.log
+    - fixtures/SIG-VE-001/neg-banned-kick.log
+    - fixtures/SIG-VE-001/neg-backend-direct-connection.log

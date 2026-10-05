@@ -1,0 +1,28 @@
+# platform: purpur 1.21.11
+# source: synthetic (повтор ранних дампов)
+[21:45:10 ERROR]: --- DO NOT REPORT THIS TO PAPER - THIS IS NOT A BUG OR A CRASH  - 1.21.11-2512-c0ffee1 (MC: 1.21.11) ---
+[21:45:10 ERROR]: The server has not responded for 10 seconds! Creating thread dump
+[21:45:10 ERROR]: ------------------------------
+[21:45:10 ERROR]: Server thread dump (Look for plugins here before reporting to Paper!):
+[21:45:10 ERROR]: ------------------------------
+[21:45:10 ERROR]: Current Thread: Server thread
+[21:45:10 ERROR]: 	PID: 38 | Suspended: false | Native: false | State: RUNNABLE
+[21:45:10 ERROR]: 	Stack:
+[21:45:10 ERROR]: 		Towny.jar//com.palmergames.bukkit.towny.db.TownyDatabase.saveAll(TownyDatabase.java:310)
+[21:45:10 ERROR]: 		net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:1720)
+[21:45:10 ERROR]: ------------------------------
+[21:45:10 ERROR]: --- DO NOT REPORT THIS TO PAPER - THIS IS NOT A BUG OR A CRASH ---
+[21:45:10 ERROR]: ------------------------------
+[21:45:15 ERROR]: --- DO NOT REPORT THIS TO PAPER - THIS IS NOT A BUG OR A CRASH  - 1.21.11-2512-c0ffee1 (MC: 1.21.11) ---
+[21:45:15 ERROR]: The server has not responded for 15 seconds! Creating thread dump
+[21:45:15 ERROR]: ------------------------------
+[21:45:15 ERROR]: Server thread dump (Look for plugins here before reporting to Paper!):
+[21:45:15 ERROR]: ------------------------------
+[21:45:15 ERROR]: Current Thread: Server thread
+[21:45:15 ERROR]: 	PID: 38 | Suspended: false | Native: false | State: RUNNABLE
+[21:45:15 ERROR]: 	Stack:
+[21:45:15 ERROR]: 		Towny.jar//com.palmergames.bukkit.towny.db.TownyDatabase.saveAll(TownyDatabase.java:310)
+[21:45:15 ERROR]: 		net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:1720)
+[21:45:15 ERROR]: ------------------------------
+[21:45:15 ERROR]: --- DO NOT REPORT THIS TO PAPER - THIS IS NOT A BUG OR A CRASH ---
+[21:45:15 ERROR]: ------------------------------

@@ -1,0 +1,7 @@
+# platform: paper 1.21.8
+# source: synthetic (плагин штатно проверяет наличие класса на уровне INFO)
+[07:40:20] [Server thread/INFO]: [NBTAPI] Found Minecraft: 1.21.8! Trying to find NMS support
+[07:40:20] [Server thread/INFO]: [NBTAPI] Legacy CraftBukkit package not present, using Mojang-mapped access
+java.lang.ClassNotFoundException: org.bukkit.craftbukkit.v1_21_R5.CraftServer
+	at java.base/java.lang.Class.forName(Class.java:421)
+[07:40:20] [Server thread/INFO]: [NBTAPI] NMS support 'MC1_21_R5' loaded!

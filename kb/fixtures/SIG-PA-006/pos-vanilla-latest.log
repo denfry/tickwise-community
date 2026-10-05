@@ -1,0 +1,4 @@
+# platform: paper 1.21.8
+# source: synthetic (формат vanilla latest.log, поток Server Watchdog)
+[03:33:10] [Server Watchdog/ERROR]: A single server tick took 60.00 seconds (should be max 0.05)
+[03:33:10] [Server Watchdog/ERROR]: Considering it to be crashed, server will forcibly shutdown.

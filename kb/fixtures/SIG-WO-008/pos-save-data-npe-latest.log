@@ -1,0 +1,5 @@
+# platform: paper 1.21.8
+# source: synthetic (формат latest.log; текст NewChunkHolder «Failed to save chunk data»)
+[12:41:10] [Server thread/ERROR]: [ca.spottedleaf.moonrise.patches.chunk_system.scheduling.NewChunkHolder] Failed to save chunk data (3,4) in world 'earth'
+java.lang.NullPointerException: Cannot invoke "net.minecraft.nbt.CompoundTag.putString(String, String)" because "tag" is null
+	at net.minecraft.world.level.chunk.storage.SerializableChunkData.write(SerializableChunkData.java:620) ~[paper-1.21.8.jar:1.21.8-60-29c8822]

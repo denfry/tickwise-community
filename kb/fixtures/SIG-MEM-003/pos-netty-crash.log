@@ -1,0 +1,8 @@
+# platform: purpur 1.21.11
+# java: 21.0.4
+# source: synthetic (краш тик-цикла при создании потока)
+[02:16:00 ERROR]: Encountered an unexpected exception
+java.lang.OutOfMemoryError: unable to create native thread: possibly out of memory or process/resource limits reached
+	at java.base/java.lang.Thread.start0(Native Method)
+	at java.base/java.lang.Thread.start(Thread.java:1526)
+	at io.netty.util.concurrent.ThreadPerTaskExecutor.execute(ThreadPerTaskExecutor.java:32)

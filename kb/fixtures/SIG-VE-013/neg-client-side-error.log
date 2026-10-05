@@ -1,0 +1,5 @@
+# platform: velocity 3.5.1
+# source: synthetic по образцу politernal-sanitized (прокси: ошибка на стороне клиента, backend ни при чём)
+[20:11:02] [Netty epoll Worker #1/ERROR] [com.velocitypowered.proxy.connection.MinecraftConnection]: [connected player] <player:e3d79295> (/<ip:4c3873b0>:54913): exception encountered in com.velocitypowered.proxy.connection.client.ClientPlaySessionHandler@5c2e8a1f
+io.netty.channel.unix.Errors$NativeIoException: recvAddress(..) failed with error(-104): Connection reset by peer
+[20:11:03] [Netty epoll Worker #0/ERROR] [com.velocitypowered.proxy.connection.MinecraftConnection]: [connected player] <player:a9e4687c> (/<ip:4d51c6f1>:52355): read timed out

@@ -1,0 +1,4 @@
+# platform: paper 1.21.8
+# source: politernal-sanitized (2026-09-22, work-7297; предупреждение без потери чанка)
+[23:30:06] [Paper Common Worker #1/WARN]: Ignoring heightmap data for chunk [-30, -23], size does not match; expected: 37, got: 52
+[23:30:06] [Paper Common Worker #2/WARN]: Ignoring heightmap data for chunk [-29, -23], size does not match; expected: 37, got: 52

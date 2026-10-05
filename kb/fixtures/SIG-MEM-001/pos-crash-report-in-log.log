@@ -1,0 +1,12 @@
+# platform: purpur 1.21.11
+# java: 21.0.4
+# source: synthetic (краш-репорт, напечатанный в лог одним событием)
+[05:01:12 ERROR]: ---- Minecraft Crash Report ----
+// Don't do that.
+
+Time: 2026-09-24 05:01:12
+Description: Exception in server tick loop
+
+java.lang.OutOfMemoryError: Java heap space
+	at java.base/java.util.HashMap.resize(HashMap.java:710)
+	at net.minecraft.server.level.ChunkMap.tick(ChunkMap.java:512)

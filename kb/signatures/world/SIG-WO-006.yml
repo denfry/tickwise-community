@@ -1,0 +1,45 @@
+id: SIG-WO-006
+version: 1
+title: "Сущность или блок-сущность вызывает исключение при тике (Entity/BlockEntity threw exception)"
+category: world
+severity: error
+scope: server
+platforms: [paper, purpur]
+rule_ref: WO-06
+symptoms:
+  - "Исчезают сущности или содержимое блоков (сундуки, спавнеры, таблички) в одном месте"
+  - "В логе: «Entity threw exception at <мир>:x,y,z» или «BlockEntity threw exception at …»"
+match:
+  log:
+    regex: '(?:Block)?Entity threw exception at [^\n]*:-?\d+(?:\.\d+)?,-?\d+(?:\.\d+)?,-?\d+(?:\.\d+)?'
+    literal: "threw exception at "
+    level: ERROR
+    target: message
+cause: "Тик сущности или блок-сущности бросил исключение. Paper не падает, а удаляет виновника (сущность — discard, блок-сущность — удаляется из чанка), поэтому объект в этих координатах пропадает."
+possible_causes:
+  - { text: "Повреждённые NBT-данные сущности/блока (после смены версии, внешних редакторов, дюпа)", weight: 0.4 }
+  - { text: "Плагин или датапак изменяет сущность/блок некорректно (фреймы плагина в trace)", weight: 0.35 }
+  - { text: "Баг сервера/форка в логике этой сущности", weight: 0.25 }
+fix:
+  instructions_md: |
+    1. Возьмите из evidence мир и координаты, а также тип исключения и первые фреймы trace (есть ли там плагин).
+    2. Если в trace плагин — обновите его или сообщите автору; если ошибка повторяется в одной точке — зайдите туда (осторожно) или используйте `/kill @e[x=..,y=..,z=..,distance=..2]` для сущности.
+    3. Для блок-сущности проверьте блок в координатах; при повреждении восстановите регион из резервной копии (с остановленным сервером).
+    4. Если ошибок много и после обновления версии — проверьте changelog сервера/форка на известные баги.
+  action: null
+  risk: medium
+confidence: 0.85
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/patches/sources/net/minecraft/world/level/Level.java.patch
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/patches/sources/net/minecraft/world/level/chunk/LevelChunk.java.patch
+tests:
+  positive:
+    - fixtures/SIG-WO-006/pos-entity-console.log
+    - fixtures/SIG-WO-006/pos-blockentity-latest.log
+    - fixtures/SIG-WO-006/pos-entity-plugin-frame.log
+  negative:
+    - fixtures/SIG-WO-006/neg-spigot-config-entity.log
+    - fixtures/SIG-WO-006/neg-duplicate-uuid.log
+    - fixtures/SIG-WO-006/neg-plugin-exception-coords.log

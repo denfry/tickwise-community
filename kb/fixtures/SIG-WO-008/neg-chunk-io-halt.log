@@ -1,0 +1,4 @@
+# platform: paper 1.21.8
+# source: politernal-sanitized (штатная остановка, 2026-09-18, work-7297)
+[23:59:07] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk system to halt for world 'earth'
+[23:59:07] [Server thread/INFO]: [ChunkHolderManager] Waiting 60s for chunk I/O to halt for world 'earth'

@@ -1,0 +1,53 @@
+id: SIG-DB-012
+version: 1
+title: "Утечка соединений с БД (HikariCP: Apparent connection leak detected)"
+category: database
+severity: warning
+scope: server
+platforms: [paper, purpur, velocity]
+rule_ref: DB-12
+symptoms:
+  - "HikariCP сообщает, что соединение взято из пула и не возвращено дольше leakDetectionThreshold"
+  - "Со временем пул исчерпывается (см. SIG-DB-002)"
+match:
+  any:
+    - log:
+        # ProxyLeakTask: LOGGER.warn("Connection leak detection triggered for {} on thread {}, stack trace follows", …, exception)
+        regex: 'Connection leak detection triggered for \S+ on thread [^\n]*, stack trace follows'
+        literal: "Connection leak detection triggered for"
+        level: WARN
+        target: text
+    - log:
+        # ProxyLeakTask: new Exception("Apparent connection leak detected") — стек показывает место, где соединение взяли.
+        regex: 'Exception: Apparent connection leak detected'
+        literal: "Apparent connection leak detected"
+        level: WARN
+        target: exception
+cause: "Плагин получил соединение из пула HikariCP и не закрыл (не вернул) его дольше порога leakDetectionThreshold: утечка соединения или очень долгая операция с БД."
+possible_causes:
+  - { text: "Плагин не закрывает Connection/Statement/ResultSet (нет try-with-resources) — настоящая утечка", weight: 0.6 }
+  - { text: "Запрос или транзакция выполняется дольше порога (порог слишком низкий, медленная БД) — ложная тревога, после неё HikariCP пишет «… was returned to the pool (unleaked)»", weight: 0.3 }
+  - { text: "Поток плагина завис, удерживая соединение", weight: 0.1 }
+fix:
+  instructions_md: |
+    1. В стеке под `Apparent connection leak detected` найдите первый фрейм плагина — это место, где соединение взято и не возвращено.
+    2. Если в логе следом есть «Previously reported leaked connection … was returned to the pool (unleaked)» — это долгая операция, а не утечка: увеличьте `leakDetectionThreshold` или ищите медленный запрос.
+    3. Обновите плагин; если повторяется на последней версии — сообщите автору, приложив стек (без конфигов с паролями).
+    4. До исправления держите запас в `maximum-pool-size` и следите за SIG-DB-002.
+  action: null
+  risk: low
+confidence: 0.85
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/brettwooldridge/HikariCP/blob/dev/src/main/java/com/zaxxer/hikari/pool/ProxyLeakTask.java
+  - https://github.com/brettwooldridge/HikariCP/blob/dev/src/main/java/com/zaxxer/hikari/HikariConfig.java
+tests:
+  positive:
+    - fixtures/SIG-DB-012/pos-plugin-paper.log
+    - fixtures/SIG-DB-012/pos-luckperms-velocity.log
+    - fixtures/SIG-DB-012/pos-console-shaded.log
+  negative:
+    - fixtures/SIG-DB-012/neg-unleaked.log
+    - fixtures/SIG-DB-012/neg-threshold-disabled.log
+    - fixtures/SIG-DB-012/neg-pool-exhausted.log

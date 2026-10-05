@@ -1,0 +1,5 @@
+# platform: velocity 3.4.0
+# source: synthetic (консольный формат; массовые отключения при пустом try)
+[08:00:10 INFO]: [connected player] Steve (/198.51.100.7:40211) has disconnected: There are no available servers to connect you to. Try again later or contact an admin.
+[08:00:12 INFO]: [connected player] Alex_07 (/203.0.113.24:51022) has disconnected: There are no available servers to connect you to. Try again later or contact an admin.
+[08:00:15 INFO]: [connected player] Builder42 (/203.0.113.90:60311) has disconnected: There are no available servers to connect you to. Try again later or contact an admin.

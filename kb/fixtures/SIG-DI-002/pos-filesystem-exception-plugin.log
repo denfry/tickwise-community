@@ -1,0 +1,6 @@
+# platform: purpur 1.21.11
+# source: synthetic (NIO FileSystemException при сохранении файла плагина; домашний путь санитизируется)
+[06:00:12 ERROR]: [Essentials] Failed to save user data file
+java.nio.file.FileSystemException: /home/mc/server/plugins/Essentials/userdata/tmp-8812.yml: No space left on device
+	at java.base/sun.nio.fs.UnixException.translateToIOException(UnixException.java:100)
+	at java.base/java.nio.file.Files.newOutputStream(Files.java:216)

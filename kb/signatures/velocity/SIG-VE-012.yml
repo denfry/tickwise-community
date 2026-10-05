@@ -1,0 +1,56 @@
+id: SIG-VE-012
+version: 1
+title: "Velocity не стартует: не задан forwarding secret"
+category: velocity
+severity: critical
+scope: network
+platforms: [velocity]
+rule_ref: VE-12
+symptoms:
+  - "Прокси завершается сразу после запуска, игроки не могут зайти в сеть"
+  - "В логе: «You don't have a forwarding secret set. This is required for security.» или «The forwarding-secret file must not be empty.»"
+match:
+  any:
+    - log:
+        # VelocityConfiguration.validate(): режим modern/bungeeguard при пустом секрете → «Your configuration is invalid…», System.exit(1)
+        regex: "You don't have a forwarding secret set\\. This is required for security\\."
+        literal: "You don't have a forwarding secret set"
+        target: message
+    - log:
+        # VelocityConfiguration.read(): пустой файл секрета при modern/bungeeguard → RuntimeException,
+        # VelocityServer: «Unable to read/load/save your velocity.toml. The server will shut down.»
+        # Санитайзер агента принимает «-secret file» за CLI-аргумент и заменяет «file» на <secret:cli>,
+        # поэтому допускаем обе формы.
+        regex: 'The forwarding-secret (?:file|<secret:[a-z_]+>) must not be empty\.'
+        literal: "The forwarding-secret "
+        target: exception
+cause: "В velocity.toml выбран режим forwarding modern или bungeeguard, но секрет пуст: файл из forwarding-secret-file пустой, а переменная VELOCITY_FORWARDING_SECRET не задана. Velocity отказывается стартовать."
+possible_causes:
+  - { text: "Файл forwarding.secret (или указанный в forwarding-secret-file) существует, но пустой — например, очищен при переносе/деплое", weight: 0.7 }
+  - { text: "forwarding-secret-file указывает не на тот файл (относительный путь от другой рабочей директории, опечатка в имени)", weight: 0.2 }
+  - { text: "Секрет передаётся переменной VELOCITY_FORWARDING_SECRET, но в окружении контейнера/панели она пустая", weight: 0.1 }
+fix:
+  instructions_md: |
+    1. Откройте `velocity.toml` и проверьте `forwarding-secret-file` (по умолчанию `forwarding.secret` рядом с `velocity.toml`) и `player-info-forwarding-mode`.
+    2. Запишите в этот файл секрет — случайную строку (например, из менеджера паролей). Если backend уже настроены, используйте тот же секрет, что в `proxies.velocity.secret` их `config/paper-global.yml`, — копируйте локально, не пересылая его в чаты и сторонние сервисы.
+    3. Если файла нет вовсе, Velocity при старте сам создаст его со случайным секретом — затем перенесите этот секрет на backend.
+    4. Запустите прокси и убедитесь, что в логе нет `Your configuration is invalid`.
+  action: null
+  risk: medium
+confidence: 0.98
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Velocity/blob/dev/3.0.0/proxy/src/main/java/com/velocitypowered/proxy/config/VelocityConfiguration.java
+  - https://github.com/PaperMC/Velocity/blob/dev/3.0.0/proxy/src/main/java/com/velocitypowered/proxy/VelocityServer.java
+  - https://github.com/PaperMC/Velocity/blob/dev/4.0.0/proxy/src/main/java/com/velocitypowered/proxy/config/VelocityConfiguration.java
+  - https://docs.papermc.io/velocity/player-information-forwarding
+tests:
+  positive:
+    - fixtures/SIG-VE-012/pos-validate-latest.log
+    - fixtures/SIG-VE-012/pos-validate-console.log
+    - fixtures/SIG-VE-012/pos-empty-secret-file-exception.log
+  negative:
+    - fixtures/SIG-VE-012/neg-secret-file-created.log
+    - fixtures/SIG-VE-012/neg-invalid-config-other-reason.log
+    - fixtures/SIG-VE-012/neg-toml-parse-error.log

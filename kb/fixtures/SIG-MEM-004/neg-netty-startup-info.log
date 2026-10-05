@@ -1,0 +1,5 @@
+# platform: paper 1.21.11
+# source: synthetic (штатные строки о Netty)
+[08:00:05 INFO]: Using epoll channel type
+[08:00:05 INFO]: Paper: Using libdeflate (Linux x86_64) compression from Velocity.
+[08:00:05 INFO]: Paper: Using OpenSSL 3.x.x (Linux x86_64) cipher from Velocity.

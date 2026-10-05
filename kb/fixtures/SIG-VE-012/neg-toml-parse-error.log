@@ -1,0 +1,6 @@
+# platform: velocity 3.5.1
+# source: synthetic (ошибка синтаксиса TOML — тот же заголовок, другая причина)
+[09:00:02] [main/ERROR] [com.velocitypowered.proxy.VelocityServer]: Unable to read/load/save your velocity.toml. The server will shut down.
+com.electronwill.nightconfig.core.io.ParsingException: Invalid bare key: forwarding secret
+	at com.electronwill.nightconfig.toml.TableParser.parseBareKey(TableParser.java:271) ~[velocity.jar:3.5.1]
+	at com.velocitypowered.proxy.config.VelocityConfiguration.read(VelocityConfiguration.java:514) ~[velocity.jar:3.5.1]

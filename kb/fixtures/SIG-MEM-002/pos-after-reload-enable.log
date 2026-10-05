@@ -1,0 +1,10 @@
+# platform: paper 1.21.11
+# java: 21.0.4
+# expect: SIG-PL-004
+# source: synthetic (Metaspace после нескольких /reload)
+[17:30:02 WARN]: Please note that this command is not supported and may cause issues when using some plugins.
+[17:30:05 ERROR]: Error occurred while enabling MythicMobs v5.9.5 (Is it up to date?)
+java.lang.OutOfMemoryError: Metaspace
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:1027)
+	at org.bukkit.plugin.java.PluginClassLoader.loadClass0(PluginClassLoader.java:212) ~[paper-api-1.21.11-R0.1-SNAPSHOT.jar:?]

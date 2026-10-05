@@ -1,0 +1,7 @@
+# platform: paper 1.21.8
+# plugins: Jobs 5.2.4
+# source: synthetic (формат Connector/J 5.1 «Data source rejected establishment of connection»)
+[21:10:44] [Craft Scheduler Thread - 3/WARN]: [Jobs] Unable to connect to the database
+com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Data source rejected establishment of connection,  message from server: "Too many connections"
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1074)
+	at com.mysql.jdbc.MysqlIO.doHandshake(MysqlIO.java:1014)

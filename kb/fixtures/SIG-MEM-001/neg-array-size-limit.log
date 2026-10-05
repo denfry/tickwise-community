@@ -1,0 +1,6 @@
+# platform: paper 1.21.11
+# expect: SIG-PL-010
+# source: synthetic (другой OOM: попытка создать массив больше лимита VM — баг плагина, не нехватка heap)
+[12:10:00 WARN]: [ImageMaps] Task #9 for ImageMaps v1.0.12 generated an exception
+java.lang.OutOfMemoryError: Requested array size exceeds VM limit
+	at java.base/java.util.Arrays.copyOf(Arrays.java:3541)

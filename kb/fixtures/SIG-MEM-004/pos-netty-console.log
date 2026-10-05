@@ -1,0 +1,8 @@
+# platform: paper 26.2
+# java: 25.0.1
+# source: synthetic (текст OutOfDirectMemoryError из Netty PlatformDependent)
+[20:11:02 WARN]: An exceptionCaught() event was fired, and it reached at the tail of the pipeline. It usually means the last handler in the pipeline did not handle the exception.
+io.netty.util.internal.OutOfDirectMemoryError: failed to allocate 16777216 byte(s) of direct memory (used: 1056964615, max: 1073741824)
+	at io.netty.util.internal.PlatformDependent.incrementMemoryCounter(PlatformDependent.java:880)
+	at io.netty.util.internal.PlatformDependent.allocateDirectNoCleaner(PlatformDependent.java:809)
+	at io.netty.buffer.PoolArena$DirectArena.allocateDirect(PoolArena.java:718)

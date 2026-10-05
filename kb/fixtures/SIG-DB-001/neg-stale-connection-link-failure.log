@@ -1,0 +1,9 @@
+# platform: paper 1.21.8
+# expect: SIG-DB-005
+# source: synthetic (обрыв ранее живого соединения — DB-05, а не недоступность БД)
+[03:14:15] [Craft Scheduler Thread - 7/WARN]: [AuctionHouse] Could not save listing
+com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet successfully received from the server was 1,812,044 milliseconds ago. The last packet sent successfully to the server was 1,812,045 milliseconds ago.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:175)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:916)

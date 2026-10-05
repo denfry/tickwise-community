@@ -1,0 +1,3 @@
+# platform: purpur 1.21.11
+# source: synthetic (текст LegacyPluginLoadingStrategy, -Dpaper.useLegacyPluginLoading=true)
+[10:00:01 ERROR]: [LegacyPluginLoadingStrategy] Ambiguous plugin name `WorldEdit' for files `plugins/worldedit-bukkit-7.3.15.jar' and `plugins/WorldEdit.jar' in `plugins'

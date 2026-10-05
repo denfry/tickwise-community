@@ -1,0 +1,5 @@
+# platform: paper 1.21.8
+# source: synthetic (другая ошибка ресурсов: запуск внешней программы)
+[06:00:00] [Craft Scheduler Thread - 3/WARN]: [BackupPlugin] Failed to run backup script
+java.io.IOException: Cannot run program "tar": error=2, No such file or directory
+	at java.base/java.lang.ProcessBuilder.start(ProcessBuilder.java:1170)

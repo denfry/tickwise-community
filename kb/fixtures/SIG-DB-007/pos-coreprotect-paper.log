@@ -1,0 +1,7 @@
+# platform: paper 1.21.8
+# plugins: CoreProtect 23.1
+# source: synthetic (sqlite-jdbc: формат DB.newSQLException, printStackTrace в latest.log)
+[18:20:01] [Server thread/WARN]: org.sqlite.SQLiteException: [SQLITE_BUSY] The database file is locked (database is locked)
+[18:20:01] [Server thread/WARN]: 	at org.sqlite.core.DB.newSQLException(DB.java:1179)
+[18:20:01] [Server thread/WARN]: 	at org.sqlite.core.DB.execute(DB.java:909)
+[18:20:01] [Server thread/WARN]: 	at net.coreprotect.consumer.Consumer.run(Consumer.java:122)

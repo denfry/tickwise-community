@@ -1,0 +1,3 @@
+# platform: paper 1.21.11
+# source: synthetic (HikariConfig: порог отключён — настройка, не утечка)
+[10:00:01 WARN]: HikariPool-1 - leakDetectionThreshold is less than 2000ms or more than maxLifetime, disabling it.

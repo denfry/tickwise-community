@@ -1,0 +1,6 @@
+# platform: velocity 3.4.0
+# source: synthetic (консольный формат Velocity; неверный адрес/файрвол — Netty connect timeout)
+[12:00:05 ERROR]: [connected player] Steve (/198.51.100.7:40211): unable to connect to server survival
+io.netty.channel.ConnectTimeoutException: connection timed out after 5000 ms: /10.0.0.3:25566
+	at io.netty.channel.epoll.AbstractEpollChannel$AbstractEpollUnsafe$2.run(AbstractEpollChannel.java:615)
+	at io.netty.util.concurrent.PromiseTask.runTask(PromiseTask.java:98)

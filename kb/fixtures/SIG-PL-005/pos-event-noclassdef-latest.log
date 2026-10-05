@@ -1,0 +1,11 @@
+# platform: paper 1.21.8
+# expect: SIG-PL-011
+# source: synthetic (плагин ищет версионированный пакет CraftBukkit, которого нет в Paper 1.20.5+)
+[18:22:01] [Server thread/ERROR]: Could not pass event PlayerJoinEvent to OldTab v2.4.1
+java.lang.NoClassDefFoundError: org/bukkit/craftbukkit/v1_20_R3/entity/CraftPlayer
+	at OldTab-2.4.1.jar/dev.example.oldtab.TabListener.onJoin(TabListener.java:31) ~[OldTab-2.4.1.jar:?]
+	at com.destroystokyo.paper.event.executor.MethodHandleEventExecutor.execute(MethodHandleEventExecutor.java:37) ~[paper-api-1.21.8-R0.1-SNAPSHOT.jar:?]
+	at io.papermc.paper.plugin.manager.PaperEventManager.callEvent(PaperEventManager.java:54) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+Caused by: java.lang.ClassNotFoundException: org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer
+	at org.bukkit.plugin.java.PluginClassLoader.loadClass0(PluginClassLoader.java:197) ~[paper-api-1.21.8-R0.1-SNAPSHOT.jar:?]
+	... 12 more

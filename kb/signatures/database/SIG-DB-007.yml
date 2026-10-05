@@ -1,0 +1,49 @@
+id: SIG-DB-007
+version: 1
+title: "SQLite заблокирована (SQLITE_BUSY: database is locked)"
+category: database
+severity: error
+scope: server
+platforms: [paper, purpur, velocity]
+rule_ref: DB-07
+symptoms:
+  - "Запись плагина в SQLite падает: «[SQLITE_BUSY] The database file is locked (database is locked)»"
+match:
+  log:
+    # sqlite-jdbc: DB.newSQLException → «[SQLITE_BUSY…] <описание> (database is locked)»;
+    # sqlite3_errmsg для SQLITE_BUSY = «database is locked». Вторая ветка — старые драйверы без кода.
+    regex: '\[SQLITE_BUSY[A-Z_]*\] [^\n]*\(database is locked\)|(?:SQLiteException|SQLException): database is locked'
+    literal: "database is locked"
+    level: WARN
+    target: text
+cause: "Файл SQLite занят другой транзакцией или процессом дольше busy_timeout: плагин пишет из нескольких потоков/соединений или файл открыт ещё одним процессом."
+possible_causes:
+  - { text: "Плагин держит несколько соединений к одному файлу SQLite и пишет конкурентно (долгая транзакция блокирует остальных)", weight: 0.5 }
+  - { text: "Файл базы открыт другим процессом: второй экземпляр сервера на той же папке, бэкап/синхронизация, внешний просмотрщик БД", weight: 0.3 }
+  - { text: "Медленный диск/сетевая ФС (NFS, SMB) — блокировки SQLite работают плохо или долго", weight: 0.2 }
+fix:
+  instructions_md: |
+    1. Убедитесь, что папку сервера использует только один процесс (нет второго запущенного экземпляра, внешних программ, открывших `.db`).
+    2. Не держите файлы SQLite на сетевых дисках; перенесите сервер на локальный диск.
+    3. Отключите бэкапы, копирующие `.db` «на живую», или делайте их при остановленном сервере.
+    4. Для сети серверов и больших объёмов переведите плагин на MySQL/MariaDB — SQLite рассчитана на один процесс.
+    5. Если ошибка в одном плагине — обновите его; сообщите автору, если он пишет в SQLite из нескольких потоков.
+  action: null
+  risk: low
+confidence: 0.8
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/xerial/sqlite-jdbc/blob/master/src/main/java/org/sqlite/SQLiteErrorCode.java
+  - https://github.com/xerial/sqlite-jdbc/blob/master/src/main/java/org/sqlite/core/DB.java
+  - https://github.com/sqlite/sqlite/blob/master/src/main.c
+  - https://www.sqlite.org/rescode.html#busy
+tests:
+  positive:
+    - fixtures/SIG-DB-007/pos-coreprotect-paper.log
+    - fixtures/SIG-DB-007/pos-luckperms-velocity.log
+    - fixtures/SIG-DB-007/pos-busy-snapshot-console.log
+  negative:
+    - fixtures/SIG-DB-007/neg-coreprotect-database-locked-phrase.log
+    - fixtures/SIG-DB-007/neg-table-locked.log
+    - fixtures/SIG-DB-007/neg-sqlite-info.log

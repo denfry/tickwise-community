@@ -1,0 +1,16 @@
+# platform: paper 1.21.11
+# expect: SIG-PA-007
+# source: synthetic (соседний сигнал — ранний дамп watchdog)
+[18:08:00 ERROR]: --- DO NOT REPORT THIS TO PAPER - THIS IS NOT A BUG OR A CRASH  - 1.21.11-130-main@3b5e1f2 (2026-06-10T09:00:00Z) ---
+[18:08:00 ERROR]: The server has not responded for 10 seconds! Creating thread dump
+[18:08:00 ERROR]: ------------------------------
+[18:08:00 ERROR]: Server thread dump (Look for plugins here before reporting to Paper!):
+[18:08:00 ERROR]: ------------------------------
+[18:08:00 ERROR]: Current Thread: Server thread
+[18:08:00 ERROR]: 	PID: 38 | Suspended: false | Native: false | State: RUNNABLE
+[18:08:00 ERROR]: 	Stack:
+[18:08:00 ERROR]: 		Holograms.jar//dev.example.holo.UpdateTask.run(UpdateTask.java:21)
+[18:08:00 ERROR]: 		net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:1720)
+[18:08:00 ERROR]: ------------------------------
+[18:08:00 ERROR]: --- DO NOT REPORT THIS TO PAPER - THIS IS NOT A BUG OR A CRASH ---
+[18:08:00 ERROR]: ------------------------------

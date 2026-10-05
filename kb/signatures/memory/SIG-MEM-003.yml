@@ -1,0 +1,45 @@
+id: SIG-MEM-003
+version: 1
+title: "JVM не может создать поток (OutOfMemoryError: unable to create native thread)"
+category: memory
+severity: critical
+scope: server
+platforms: [paper, purpur]
+rule_ref: MEM-03
+symptoms:
+  - "Плагины, сеть или задачи перестают работать, сервер может зависнуть или упасть"
+  - "В логе: «java.lang.OutOfMemoryError: unable to create native thread»"
+match:
+  log:
+    regex: 'java\.lang\.OutOfMemoryError: unable to create (?:new )?native thread'
+    literal: "native thread"
+    level: WARN
+    target: text
+cause: "ОС отказала в создании нового потока: исчерпан лимит процессов/потоков (pids limit контейнера, ulimit -u) или нативная память. Чаще всего потоки плодит плагин (утечка потоков)."
+possible_causes:
+  - { text: "Плагин создаёт потоки/пулы и не завершает их (утечка потоков)", weight: 0.5 }
+  - { text: "Низкий лимит pids в контейнере (Docker/Pterodactyl) или ulimit -u", weight: 0.35 }
+  - { text: "Нативная память исчерпана (контейнер у лимита RAM)", weight: 0.15 }
+fix:
+  instructions_md: |
+    1. Перезапустите сервер, чтобы вернуть работоспособность.
+    2. До падения (или сразу после рестарта с интервалом) снимите список потоков: `/spark profiler --thread *` или `jstack <pid>`; ищите сотни потоков с одинаковым именем — по имени пула обычно виден плагин.
+    3. Проверьте лимиты: `cat /sys/fs/cgroup/pids.max` в контейнере, `ulimit -u` для пользователя сервера; при слишком низком значении попросите хостинг поднять лимит.
+    4. Обновите или замените плагин, создающий потоки.
+  action: null
+  risk: low
+confidence: 0.85
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/openjdk/jdk21u/blob/master/src/hotspot/share/runtime/os.hpp
+  - https://github.com/openjdk/jdk21u/blob/master/src/hotspot/share/prims/jvm.cpp
+tests:
+  positive:
+    - fixtures/SIG-MEM-003/pos-async-task-console.log
+    - fixtures/SIG-MEM-003/pos-server-thread-latest.log
+    - fixtures/SIG-MEM-003/pos-netty-crash.log
+  negative:
+    - fixtures/SIG-MEM-003/neg-heap-oom.log
+    - fixtures/SIG-MEM-003/neg-thread-count-info.log
+    - fixtures/SIG-MEM-003/neg-process-spawn-error.log

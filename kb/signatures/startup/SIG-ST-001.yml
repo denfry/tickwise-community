@@ -1,0 +1,44 @@
+id: SIG-ST-001
+version: 1
+title: "Java слишком старая для сервера или плагина (UnsupportedClassVersionError)"
+category: startup
+severity: critical
+scope: server
+platforms: [paper, purpur]
+rule_ref: ST-01
+symptoms:
+  - "Сервер не запускается сразу после старта JVM, либо не загружается отдельный плагин"
+  - "В логе: «has been compiled by a more recent version of the Java Runtime (class file version N)»"
+match:
+  log:
+    regex: 'java\.lang\.UnsupportedClassVersionError: [^\n]*has been compiled by a more recent version of the Java Runtime \(class file version \d+\.\d+\), this version of the Java Runtime only recognizes class file versions up to \d+\.\d+'
+    literal: "has been compiled by a more recent version of the Java Runtime"
+    target: text
+cause: "Класс (ядро сервера или плагин) собран под более новую Java, чем та, на которой запущен сервер. Номер class file version показывает требуемую Java: 65 = Java 21, 69 = Java 25."
+possible_causes:
+  - { text: "Сервер/образ панели запускается на старой Java (например, 17), а Paper 1.21.x требует Java 21, Paper 26.x — Java 25", weight: 0.6 }
+  - { text: "Плагин собран под Java 25, а сервер работает на Java 21 (плагин для более новой версии Minecraft)", weight: 0.35 }
+  - { text: "В панели выбран не тот Docker-образ/путь к java", weight: 0.05 }
+fix:
+  instructions_md: |
+    1. Найдите в evidence два числа: `class file version X` (требуется) и `up to Y` (есть сейчас). 65.0 = Java 21, 69.0 = Java 25, 61.0 = Java 17.
+    2. Если в строке упомянут класс ядра (`org/bukkit/craftbukkit/Main`, `io/papermc/...`) — сервер не стартует: установите требуемую Java (Paper 1.21.x — Java 21, Paper 26.x — Java 25), в панели хостинга смените Docker-образ/версию Java.
+    3. Если упомянут класс плагина — либо обновите Java сервера, либо возьмите версию плагина, собранную для вашей версии Java/Minecraft.
+    4. Проверьте результат командой `java -version` тем же путём к java, которым запускается сервер.
+  action: null
+  risk: medium
+confidence: 0.97
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/openjdk/jdk21u/blob/master/src/hotspot/share/classfile/classFileParser.cpp
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/src/main/java/io/papermc/paper/plugin/provider/type/spigot/SpigotPluginProvider.java
+tests:
+  positive:
+    - fixtures/SIG-ST-001/pos-server-jar-java17.log
+    - fixtures/SIG-ST-001/pos-plugin-paper-console.log
+    - fixtures/SIG-ST-001/pos-plugin-latest-log.log
+  negative:
+    - fixtures/SIG-ST-001/neg-healthy-java-banner.log
+    - fixtures/SIG-ST-001/neg-asm-unsupported-major.log
+    - fixtures/SIG-ST-001/neg-classformat-magic.log

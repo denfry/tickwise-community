@@ -1,0 +1,4 @@
+# platform: paper 1.21.8
+# source: synthetic (отсутствует необязательная зависимость — плагин работает)
+[07:40:15] [Server thread/WARN]: [Towny] Missing optional dependency: PlaceholderAPI. Some features are disabled.
+[07:40:15] [Server thread/INFO]: [Towny] Unknown dependency versions will not be checked.

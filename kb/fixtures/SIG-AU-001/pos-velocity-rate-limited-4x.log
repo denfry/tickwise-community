@@ -1,0 +1,3 @@
+# platform: velocity 4.0.0
+# source: synthetic (ветка dev/4.0.0; 429 от sessionserver, адрес игрока скрыт логированием)
+[2026-09-24 11:00:00] [HttpClient-1-Worker-2/ERROR] [com.velocitypowered.proxy.connection.client.InitialLoginSessionHandler]: Got an unexpected error code 429 whilst contacting Mojang to log in Builder42 (203.0.113.90)

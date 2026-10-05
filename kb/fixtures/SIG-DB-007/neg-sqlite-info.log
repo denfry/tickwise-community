@@ -1,0 +1,4 @@
+# platform: paper 1.21.11
+# source: synthetic (штатные INFO-сообщения, упоминание блокировки)
+[10:00:01 INFO]: [LuckPerms] Loading storage provider... [SQLITE]
+[10:00:02 INFO]: [Backup] Skipping plugins/CoreProtect/database.db: file in use (database is locked)

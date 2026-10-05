@@ -1,0 +1,6 @@
+# platform: velocity 3.5.1
+# source: politernal-sanitized (прокси, 2026-09-18: обрыв сессии с backend, игрок перенесён в lobby)
+[18:02:50] [Netty epoll Worker #0/ERROR] [com.velocitypowered.proxy.connection.MinecraftConnection]: [server connection] <player:71663e5d> -> main: exception encountered in com.velocitypowered.proxy.connection.backend.BackendPlaySessionHandler@46f8a639
+io.netty.channel.unix.Errors$NativeIoException: recvAddress(..) failed with error(-104): Connection reset by peer
+[18:02:50] [Netty epoll Worker #0/INFO] [com.velocitypowered.proxy.connection.MinecraftConnection]: [server connection] <player:71663e5d> -> main has disconnected
+[18:02:50] [Netty epoll Worker #0/INFO] [com.velocitypowered.proxy.connection.MinecraftConnection]: [server connection] <player:71663e5d> -> lobby has connected

@@ -1,0 +1,3 @@
+# platform: paper 1.21.11
+# source: synthetic (нормальная статистика потоков)
+[14:00:00 INFO]: [spark] Threads: 118 live, 42 daemon, peak 131

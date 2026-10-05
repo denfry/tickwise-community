@@ -1,0 +1,64 @@
+id: SIG-WO-001
+version: 1
+title: "Повреждение чанков или region-файлов: данные чанка потеряны"
+category: world
+severity: error
+scope: server
+platforms: [paper, purpur]
+rule_ref: WO-01
+symptoms:
+  - "Участки мира перегенерировались (пропали постройки) или чанки не загружаются"
+  - "В логе: «Failed to parse/load chunk data for task … chunk data will be lost», ошибки region-файлов"
+match:
+  any:
+    - log:
+        regex: 'Failed to (?:parse|load) chunk data for task: [^\n]*, chunk data will be lost'
+        literal: "chunk data will be lost"
+        level: WARN
+        target: message
+    - log:
+        regex: 'Region file [^\n]+ has (?:an )?invalid sector at index: \d+'
+        literal: "invalid sector at index"
+        level: WARN
+        target: message
+    - log:
+        regex: '(?:Detected invalid header for regionfile [^\n]+|Attempting to read chunk data at [^\n]+ but got chunk data for [^\n]+ instead|Can''t recalculate regionfile header)'
+        literal: "regionfile"
+        level: WARN
+        target: message
+    - log:
+        regex: 'Chunk [^\n]+ (?:header|stream) is truncated: expected \d+ but read \d+'
+        literal: " is truncated: expected "
+        level: WARN
+        target: message
+cause: "Сервер не смог прочитать или разобрать данные чанка из region-файла (.mca). Такой чанк будет сгенерирован заново — постройки в нём теряются. Причина — повреждение файла или данные, несовместимые с текущей версией/высотой мира."
+possible_causes:
+  - { text: "Файл региона повреждён: аварийная остановка/kill процесса во время записи, сбой диска", weight: 0.45 }
+  - { text: "Чанки созданы другой версией/форком или с другой высотой мира (датапак), и не совместимы с текущей", weight: 0.35 }
+  - { text: "Мир копировали/восстанавливали частично или внешним инструментом (MCA Selector, ручная правка)", weight: 0.2 }
+fix:
+  instructions_md: |
+    1. Не удаляйте и не «чините» файлы мира на работающем сервере; сначала сделайте копию папки мира.
+    2. По evidence определите мир и координаты чанка (`world: …, chunk: (x,z)`, путь к `r.X.Z.mca`); регион = floor(координата_чанка / 32).
+    3. Если есть резервная копия — остановите сервер и восстановите из неё затронутые файлы `region/r.X.Z.mca` (а также `entities/` и `poi/` того же региона).
+    4. Если ошибок много и рядом строки о несовпадении высоты/heightmap — проверьте, не меняли ли версию сервера, форк или датапак высоты мира.
+    5. Проверьте диск (SMART, свободное место) и не останавливайте сервер через kill — только `stop`.
+  action: null
+  risk: high
+confidence: 0.8
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/patches/features/0003-Moonrise-optimisation-patches.patch
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/patches/features/0027-Attempt-to-recalculate-regionfile-header-if-it-is-co.patch
+tests:
+  positive:
+    - fixtures/SIG-WO-001/pos-moonrise-parse-leaf.log
+    - fixtures/SIG-WO-001/pos-moonrise-load-console.log
+    - fixtures/SIG-WO-001/pos-region-header-recalc.log
+    - fixtures/SIG-WO-001/pos-wrong-chunk-data.log
+  negative:
+    - fixtures/SIG-WO-001/neg-heightmap-warning.log
+    - fixtures/SIG-WO-001/neg-shutdown-io.log
+    - fixtures/SIG-WO-001/neg-chunky-progress.log
+    - fixtures/SIG-WO-001/neg-save-failure.log

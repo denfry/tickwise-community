@@ -1,0 +1,5 @@
+# platform: velocity 3.4.0
+# source: synthetic (консольный формат Velocity; прокси в legacy, backend ждёт modern)
+[12:40:03 INFO]: [server connection] Steve -> survival has connected
+[12:40:04 ERROR]: [connected player] Steve (/198.51.100.7:40211): disconnected while connecting to survival: This server requires you to connect with Velocity.
+[12:40:04 INFO]: [connected player] Steve (/198.51.100.7:40211) has disconnected: Unable to connect to survival: This server requires you to connect with Velocity.

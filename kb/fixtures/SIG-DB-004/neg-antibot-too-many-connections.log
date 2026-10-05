@@ -1,0 +1,7 @@
+# platform: velocity 3.5.1
+# source: synthetic (анти-бот/лимит подключений с одного IP — не БД)
+[12:30:00] [Netty epoll Worker #0/INFO] [com.velocitypowered.proxy.connection.client.InitialInboundConnection]: [initial connection] /203.0.113.5:50000 has disconnected: Too many connections from your IP
+[12:30:01] [Netty epoll Worker #0/WARN] [antibot]: Too many connections per second, enabling attack mode
+[12:30:02] [Netty epoll Worker #1/ERROR] [antibot]: Rejected connection
+java.lang.IllegalStateException: Too many connections from /203.0.113.5 (limit 3)
+	at com.example.antibot.ConnectionLimiter.check(ConnectionLimiter.java:41)

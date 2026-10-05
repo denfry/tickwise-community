@@ -1,0 +1,46 @@
+id: SIG-NW-005
+version: 1
+title: "Нет доступных серверов для входа в сеть"
+category: network
+severity: critical
+scope: network
+platforms: [velocity]
+rule_ref: NW-05
+symptoms:
+  - "Игроков отключает сразу после входа на прокси: «There are no available servers to connect you to. Try again later or contact an admin.»"
+match:
+  log:
+    # AuthSessionHandler: PlayerChooseInitialServerEvent не выбрал сервер → disconnect0(velocity.error.no-available-servers).
+    # Английская локаль по умолчанию; строка пишется как «[connected player] … has disconnected: …».
+    regex: 'There are no available servers to connect you to\. Try again later or contact an admin\.'
+    literal: "There are no available servers to connect you to"
+    target: message
+cause: "Прокси не нашёл начальный сервер для игрока: список try пуст или ни один сервер из него не подходит для этого подключения (forced host без серверов, плагин балансировки/лобби не выбрал сервер)."
+possible_causes:
+  - { text: "Список try в velocity.toml пуст или содержит только незарегистрированные серверы; для хоста подключения в forced-hosts нет серверов", weight: 0.45 }
+  - { text: "Плагин балансировки/лобби (обработчик PlayerChooseInitialServerEvent) не выбрал сервер — например, все backend для него помечены недоступными", weight: 0.45 }
+  - { text: "Текст переводим и может быть переопределён; сигнатура ловит только английский текст по умолчанию — основной источник API-события Velocity-агента", weight: 0.1, advisory: true }
+fix:
+  instructions_md: |
+    1. Откройте `velocity.toml`: в `[servers]` параметр `try` должен содержать хотя бы один зарегистрированный сервер; проверьте `[forced-hosts]` для домена, по которому заходят игроки.
+    2. Проверьте, что backend из `try` запущены и отвечают (команда `/server` на прокси, статус в панели Tickwise).
+    3. Если используется плагин лобби/балансировки — проверьте его конфиг и лог: он мог исключить все серверы.
+    4. После правки `velocity.toml` выполните `/velocity reload` или перезапустите прокси.
+  action: null
+  risk: low
+confidence: 0.95
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Velocity/blob/dev/3.0.0/proxy/src/main/resources/com/velocitypowered/proxy/l10n/messages.properties
+  - https://github.com/PaperMC/Velocity/blob/dev/3.0.0/proxy/src/main/java/com/velocitypowered/proxy/connection/client/AuthSessionHandler.java
+  - https://github.com/PaperMC/Velocity/blob/dev/4.0.0/proxy/src/main/resources/com/velocitypowered/proxy/l10n/messages.properties
+tests:
+  positive:
+    - fixtures/SIG-NW-005/pos-latest.log
+    - fixtures/SIG-NW-005/pos-console-burst.log
+    - fixtures/SIG-NW-005/pos-address-withheld-4x.log
+  negative:
+    - fixtures/SIG-NW-005/neg-unable-to-connect-you.log
+    - fixtures/SIG-NW-005/neg-no-servers-configured-warning.log
+    - fixtures/SIG-NW-005/neg-queue-plugin-message.log

@@ -1,0 +1,5 @@
+# platform: purpur 1.21.11
+# source: synthetic (вариант «(in the plugin loader)» из PaperPluginInstanceManager)
+[23:59:03 ERROR]: Error occurred (in the plugin loader) while disabling Jobs v5.2.6.2 (Is it up to date?)
+java.lang.NullPointerException: Cannot invoke "com.gamingmesh.jobs.dao.JobsDAO.closeConnections()" because "dao" is null
+	at Jobs.jar/com.gamingmesh.jobs.Jobs.onDisable(Jobs.java:890) ~[Jobs.jar:?]

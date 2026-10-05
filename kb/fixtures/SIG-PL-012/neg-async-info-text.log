@@ -1,0 +1,3 @@
+# platform: purpur 1.21.11
+# source: synthetic (INFO-сообщение плагина со словом Asynchronous)
+[09:00:00 INFO]: [FastAsyncWorldEdit] Asynchronous chunk processing enabled!

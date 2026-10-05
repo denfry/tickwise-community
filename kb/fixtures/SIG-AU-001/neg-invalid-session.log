@@ -1,0 +1,3 @@
+# platform: paper 1.21.8
+# source: synthetic (vanilla: невалидная сессия конкретного игрока)
+[11:05:00] [User Authenticator #1/ERROR]: Username 'Steve' tried to join with an invalid session

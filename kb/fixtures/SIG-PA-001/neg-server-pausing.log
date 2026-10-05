@@ -1,0 +1,3 @@
+# platform: paper 26.2
+# source: synthetic (vanilla pause-when-empty — не перегрузка)
+[04:00:00 INFO]: Server empty for 60 seconds, pausing

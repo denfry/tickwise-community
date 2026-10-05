@@ -1,0 +1,5 @@
+# platform: velocity 3.5.1
+# source: synthetic (предупреждение VelocityConfiguration.validate при старте — не кик)
+[09:00:01] [main/INFO] [com.velocitypowered.proxy.VelocityServer]: Booting up Velocity 3.5.1...
+[09:00:02] [main/WARN] [com.velocitypowered.proxy.config.VelocityConfiguration]: Player info forwarding is disabled! All players will appear to be connecting from the proxy and will have offline-mode UUIDs.
+[09:00:03] [main/INFO] [com.velocitypowered.proxy.VelocityServer]: Listening on /0.0.0.0:25565

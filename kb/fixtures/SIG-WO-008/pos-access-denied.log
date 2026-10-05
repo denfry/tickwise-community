@@ -1,0 +1,5 @@
+# platform: purpur 1.21.11
+# source: synthetic (нет прав на запись в папку мира)
+[12:42:00 ERROR]: [ChunkHolderManager] Failed to save chunk (-1,0) in world 'world_nether'
+java.nio.file.AccessDeniedException: ./world_nether/DIM-1/region/r.-1.0.mca
+	at java.base/sun.nio.fs.UnixException.translateToIOException(UnixException.java:90)

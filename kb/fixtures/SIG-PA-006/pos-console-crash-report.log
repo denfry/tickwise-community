@@ -1,0 +1,5 @@
+# platform: purpur 1.21.11
+# source: synthetic (консоль; за сообщением следует краш-репорт)
+[03:34:00 ERROR]: A single server tick took 120.50 seconds (should be max 0.05)
+[03:34:00 ERROR]: Considering it to be crashed, server will forcibly shutdown.
+[03:34:00 ERROR]: This crash report has been saved to: ./crash-reports/crash-2026-09-24_03.34.00-server.txt

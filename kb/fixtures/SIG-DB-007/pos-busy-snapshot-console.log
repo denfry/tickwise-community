@@ -1,0 +1,6 @@
+# platform: purpur 1.21.4
+# plugins: Jobs 5.2.4
+# source: synthetic (расширенный код SQLITE_BUSY_SNAPSHOT из SQLiteErrorCode.java, консольный формат)
+[07:45:12 ERROR]: [Jobs] Could not save job progress
+org.sqlite.SQLiteException: [SQLITE_BUSY_SNAPSHOT] Another database connection has already written to the database (database is locked)
+	at org.sqlite.core.DB.newSQLException(DB.java:1179)

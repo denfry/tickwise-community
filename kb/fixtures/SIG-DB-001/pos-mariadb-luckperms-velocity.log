@@ -1,0 +1,12 @@
+# platform: velocity 3.5.1
+# plugins: LuckPerms 5.5.17
+# expect: SIG-DB-002
+# source: politernal-sanitized (прокси, 2026-09-20; стек печатается через VelocityConsole построчно; хост БД заменён на db.example.net)
+[09:20:00] [LuckPerms - Task Executor #34/ERROR] [com.velocitypowered.proxy.console.VelocityConsole]: java.sql.SQLTransientConnectionException: luckperms-hikari - Connection is not available, request timed out after 5000ms (total=0, active=0, idle=0, waiting=5)
+[09:20:00] [LuckPerms - Task Executor #34/ERROR] [com.velocitypowered.proxy.console.VelocityConsole]: 	at me.lucko.luckperms.lib.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:709)
+[09:20:00] [LuckPerms - Task Executor #34/ERROR] [com.velocitypowered.proxy.console.VelocityConsole]: 	at me.lucko.luckperms.lib.hikari.pool.HikariPool.getConnection(HikariPool.java:188)
+[09:20:00] [LuckPerms - Task Executor #34/ERROR] [com.velocitypowered.proxy.console.VelocityConsole]: 	at me.lucko.luckperms.common.messaging.sql.SqlMessenger.getConnection(SqlMessenger.java:84)
+[09:20:00] [LuckPerms - Task Executor #34/ERROR] [com.velocitypowered.proxy.console.VelocityConsole]: Caused by: java.sql.SQLNonTransientConnectionException: Socket fail to connect to db.example.net. Connection refused
+[09:20:00] [LuckPerms - Task Executor #34/ERROR] [com.velocitypowered.proxy.console.VelocityConsole]: 	at me.lucko.luckperms.lib.mariadb.client.impl.ConnectionHelper.connectSocket(ConnectionHelper.java:131)
+[09:20:00] [LuckPerms - Task Executor #34/ERROR] [com.velocitypowered.proxy.console.VelocityConsole]: 	at me.lucko.luckperms.lib.mariadb.client.impl.StandardClient.<init>(StandardClient.java:125)
+[09:20:00] [LuckPerms - Task Executor #34/ERROR] [com.velocitypowered.proxy.console.VelocityConsole]: 	at me.lucko.luckperms.lib.mariadb.Driver.connect(Driver.java:75)

@@ -1,0 +1,8 @@
+# platform: paper 1.21.8
+# source: politernal-sanitized (2026-09-18, work-7297; команда пришла из netty-потока во время остановки, исключение плагином не логируется; стек укорочен)
+[20:15:38] [Netty Epoll Server IO #0/ERROR]: Thread Netty Epoll Server IO #0 failed main thread check: Cannot perform command async
+java.lang.Throwable: null
+	at org.spigotmc.AsyncCatcher.catchOp(AsyncCatcher.java:9) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.commands.Commands.performCommand(Commands.java:349) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.commands.Commands.performCommand(Commands.java:345) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.server.network.ServerGamePacketListenerImpl.performUnsignedChatCommand(ServerGamePacketListenerImpl.java:2313) ~[paper-1.21.8.jar:1.21.8-60-29c8822]

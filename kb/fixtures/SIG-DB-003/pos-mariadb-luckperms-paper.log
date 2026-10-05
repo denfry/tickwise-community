@@ -1,0 +1,7 @@
+# platform: paper 1.21.8
+# plugins: LuckPerms 5.5.17
+# source: synthetic (MariaDB Connector/J 3.x; текст ER_ACCESS_DENIED_ERROR сервера)
+[10:00:02] [Server thread/ERROR]: [LuckPerms] Failed to init storage implementation
+java.sql.SQLInvalidAuthorizationSpecException: (conn=38) Access denied for user 'luckperms'@'172.18.0.4' (using password: YES)
+	at me.lucko.luckperms.lib.mariadb.export.ExceptionFactory.createException(ExceptionFactory.java:295)
+	at me.lucko.luckperms.lib.mariadb.client.impl.StandardClient.authenticationHandler(StandardClient.java:772)

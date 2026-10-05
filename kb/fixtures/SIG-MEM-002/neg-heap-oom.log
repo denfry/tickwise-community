@@ -1,0 +1,6 @@
+# platform: paper 26.2
+# expect: SIG-MEM-001
+# source: synthetic (соседний тип OOM — heap)
+[14:22:10 ERROR]: Encountered an unexpected exception
+java.lang.OutOfMemoryError: Java heap space
+	at java.base/java.util.Arrays.copyOf(Arrays.java:3541)

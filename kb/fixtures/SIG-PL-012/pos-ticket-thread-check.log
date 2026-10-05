@@ -1,0 +1,6 @@
+# platform: purpur 1.21.11
+# source: synthetic (TickThread.ensureTickThread: сообщение содержит «Thread failed main thread check»)
+[09:12:30 ERROR]: [Regions] Failed to refresh region cache
+java.lang.IllegalStateException: Thread failed main thread check: Scheduling chunk load off-main, context=thread=ForkJoinPool.commonPool-worker-5, world=world, block_pos=BlockPos{x=128, y=64, z=-32}
+	at ca.spottedleaf.moonrise.common.util.TickThread.ensureTickThread(TickThread.java:37) ~[purpur-1.21.11.jar:1.21.11-2512-c0ffee1]
+	at Regions.jar/dev.example.regions.Cache.refresh(Cache.java:73) ~[Regions.jar:?]

@@ -1,0 +1,3 @@
+# platform: paper 1.21.8
+# source: synthetic (сообщение плагина про внешний сервис)
+[21:44:00] [Craft Scheduler Thread - 9/WARN]: [DiscordLink] The Discord gateway has stopped responding, reconnecting in 10s

@@ -1,0 +1,9 @@
+# platform: paper 26.2
+# source: synthetic (текст конструктора UnknownDependencyException(Collection, String) из paper-api)
+[10:00:01 INFO]: [PluginInitializerManager] Initializing plugins...
+[10:00:01 ERROR]: [ModernPluginLoadingStrategy] Could not load 'plugins/EssentialsXChat-2.21.2.jar' in 'plugins'
+org.bukkit.plugin.UnknownDependencyException: Unknown/missing dependency plugins: [Essentials]. Please download and install these plugins to run 'EssentialsChat'.
+	at io.papermc.paper.plugin.entrypoint.strategy.modern.ModernPluginLoadingStrategy.loadProviders(ModernPluginLoadingStrategy.java:82) ~[paper-26.2.jar:26.2-128-a1b2c3d]
+	at io.papermc.paper.plugin.storage.SimpleProviderStorage.enter(SimpleProviderStorage.java:38) ~[paper-26.2.jar:26.2-128-a1b2c3d]
+	at io.papermc.paper.plugin.entrypoint.LaunchEntryPointHandler.enter(LaunchEntryPointHandler.java:39) ~[paper-26.2.jar:26.2-128-a1b2c3d]
+[10:00:02 INFO]: [PluginInitializerManager] Initialized 18 plugins

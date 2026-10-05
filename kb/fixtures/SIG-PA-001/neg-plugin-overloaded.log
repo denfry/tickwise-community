@@ -1,0 +1,3 @@
+# platform: paper 1.21.8
+# source: synthetic (сообщение стороннего плагина со схожими словами)
+[18:07:00] [Server thread/WARN]: [LagMonitor] Server is overloaded? TPS dropped to 17.8, clearing ground items

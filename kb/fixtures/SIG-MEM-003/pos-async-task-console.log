@@ -1,0 +1,10 @@
+# platform: paper 26.2
+# java: 25.0.1
+# expect: SIG-PL-010
+# source: synthetic (текст OS_NATIVE_THREAD_CREATION_FAILED_MSG из os.hpp)
+[02:14:09 WARN]: [StatsTracker] Plugin StatsTracker v2.1.0 generated an exception while executing task 90412
+java.lang.OutOfMemoryError: unable to create native thread: possibly out of memory or process/resource limits reached
+	at java.base/java.lang.Thread.start0(Native Method)
+	at java.base/java.lang.Thread.start(Thread.java:1526)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.addWorker(ThreadPoolExecutor.java:945)
+	at StatsTracker.jar/dev.example.stats.Uploader.submit(Uploader.java:61) ~[StatsTracker.jar:?]

@@ -1,0 +1,58 @@
+id: SIG-VE-003
+version: 1
+title: "Velocity не может подключить игрока к backend (backend недоступен)"
+category: velocity
+severity: error
+scope: network
+platforms: [velocity]
+rule_ref: VE-03
+symptoms:
+  - "Игроки не попадают на сервер: «Unable to connect you to <server>. Please try again later.»"
+  - "В логе прокси: «<player>: unable to connect to server <name>» с Connection refused / timeout"
+match:
+  any:
+    - log:
+        # ConnectedPlayer.handleConnectionException(server, Throwable):
+        # logger.error("{}: unable to connect to server {}", this, name, wrapped); this = "[connected player] <name> (<address>)".
+        # Ниже строки идёт исключение (AnnotatedConnectException, ReadTimeoutException, NativeIoException …).
+        regex: '\[connected player\] [^\n]*: unable to connect to server [\w.-]+'
+        literal: "unable to connect to server"
+        target: message
+    - log:
+        # velocity.error.connecting-server-error (английская локаль по умолчанию) — кик, когда fallback-сервера нет.
+        regex: 'has disconnected: Unable to connect you to [\w.-]+\. Please try again later\.'
+        literal: "Unable to connect you to"
+        target: message
+cause: "Прокси не смог установить соединение с backend: процесс backend остановлен, упал или перезапускается, завис (не отвечает до read-timeout) либо адрес в velocity.toml неверен."
+possible_causes:
+  - { text: "Backend выключен, упал или перезапускается (Connection refused) — облако сопоставляет с состоянием backend (NW-01)", weight: 0.55 }
+  - { text: "Backend завис или перегружен и не отвечает в пределах read-timeout (ReadTimeoutException)", weight: 0.2 }
+  - { text: "Неверный адрес/порт backend в секции [servers] velocity.toml или файрвол между прокси и backend (connection timed out / No route to host)", weight: 0.2 }
+  - { text: "Тексты киков Velocity переводимы и переопределяемы; основной источник — API-события Velocity-агента, эта лог-сигнатура дополнительная", weight: 0.05, advisory: true }
+fix:
+  instructions_md: |
+    1. Посмотрите исключение под строкой `unable to connect to server <name>` в evidence: `Connection refused` — на адресе никто не слушает; `connection timed out` / `No route to host` — сеть или файрвол; `ReadTimeoutException` — backend принимает соединение, но не отвечает (завис или лагает).
+    2. Проверьте, запущен ли backend `<name>` и не в цикле ли перезапусков (консоль/панель хостинга, конец его latest.log).
+    3. Сверьте адрес и порт backend в `[servers]` в `velocity.toml` с `server-port` в `server.properties` этого backend.
+    4. Если backend доступен, но отвечает медленно — ищите причину зависания на нём (TPS/MSPT, паузы GC, watchdog).
+    5. Чтобы игроки не вылетали с прокси целиком, держите в `try` рабочий fallback-сервер.
+  action: null
+  risk: low
+confidence: 0.85
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Velocity/blob/dev/3.0.0/proxy/src/main/java/com/velocitypowered/proxy/connection/client/ConnectedPlayer.java
+  - https://github.com/PaperMC/Velocity/blob/dev/3.0.0/proxy/src/main/resources/com/velocitypowered/proxy/l10n/messages.properties
+  - https://github.com/PaperMC/Velocity/blob/dev/4.0.0/proxy/src/main/java/com/velocitypowered/proxy/connection/client/ConnectedPlayer.java
+tests:
+  positive:
+    - fixtures/SIG-VE-003/pos-connection-refused-latest.log
+    - fixtures/SIG-VE-003/pos-read-timeout-latest.log
+    - fixtures/SIG-VE-003/pos-connect-timeout-console.log
+    - fixtures/SIG-VE-003/pos-kick-no-fallback-address-withheld.log
+  negative:
+    - fixtures/SIG-VE-003/neg-in-session-backend-error.log
+    - fixtures/SIG-VE-003/neg-normal-quit.log
+    - fixtures/SIG-VE-003/neg-banned-cant-connect.log
+    - fixtures/SIG-VE-003/neg-maintenance-kick.log

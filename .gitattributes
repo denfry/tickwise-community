@@ -1,0 +1,5 @@
+* text=auto eol=lf
+# Fixtures are matched byte for byte by the validator: never rewrite their line endings.
+*.log text eol=lf
+*.yml text eol=lf
+*.sh text eol=lf

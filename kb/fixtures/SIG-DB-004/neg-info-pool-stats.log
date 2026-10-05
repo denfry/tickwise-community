@@ -1,0 +1,4 @@
+# platform: paper 1.21.11
+# source: synthetic (INFO-упоминание в диагностике плагина)
+[09:00:00 INFO]: [Plan] Tip: if you see "Too many connections", lower pool size in config.yml
+[09:00:00 INFO]: [LuckPerms] Pool settings: maximum-pool-size=10

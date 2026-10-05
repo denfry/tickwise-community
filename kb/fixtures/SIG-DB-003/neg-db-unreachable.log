@@ -1,0 +1,5 @@
+# platform: paper 1.21.8
+# plugins: LiteBans 2.19.0
+# expect: SIG-DB-001
+# source: synthetic по образцу politernal-sanitized (БД недоступна — DB-01, учётные данные не проверялись)
+[10:28:51] [Server thread/ERROR]: [LiteBans] Error: Socket fail to connect to host:address=(host=db.example.net)(port=3306)(type=primary). Connection refused

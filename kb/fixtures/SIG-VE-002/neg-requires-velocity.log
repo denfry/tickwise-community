@@ -1,0 +1,4 @@
+# platform: paper 1.21.8
+# expect: SIG-VE-001
+# source: politernal-sanitized (Leaf 1.21.8, 2026-09-19: другой кик Velocity-поддержки — VE-01, не VE-02)
+[14:12:57] [Netty Epoll Server IO #0/INFO]: Disconnecting <player:05ddfea7> (/<ip:e4922b7b>:3172): This server requires you to connect with Velocity.

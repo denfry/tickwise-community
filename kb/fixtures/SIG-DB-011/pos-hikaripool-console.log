@@ -1,0 +1,4 @@
+# platform: purpur 1.21.4
+# plugins: CoreProtect 23.1
+# source: synthetic (консольный формат, пул без имени — HikariPool-1)
+[05:12:44 WARN]: HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m3s4ms).

@@ -1,0 +1,9 @@
+# platform: paper 1.21.8
+# source: politernal-sanitized (2026-09-22, work-7297; Leaf 1.21.8, стек укорочен)
+[23:30:06] [Paper Common Worker #1/WARN]: Ignoring heightmap data for chunk [-30, -23], size does not match; expected: 37, got: 52
+[23:30:06] [Paper Common Worker #3/ERROR]: [ca.spottedleaf.moonrise.patches.chunk_system.scheduling.task.ChunkLoadTask] Failed to parse chunk data for task: GenericDataLoadTask{class: ca.spottedleaf.moonrise.patches.chunk_system.scheduling.task.ChunkLoadTask$ChunkDataLoadTask, world: spawn, chunk: (-29,-24), hashcode: 386712620, priority: NORMAL, type: CHUNK_DATA}, chunk data will be lost
+java.lang.ArrayIndexOutOfBoundsException: Index 24 out of bounds for length 24
+	at net.minecraft.world.level.chunk.ChunkAccess.getOrCreateOffsetList(ChunkAccess.java:464) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.world.level.chunk.ChunkAccess.addPackedPostProcess(ChunkAccess.java:383) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at net.minecraft.world.level.chunk.storage.SerializableChunkData.read(SerializableChunkData.java:426) ~[paper-1.21.8.jar:1.21.8-60-29c8822]
+	at ca.spottedleaf.moonrise.patches.chunk_system.scheduling.task.ChunkLoadTask$ChunkDataLoadTask.runOffMain(ChunkLoadTask.java:355) ~[paper-1.21.8.jar:1.21.8-60-29c8822]

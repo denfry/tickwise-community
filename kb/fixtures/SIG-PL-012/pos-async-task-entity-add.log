@@ -1,0 +1,14 @@
+# platform: paper 26.2
+# expect: SIG-PL-010
+# source: synthetic (AsyncCatcher.catchOp: сначала лог «failed main thread check», затем IllegalStateException)
+[15:20:01 ERROR]: Thread Craft Scheduler Thread - 7 failed main thread check: entity add
+java.lang.Throwable: null
+	at org.spigotmc.AsyncCatcher.catchOp(AsyncCatcher.java:9) ~[paper-26.2.jar:26.2-128-a1b2c3d]
+	at net.minecraft.server.level.ServerLevel.addFreshEntity(ServerLevel.java:1290) ~[paper-26.2.jar:26.2-128-a1b2c3d]
+[15:20:01 WARN]: [PetsPlus] Plugin PetsPlus v4.0.2 generated an exception while executing task 812
+java.lang.IllegalStateException: Asynchronous entity add!
+	at org.spigotmc.AsyncCatcher.catchOp(AsyncCatcher.java:10) ~[paper-26.2.jar:26.2-128-a1b2c3d]
+	at net.minecraft.server.level.ServerLevel.addFreshEntity(ServerLevel.java:1290) ~[paper-26.2.jar:26.2-128-a1b2c3d]
+	at org.bukkit.craftbukkit.CraftWorld.spawn(CraftWorld.java:1802) ~[paper-26.2.jar:26.2-128-a1b2c3d]
+	at PetsPlus.jar/dev.example.pets.PetSpawner.lambda$spawn$0(PetSpawner.java:55) ~[PetsPlus.jar:?]
+	at org.bukkit.craftbukkit.scheduler.CraftAsyncTask.run(CraftAsyncTask.java:57) ~[paper-26.2.jar:26.2-128-a1b2c3d]

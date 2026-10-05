@@ -1,0 +1,48 @@
+id: SIG-PL-004
+version: 1
+title: "Плагин упал при включении (Error occurred while enabling)"
+category: plugin
+severity: error
+scope: server
+platforms: [paper, purpur]
+rule_ref: PL-04
+symptoms:
+  - "Плагин загружен, но выключен (красный в /plugins), его команды и функции не работают"
+  - "В логе: «Error occurred while enabling <плагин> (Is it up to date?)» и stack trace"
+match:
+  log:
+    regex: 'Error occurred (?:\(in the plugin loader\) )?while enabling [^\n]+ \(Is it up to date\?\)'
+    literal: "while enabling "
+    level: ERROR
+    target: message
+cause: "Метод onEnable плагина бросил исключение, и Paper выключил плагин. Конкретную причину показывает stack trace (Caused by): несовместимость версии, недоступная БД, битый конфиг."
+possible_causes:
+  - { text: "Версия плагина несовместима с версией сервера (NoSuchMethodError/NoClassDefFoundError в trace)", weight: 0.35 }
+  - { text: "Внешний ресурс недоступен: БД, веб-API, порт (SQLException/ConnectException в trace)", weight: 0.3 }
+  - { text: "Ошибка в конфиге плагина (YAML/значение не того типа в trace)", weight: 0.2 }
+  - { text: "Баг плагина или конфликт с другим плагином", weight: 0.15 }
+fix:
+  instructions_md: |
+    1. Прочитайте первую строку исключения и последнюю строку `Caused by:` в evidence — это настоящая причина.
+    2. `NoSuchMethodError`/`NoClassDefFoundError`/`ClassNotFoundException` — обновите плагин до версии, поддерживающей вашу версию сервера.
+    3. Ошибки подключения к БД/сети — проверьте адрес, порт и доступность сервиса в конфиге плагина.
+    4. Ошибки YAML/конфига — исправьте указанный файл в `plugins/<плагин>/` (или сохраните копию и дайте плагину пересоздать конфиг).
+    5. Перезапустите сервер (не `/reload`); если ошибка остаётся — сообщите автору плагина с полным trace.
+  action: null
+  risk: low
+confidence: 0.9
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/src/main/java/io/papermc/paper/plugin/manager/PaperPluginInstanceManager.java
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-api/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
+tests:
+  positive:
+    - fixtures/SIG-PL-004/pos-db-refused-leaf.log
+    - fixtures/SIG-PL-004/pos-nosuchmethod-console.log
+    - fixtures/SIG-PL-004/pos-plugin-loader-variant.log
+  negative:
+    - fixtures/SIG-PL-004/neg-whilst-enabling-service.log
+    - fixtures/SIG-PL-004/neg-disabling.log
+    - fixtures/SIG-PL-004/neg-enabling-info.log
+    - fixtures/SIG-PL-004/neg-cancel-tasks-loader.log

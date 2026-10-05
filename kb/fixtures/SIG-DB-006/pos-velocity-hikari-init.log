@@ -1,0 +1,6 @@
+# platform: velocity 3.5.1
+# plugins: ExampleSync 2.3.0
+# source: synthetic (формат latest.log Velocity; HikariCP PoolInitializationException)
+[12:00:05] [main/ERROR] [examplesync]: Could not open database connection
+com.zaxxer.hikari.pool.HikariPool$PoolInitializationException: Failed to initialize pool: Public Key Retrieval is not allowed
+	at com.zaxxer.hikari.pool.HikariPool.throwPoolInitializationException(HikariPool.java:584)

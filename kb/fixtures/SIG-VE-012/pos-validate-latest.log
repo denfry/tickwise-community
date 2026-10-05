@@ -1,0 +1,6 @@
+# platform: velocity 3.5.1
+# source: synthetic (формат latest.log Velocity; тексты VelocityConfiguration.validate и VelocityServer.doStartupConfigLoad)
+[09:00:01] [main/INFO] [com.velocitypowered.proxy.VelocityServer]: Booting up Velocity 3.5.1...
+[09:00:01] [main/INFO] [com.velocitypowered.proxy.VelocityServer]: Loading localizations...
+[09:00:02] [main/ERROR] [com.velocitypowered.proxy.config.VelocityConfiguration]: You don't have a forwarding secret set. This is required for security.
+[09:00:02] [main/ERROR] [com.velocitypowered.proxy.VelocityServer]: Your configuration is invalid. Velocity will not start up until the errors are resolved.

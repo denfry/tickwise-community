@@ -1,0 +1,21 @@
+# platform: paper 1.21.8
+# source: synthetic (формат latest.log: каждая строка с заголовком Paper Watchdog Thread)
+[21:41:10] [Paper Watchdog Thread/ERROR]: ------------------------------
+[21:41:10] [Paper Watchdog Thread/ERROR]: The server has stopped responding! This is (probably) not a Paper bug.
+[21:41:10] [Paper Watchdog Thread/ERROR]: If you see a plugin in the Server thread dump below, then please report it to that author
+[21:41:10] [Paper Watchdog Thread/ERROR]: 	 *Especially* if it looks like HTTP or MySQL operations are occurring
+[21:41:10] [Paper Watchdog Thread/ERROR]: If you see a world save or edit, then it means you did far more than your server can handle at once
+[21:41:10] [Paper Watchdog Thread/ERROR]: 	 If this is the case, consider increasing timeout-time in spigot.yml but note that this will replace the crash with LARGE lag spikes
+[21:41:10] [Paper Watchdog Thread/ERROR]: If you are unsure or still think this is a Paper bug, please report this to https://github.com/PaperMC/Paper/issues
+[21:41:10] [Paper Watchdog Thread/ERROR]: Be sure to include ALL relevant console errors and Minecraft crash reports
+[21:41:10] [Paper Watchdog Thread/ERROR]: Paper version: 1.21.8-60-29c8822 (MC: 1.21.8)
+[21:41:10] [Paper Watchdog Thread/ERROR]: ------------------------------
+[21:41:10] [Paper Watchdog Thread/ERROR]: Server thread dump (Look for plugins here before reporting to Paper!):
+[21:41:10] [Paper Watchdog Thread/ERROR]: ------------------------------
+[21:41:10] [Paper Watchdog Thread/ERROR]: Current Thread: Server thread
+[21:41:10] [Paper Watchdog Thread/ERROR]: 	PID: 38 | Suspended: false | Native: true | State: RUNNABLE
+[21:41:10] [Paper Watchdog Thread/ERROR]: 	Stack:
+[21:41:10] [Paper Watchdog Thread/ERROR]: 		java.base@21.0.4/sun.nio.ch.Net.poll(Native Method)
+[21:41:10] [Paper Watchdog Thread/ERROR]: 		WorldEdit.jar//com.sk89q.worldedit.EditSession.flushSession(EditSession.java:1100)
+[21:41:10] [Paper Watchdog Thread/ERROR]: 		net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:1720)
+[21:41:10] [Paper Watchdog Thread/ERROR]: ------------------------------

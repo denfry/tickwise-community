@@ -1,0 +1,6 @@
+# platform: paper 1.21.11
+# plugins: CoreProtect 23.1
+# source: synthetic (printStackTrace построчно в консоль Paper)
+[14:02:11 WARN]: java.sql.SQLNonTransientConnectionException: Public Key Retrieval is not allowed
+[14:02:11 WARN]: 	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:111)
+[14:02:11 WARN]: 	at net.coreprotect.database.Database.getConnection(Database.java:180)

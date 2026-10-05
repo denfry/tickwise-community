@@ -1,0 +1,62 @@
+id: SIG-PL-005
+version: 1
+title: "Плагин несовместим с версией сервера (NoSuchMethodError/NoClassDefFoundError по API/NMS)"
+category: plugin
+severity: error
+scope: server
+platforms: [paper, purpur]
+rule_ref: PL-05
+symptoms:
+  - "Плагин не включается или его функции падают с ошибками после обновления сервера"
+  - "В trace: NoSuchMethodError/NoSuchFieldError/NoClassDefFoundError/ClassNotFoundException для классов net.minecraft или org.bukkit"
+match:
+  any:
+    - log:
+        regex: 'java\.lang\.NoSuchMethodError: ''[^''\n(]* (?:net\.minecraft|org\.bukkit)\.[\w.$<>]+\('
+        literal: "java.lang.NoSuchMethodError: '"
+        level: WARN
+        target: exception
+    - log:
+        regex: 'java\.lang\.NoSuchFieldError: Class (?:net\.minecraft|org\.bukkit)\.[\w.$]+ does not have member field'
+        literal: "java.lang.NoSuchFieldError: Class "
+        level: WARN
+        target: exception
+    - log:
+        regex: 'java\.lang\.NoClassDefFoundError: (?:net/minecraft|org/bukkit)/'
+        literal: "java.lang.NoClassDefFoundError: "
+        level: WARN
+        target: exception
+    - log:
+        regex: 'java\.lang\.ClassNotFoundException: (?:net\.minecraft|org\.bukkit)\.'
+        literal: "java.lang.ClassNotFoundException: "
+        level: WARN
+        target: exception
+cause: "Плагин обращается к методу, полю или классу сервера (Bukkit API, CraftBukkit или NMS), которого нет в этой версии: плагин собран под другую версию Minecraft/Paper."
+possible_causes:
+  - { text: "Версия плагина не поддерживает текущую версию Minecraft (обычно после обновления сервера)", weight: 0.7 }
+  - { text: "Плагин использует версионированный пакет org.bukkit.craftbukkit.vX_Y_RZ, которого нет в Paper 1.20.5+ (без relocation)", weight: 0.2 }
+  - { text: "Устаревший Bukkit API удалён/изменён в новой версии Paper", weight: 0.1 }
+fix:
+  instructions_md: |
+    1. По фреймам trace определите плагин (первый фрейм с его jar/пакетом после строки исключения).
+    2. Обновите плагин до версии, в описании которой указана поддержка вашей версии Minecraft (Hangar/Modrinth/SpigotMC, раздел Versions/Changelog).
+    3. Если совместимой версии нет — временно откатите сервер на поддерживаемую плагином версию (с резервной копией мира) или замените плагин аналогом.
+    4. Не используйте `/reload` после замены jar — перезапустите сервер.
+  action: null
+  risk: medium
+confidence: 0.9
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/openjdk/jdk21u/blob/master/src/hotspot/share/interpreter/linkResolver.cpp
+tests:
+  positive:
+    - fixtures/SIG-PL-005/pos-enable-nosuchmethod-console.log
+    - fixtures/SIG-PL-005/pos-event-noclassdef-latest.log
+    - fixtures/SIG-PL-005/pos-task-nosuchfield.log
+    - fixtures/SIG-PL-005/pos-plugin-own-log.log
+  negative:
+    - fixtures/SIG-PL-005/neg-other-plugin-api.log
+    - fixtures/SIG-PL-005/neg-bukkit-type-in-signature.log
+    - fixtures/SIG-PL-005/neg-info-probe.log
+    - fixtures/SIG-PL-005/neg-own-field.log

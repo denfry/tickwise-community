@@ -1,0 +1,5 @@
+# platform: paper 1.21.8
+# source: synthetic (другая ошибка буферов Netty — не нехватка памяти)
+[20:20:00] [Netty Epoll Server IO #2/WARN]: An exceptionCaught() event was fired, and it reached at the tail of the pipeline. It usually means the last handler in the pipeline did not handle the exception.
+io.netty.util.IllegalReferenceCountException: refCnt: 0, decrement: 1
+	at io.netty.util.internal.ReferenceCountUpdater.toLiveRealRefCnt(ReferenceCountUpdater.java:83)

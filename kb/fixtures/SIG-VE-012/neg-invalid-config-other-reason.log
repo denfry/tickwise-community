@@ -1,0 +1,4 @@
+# platform: velocity 3.5.1
+# source: synthetic (конфиг невалиден по другой причине)
+[09:00:02] [main/ERROR] [com.velocitypowered.proxy.config.VelocityConfiguration]: Fallback server hub is not registered in your configuration!
+[09:00:02] [main/ERROR] [com.velocitypowered.proxy.VelocityServer]: Your configuration is invalid. Velocity will not start up until the errors are resolved.

@@ -1,0 +1,45 @@
+id: SIG-DI-002
+version: 1
+title: "На диске закончилось место (No space left on device)"
+category: disk
+severity: critical
+scope: server
+platforms: [paper, purpur]
+rule_ref: DI-02
+symptoms:
+  - "Не сохраняются мир, данные игроков и конфиги плагинов; логи обрываются"
+  - "В логе: «java.io.IOException: No space left on device»"
+match:
+  log:
+    regex: '(?:java\.io\.IOException|java\.nio\.file\.FileSystemException|java\.io\.FileNotFoundException)[^\n]*No space left on device'
+    literal: "No space left on device"
+    target: text
+cause: "Операционная система отказала в записи файла: на разделе с сервером закончилось место (или иноды). Всё, что сервер пишет в это время (мир, данные игроков, логи), может быть потеряно или повреждено."
+possible_causes:
+  - { text: "Разрослись резервные копии, логи, дампы (heap dump, crash-reports) или timings/spark-профили", weight: 0.45 }
+  - { text: "Разросся мир (прегенерация, исследование) или база плагина (CoreProtect SQLite)", weight: 0.35 }
+  - { text: "Исчерпаны иноды или квота хостинга при свободном месте", weight: 0.2 }
+fix:
+  instructions_md: |
+    1. Срочно освободите место: `df -h` и `df -i` покажут раздел и иноды; `du -sh * | sort -h` в папке сервера — что занимает место (старые бэкапы, `logs/*.log.gz`, `crash-reports`, `*.hprof`).
+    2. Не останавливайте сервер, пока место не освобождено, — при остановке он попытается сохранить мир и может записать неполные файлы; после освобождения места выполните `save-all`.
+    3. Проверьте целостность мира и данных плагинов после инцидента; при повреждениях восстановите из резервной копии.
+    4. Настройте ротацию бэкапов/логов и оповещение о заполнении диска.
+  action: null
+  risk: medium
+confidence: 0.98
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://man7.org/linux/man-pages/man3/errno.3.html
+  - https://github.com/PaperMC/Paper/blob/beac08f83f965f86453bb0ef2803329d1ae8f443/paper-server/patches/features/0003-Moonrise-optimisation-patches.patch
+tests:
+  positive:
+    - fixtures/SIG-DI-002/pos-chunk-save-console.log
+    - fixtures/SIG-DI-002/pos-log4j-appender-raw.log
+    - fixtures/SIG-DI-002/pos-filesystem-exception-plugin.log
+  negative:
+    - fixtures/SIG-DI-002/neg-inventory-space.log
+    - fixtures/SIG-DI-002/neg-spark-disk-info.log
+    - fixtures/SIG-DI-002/neg-remote-db-errno28.log
+    - fixtures/SIG-DI-002/neg-broken-pipe.log

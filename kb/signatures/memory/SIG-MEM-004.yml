@@ -1,0 +1,51 @@
+id: SIG-MEM-004
+version: 1
+title: "Исчерпана direct-память (OutOfMemoryError: direct buffer memory)"
+category: memory
+severity: critical
+scope: server
+platforms: [paper, purpur]
+rule_ref: MEM-04
+symptoms:
+  - "Игроков выкидывает, соединения рвутся, сетевые плагины/голосовой чат/карты перестают работать"
+  - "В логе: «Cannot reserve N bytes of direct buffer memory» или Netty «OutOfDirectMemoryError»"
+match:
+  any:
+    - log:
+        regex: 'java\.lang\.OutOfMemoryError: (?:Direct buffer memory|Cannot reserve \d+ bytes of direct buffer memory)'
+        literal: "java.lang.OutOfMemoryError: "
+        level: WARN
+        target: text
+    - log:
+        regex: 'io\.netty\.util\.internal\.OutOfDirectMemoryError: failed to allocate \d+ byte\(s\) of direct memory'
+        literal: "OutOfDirectMemoryError: failed to allocate"
+        level: WARN
+        target: text
+cause: "Закончилась off-heap (direct) память, которую используют Netty и плагины с нативными буферами (голосовой чат, веб-карты, сжатие). Лимит по умолчанию равен -Xmx либо задан -XX:MaxDirectMemorySize."
+possible_causes:
+  - { text: "Утечка direct-буферов в плагине (голосовой чат, веб-карта, пакетные плагины)", weight: 0.45 }
+  - { text: "Слишком маленький -XX:MaxDirectMemorySize или -Dio.netty.maxDirectMemory", weight: 0.3 }
+  - { text: "Всплеск сетевой нагрузки (много игроков, атака, большие пакеты/ресурспак)", weight: 0.25 }
+fix:
+  instructions_md: |
+    1. Перезапустите сервер, если соединения не восстанавливаются.
+    2. Посмотрите в evidence, какой плагин/поток выделял память (фреймы trace), и обновите этот плагин.
+    3. Проверьте флаги JVM: если задан `-XX:MaxDirectMemorySize` или `-Dio.netty.maxDirectMemory` — увеличьте значение с учётом лимита контейнера (heap + direct + ~1 ГБ не должны превышать лимит).
+    4. Если OOM повторяется — сравните время ошибок с пиками онлайна/трафика и временем установки сетевых плагинов.
+  action: null
+  risk: medium
+confidence: 0.8
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/openjdk/jdk21u/blob/master/src/java.base/share/classes/java/nio/Bits.java
+  - https://github.com/netty/netty/blob/4.1/common/src/main/java/io/netty/util/internal/PlatformDependent.java
+tests:
+  positive:
+    - fixtures/SIG-MEM-004/pos-netty-console.log
+    - fixtures/SIG-MEM-004/pos-voice-latest.log
+    - fixtures/SIG-MEM-004/pos-map-render-task.log
+  negative:
+    - fixtures/SIG-MEM-004/neg-heap-oom.log
+    - fixtures/SIG-MEM-004/neg-netty-startup-info.log
+    - fixtures/SIG-MEM-004/neg-refcnt.log

@@ -1,0 +1,15 @@
+# platform: paper 1.21.8
+# plugins: StaffTools 1.0
+# expect: SIG-PL-004
+# source: politernal-sanitized (Leaf 1.21.8, 2026-09-20; структура реальной ошибки; имя плагина/пакета и хост БД обезличены)
+[10:28:20] [Server thread/ERROR]: Error occurred while enabling StaffTools v1.0 (Is it up to date?)
+com.example.stafftools.libs.hikari.pool.HikariPool$PoolInitializationException: Failed to initialize pool: Socket fail to connect to host:address=(host=db.example.net)(port=3306)(type=primary). Connection refused
+	at StaffTools.jar/com.example.stafftools.libs.hikari.pool.HikariPool.throwPoolInitializationException(HikariPool.java:584) ~[StaffTools.jar:?]
+	at StaffTools.jar/com.example.stafftools.libs.hikari.pool.HikariPool.checkFailFast(HikariPool.java:571) ~[StaffTools.jar:?]
+	at StaffTools.jar/com.example.stafftools.libs.hikari.pool.HikariPool.<init>(HikariPool.java:98) ~[StaffTools.jar:?]
+	at StaffTools.jar/com.example.stafftools.storage.Database.<init>(Database.java:39) ~[StaffTools.jar:?]
+	at StaffTools.jar/com.example.stafftools.StaffToolsPlugin.onEnable(StaffToolsPlugin.java:34) ~[StaffTools.jar:?]
+	at org.bukkit.plugin.java.JavaPlugin.setEnabled(JavaPlugin.java:280) ~[paper-api-1.21.8-R0.1-SNAPSHOT.jar:?]
+Caused by: java.sql.SQLNonTransientConnectionException: Socket fail to connect to host:address=(host=db.example.net)(port=3306)(type=primary). Connection refused
+	at StaffTools.jar/com.example.stafftools.libs.mariadb.client.impl.ConnectionHelper.connectSocket(ConnectionHelper.java:140) ~[StaffTools.jar:?]
+	at StaffTools.jar/com.example.stafftools.libs.mariadb.Driver.connect(Driver.java:69) ~[StaffTools.jar:?]

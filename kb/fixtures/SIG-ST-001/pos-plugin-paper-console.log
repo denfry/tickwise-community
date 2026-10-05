@@ -1,0 +1,13 @@
+# platform: paper 1.21.11
+# java: 21.0.4
+# source: synthetic (плагин собран под Java 25, сервер на Java 21; обёртка InvalidPluginException из SpigotPluginProvider)
+[10:15:02 INFO]: [PluginInitializerManager] Initializing plugins...
+[10:15:03 ERROR]: [ModernPluginLoadingStrategy] Could not load plugin 'AdvancedChests-3.4.0.jar' in folder 'plugins'
+org.bukkit.plugin.InvalidPluginException: java.lang.UnsupportedClassVersionError: dev/example/advancedchests/AdvancedChestsPlugin has been compiled by a more recent version of the Java Runtime (class file version 69.0), this version of the Java Runtime only recognizes class file versions up to 65.0
+	at io.papermc.paper.plugin.provider.type.spigot.SpigotPluginProvider.createInstance(SpigotPluginProvider.java:127) ~[paper-1.21.11.jar:1.21.11-130-3b5e1f2]
+	at io.papermc.paper.plugin.entrypoint.strategy.modern.ModernPluginLoadingStrategy.loadProviders(ModernPluginLoadingStrategy.java:116) ~[paper-1.21.11.jar:1.21.11-130-3b5e1f2]
+Caused by: java.lang.UnsupportedClassVersionError: dev/example/advancedchests/AdvancedChestsPlugin has been compiled by a more recent version of the Java Runtime (class file version 69.0), this version of the Java Runtime only recognizes class file versions up to 65.0
+	at java.base/java.lang.ClassLoader.defineClass1(Native Method)
+	at java.base/java.lang.ClassLoader.defineClass(ClassLoader.java:1027)
+	at org.bukkit.plugin.java.PluginClassLoader.<init>(PluginClassLoader.java:84) ~[paper-api-1.21.11-R0.1-SNAPSHOT.jar:?]
+	... 8 more

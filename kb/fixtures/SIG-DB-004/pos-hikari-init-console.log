@@ -1,0 +1,8 @@
+# platform: purpur 1.21.4
+# plugins: Plan 5.6
+# source: synthetic (HikariCP PoolInitializationException, консольный формат)
+[16:40:00 ERROR]: [Plan] Database failed to initialize
+com.zaxxer.hikari.pool.HikariPool$PoolInitializationException: Failed to initialize pool: Too many connections
+	at com.zaxxer.hikari.pool.HikariPool.throwPoolInitializationException(HikariPool.java:584)
+Caused by: java.sql.SQLNonTransientConnectionException: Too many connections
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:111)

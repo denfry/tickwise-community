@@ -1,0 +1,5 @@
+# platform: purpur 1.21.11
+# source: synthetic (jar сервера в plugins/)
+[09:30:11 ERROR]: [DirectoryProviderSource] Error loading plugin: java.lang.IllegalArgumentException: plugins/purpur-1.21.11-2512.jar appears to be a server jar! Server jars do not belong in the plugin folder.
+java.lang.RuntimeException: java.lang.IllegalArgumentException: plugins/purpur-1.21.11-2512.jar appears to be a server jar! Server jars do not belong in the plugin folder.
+	at io.papermc.paper.plugin.provider.source.FileProviderSource.registerProviders(FileProviderSource.java:70) ~[purpur-1.21.11.jar:1.21.11-2512-c0ffee1]

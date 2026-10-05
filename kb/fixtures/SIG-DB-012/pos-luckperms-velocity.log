@@ -1,0 +1,6 @@
+# platform: velocity 3.5.1
+# plugins: LuckPerms 5.5.17
+# source: synthetic (формат latest.log Velocity, шейдинг HikariCP в LuckPerms)
+[12:00:07] [luckperms-hikari housekeeper/WARN] [me.lucko.luckperms.lib.hikari.pool.ProxyLeakTask]: Connection leak detection triggered for me.lucko.luckperms.lib.mariadb.Connection@11e4954e on thread LuckPerms - Task Executor #7, stack trace follows
+java.lang.Exception: Apparent connection leak detected
+	at me.lucko.luckperms.lib.hikari.HikariDataSource.getConnection(HikariDataSource.java:99)

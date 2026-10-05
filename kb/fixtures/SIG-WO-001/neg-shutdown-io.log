@@ -1,0 +1,6 @@
+# platform: paper 1.21.8
+# source: politernal-sanitized (штатная остановка, 2026-09-18, work-7297)
+[23:59:04] [Server thread/INFO]: Saving chunks for level 'ServerLevel[earth]'/minecraft:overworld
+[23:59:06] [Server thread/INFO]: ThreadedAnvilChunkStorage (earth): All chunks are saved
+[23:59:06] [Server thread/INFO]: Waiting for all RegionFile I/O tasks to complete...
+[23:59:06] [Server thread/INFO]: All RegionFile I/O tasks to complete

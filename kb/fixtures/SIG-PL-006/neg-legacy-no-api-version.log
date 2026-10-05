@@ -1,0 +1,3 @@
+# platform: paper 1.21.11
+# source: synthetic (предупреждение CraftMagicNumbers, плагин загружается)
+[09:30:12 WARN]: Legacy plugin OldWarps v1.2 does not specify an api-version.

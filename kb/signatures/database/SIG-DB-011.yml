@@ -1,0 +1,46 @@
+id: SIG-DB-011
+version: 1
+title: "JVM «замирала»: HikariCP Thread starvation or clock leap detected"
+category: database
+severity: warning
+scope: server
+platforms: [paper, purpur, velocity]
+rule_ref: DB-11
+symptoms:
+  - "HikariCP сообщает, что его служебный поток не выполнялся дольше положенного (housekeeper delta)"
+  - "Часто предшествует лагам, watchdog и массовым таймаутам"
+match:
+  log:
+    # HikariPool.HouseKeeper: «{pool} - Thread starvation or clock leap detected (housekeeper delta={elapsed}).»
+    regex: '[\w.-]+ - Thread starvation or clock leap detected \(housekeeper delta=[^)\n]*\)'
+    literal: "Thread starvation or clock leap detected"
+    level: WARN
+    target: text
+cause: "Поток обслуживания пула HikariCP проснулся заметно позже расписания: JVM стояла (долгая пауза GC, нехватка CPU, заморозка/миграция VM) или системные часы прыгнули вперёд."
+possible_causes:
+  - { text: "Долгие паузы сборщика мусора из-за нехватки heap (см. MEM-06)", weight: 0.4 }
+  - { text: "Нехватка CPU: перегрузка хоста, CPU steal на VPS, лимиты контейнера", weight: 0.35 }
+  - { text: "Заморозка/снапшот/миграция виртуальной машины или скачок системных часов (NTP)", weight: 0.25 }
+fix:
+  instructions_md: |
+    1. Сопоставьте время события с метриками GC (длинные паузы) и CPU (steal, загрузка) — Tickwise связывает это с MEM-06/PERF-08.
+    2. При частых длинных паузах GC: проверьте `-Xmx` (heap не должен быть впритык к лимиту контейнера), используйте флаги Aikar/G1.
+    3. При высоком CPU steal — обратитесь к хостингу или смените тариф/узел.
+    4. Единичное событие после снапшота VM или синхронизации времени — не проблема.
+  action: null
+  risk: low
+confidence: 0.75
+verification: verified
+last_verified: 2026-09-24
+sources:
+  - https://github.com/brettwooldridge/HikariCP/blob/dev/src/main/java/com/zaxxer/hikari/pool/HikariPool.java
+  - https://github.com/brettwooldridge/HikariCP/blob/dev/src/main/java/com/zaxxer/hikari/util/ClockSource.java
+tests:
+  positive:
+    - fixtures/SIG-DB-011/pos-luckperms-paper.log
+    - fixtures/SIG-DB-011/pos-luckperms-velocity.log
+    - fixtures/SIG-DB-011/pos-hikaripool-console.log
+  negative:
+    - fixtures/SIG-DB-011/neg-retrograde-clock.log
+    - fixtures/SIG-DB-011/neg-pool-starting.log
+    - fixtures/SIG-DB-011/neg-info-mention.log

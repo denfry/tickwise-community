@@ -1,0 +1,4 @@
+# platform: paper 1.21.11
+# source: synthetic (соседняя ошибка загрузчика: циклическая зависимость, другой сценарий)
+[10:00:01 ERROR]: [LegacyPluginLoadingStrategy] Could not load 'plugins/AddonA.jar' in folder 'plugins': circular dependency detected
+[10:00:01 ERROR]: [LegacyPluginLoadingStrategy] Could not load 'plugins/AddonB.jar' in folder 'plugins': circular dependency detected

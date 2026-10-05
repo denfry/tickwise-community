@@ -1,0 +1,5 @@
+# platform: velocity 3.5.1
+# source: synthetic (плагин авторизации с той же фразой, но причина — не сеть до Mojang)
+[13:20:00] [librelogin-worker-1/ERROR] [librelogin]: Unable to authenticate player
+java.lang.IllegalStateException: Unknown password hash algorithm
+	at xyz.kyngs.librelogin.common.crypto.CryptoProvider.matches(CryptoProvider.java:52)

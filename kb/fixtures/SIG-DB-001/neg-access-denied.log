@@ -1,0 +1,6 @@
+# platform: paper 1.21.11
+# expect: SIG-DB-003
+# source: synthetic (БД доступна, отказ по учётным данным — DB-03)
+[14:02:11 WARN]: java.sql.SQLException: Access denied for user 'coreprotect'@'10.0.0.5' (using password: YES)
+[14:02:11 WARN]: 	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:121)
+[14:02:11 WARN]: 	at net.coreprotect.database.Database.getConnection(Database.java:180)

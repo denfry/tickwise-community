@@ -1,0 +1,6 @@
+# platform: paper 26.2
+# expect: SIG-PL-011
+# source: synthetic (IllegalStateException по другой причине)
+[14:00:12 ERROR]: Could not pass event PlayerJoinEvent to Scoreboards v1.1
+java.lang.IllegalStateException: Objective already exists with name sidebar
+	at org.bukkit.craftbukkit.scoreboard.CraftScoreboard.registerNewObjective(CraftScoreboard.java:61) ~[paper-26.2.jar:26.2-128-a1b2c3d]

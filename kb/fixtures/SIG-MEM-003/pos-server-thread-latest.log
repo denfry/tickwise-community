@@ -1,0 +1,4 @@
+# platform: paper 1.21.8
+# java: 21.0.8
+# source: synthetic (формат latest.log, необработанное исключение через STDERR)
+[02:15:30] [Server thread/WARN]: Exception in thread "Server thread" java.lang.OutOfMemoryError: unable to create native thread: possibly out of memory or process/resource limits reached
