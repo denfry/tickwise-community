@@ -4,6 +4,8 @@
 
 🇬🇧 [Read in English](README.md)
 
+[![Discord](https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?logo=discord&logoColor=white)](https://discord.gg/mVZcNUAGZt)
+
 [Tickwise](https://tickwise.politernal.ru) — помощник по диагностике Minecraft-серверов и сетей (Paper, Purpur, Velocity). Небольшой плагин читает лог сервера и **локально** узнаёт известные проблемы по подписанной базе знаний. Если владелец привязал сервер, плагин отправляет в облако санитизированные данные. Облако превращает их в одно понятное сообщение в Telegram или Discord: что сломалось, почему и что делать.
 
 Качество этого сообщения зависит от базы знаний, то есть от **сигнатур ошибок**. Сообщество пишет их в этом репозитории.

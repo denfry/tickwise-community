@@ -4,6 +4,8 @@
 
 🇷🇺 [Читать по-русски](README.ru.md)
 
+[![Discord](https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?logo=discord&logoColor=white)](https://discord.gg/mVZcNUAGZt)
+
 [Tickwise](https://tickwise.politernal.ru) is a diagnostics assistant for Minecraft servers and networks (Paper, Purpur, Velocity). A small plugin reads the server log, recognises known problems **locally** using a signed knowledge base, and, once the owner links the server, sends sanitized data to the cloud. The cloud turns it into one clear message in Telegram or Discord: what broke, why, and what to do.
 
 The quality of that message depends on the knowledge base: **error signatures**. This repository is where the community writes them.
